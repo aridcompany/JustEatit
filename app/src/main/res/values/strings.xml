@@ -47,4 +47,6 @@
     <string name="title_removed_from_favorites">Removed from Favorites!</string>
     <string name="title_added_to_shoppingbag">Added to Bag!</string>
     <string name="title_removed_from_shoppingbag">Removed from Bag!</string>
+    <string name="title_empty_favorites">You haven\'t added anything to your favorites</string>
+    <string name="title_signIn_to_continue">Log in to continue!</string>
 </resources>

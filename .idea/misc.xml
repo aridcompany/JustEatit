@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_empty_favorites.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_favorites.xml" value="0.11005434782608696" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_home.xml" value="0.21" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_login.xml" value="0.5317286652078774" />

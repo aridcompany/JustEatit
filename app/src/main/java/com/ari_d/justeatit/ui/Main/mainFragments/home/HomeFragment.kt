@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ari_d.justeatit.Adapters.ProductsAdapter
@@ -15,6 +14,7 @@ import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    val homeViewModel: MainViewModel by viewModels()
+    val homeViewModel: MainViewModel by activityViewModels()
 
     @Inject
     lateinit var productsAdapter: ProductsAdapter
@@ -47,6 +47,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             curAddedIndex = i
             product.isAddingToFavorites = !product.isAddedToFavorites
             val currentUser = auth.currentUser
+            if (currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+            }
             currentUser?.let {
                 homeViewModel.addToFavorites(product)
             }
@@ -55,6 +58,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             curAddedIndex = i
             product.isAddedToShoppingBag = !product.isAddedToShoppingBag
             val currentUser = auth.currentUser
+            if (currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+            }
             currentUser?.let {
                 homeViewModel.addToShoppingBag(product)
             }
@@ -63,8 +69,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun subscribeToObservers() {
         homeViewModel.getProducts.observe(viewLifecycleOwner, EventObserver(
-            onError = {},
+            onError = {
+                empty_layout.isVisible = true
+            },
             onLoading = {
+                empty_layout.isVisible = false
                 products_recycler.isVisible = false
                 shimmer_layout.apply {
                     startShimmer()
@@ -78,6 +87,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             products_recycler.isVisible = true
             home_swipe.isRefreshing = false
+
+            if (products.isEmpty()) {
+                empty_layout.isVisible = true
+                products_recycler.isVisible = false
+            }
         })
 
         homeViewModel.addToFavorites.observe(viewLifecycleOwner, EventObserver(
