@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ari_d.justeatit.Adapters.ViewPagerAdapter
+import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
+import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.ari_d.justeatit.ui.Main.mainFragments.favorites.FavoritesFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.home.HomeFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.search.SearchFragment
@@ -20,21 +23,35 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_JustEatIt)
         setContentView(R.layout.activity_main)
         FirebaseApp.initializeApp(this)
         setUpTabs()
+        viewModel.getCartItemsNo()
+        subscribeToObservers()
+    }
+    internal fun subscribeToObservers() {
+        viewModel.cartNo.observe(this, EventObserver(
+            onError = {},
+            onLoading = {},
+        ){
+            setCartBadgeNumber(it)
+        })
+    }
 
+    internal fun setCartBadgeNumber(cartNo: Int) {
         btn_cart.getViewTreeObserver().addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             @SuppressLint("UnsafeOptInUsageError")
             override fun onGlobalLayout() {
                 val badgeDrawable = BadgeDrawable.create(this@MainActivity)
-                badgeDrawable.number = 2
+                badgeDrawable.number = cartNo
                 //Important to change the position of the Badge
                 badgeDrawable.horizontalOffset = 30
                 badgeDrawable.verticalOffset = 20
@@ -43,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun setUpTabs() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), getString(R.string.title_home))

@@ -146,4 +146,18 @@ class DefaultMainRepository : MainRepository {
             }
         }
     }
+
+    override suspend fun getNumberOfCartItems() = withContext(Dispatchers.IO) {
+        safeCall {
+            val _list = mutableListOf<Product>()
+            currentUser?.let {
+                users.document(it.uid).collection("shopping bag").get().await().forEach {
+                    val item = it.toObject<Product>()
+                    _list.add(item)
+                }
+            }
+            val cartNo = _list.size
+            Resource.Success(cartNo)
+        }
+    }
 }

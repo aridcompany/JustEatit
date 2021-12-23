@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ari_d.justeatit.Adapters.ProductsAdapter
 import com.ari_d.justeatit.Extensions.snackbar
+import com.ari_d.justeatit.MainActivity
 import com.ari_d.justeatit.R
-import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -161,6 +161,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
                 productsAdapter.notifyItemChanged(index)
             }
+            homeViewModel.getCartItemsNo()
+            (activity as MainActivity).subscribeToObservers()
             progressBar.isVisible = false
         })
     }

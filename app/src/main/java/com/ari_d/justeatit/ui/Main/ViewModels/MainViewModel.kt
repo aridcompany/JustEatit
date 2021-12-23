@@ -36,6 +36,9 @@ class MainViewModel @Inject constructor(
     private val _searchResults = MutableLiveData<Event<Resource<List<Product>>>>()
     val searchResults: LiveData<Event<Resource<List<Product>>>> = _searchResults
 
+    private val _cartNo = MutableLiveData<Event<Resource<Int>>>()
+    val cartNo: LiveData<Event<Resource<Int>>> = _cartNo
+
     fun getProducts() {
         _getProducts.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
@@ -49,6 +52,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             val result = repository.getFavorites()
             _getFavorites.postValue(Event(result))
+        }
+    }
+
+    fun getCartItemsNo() {
+        _cartNo.postValue(Event(Resource.Loading()))
+        viewModelScope.launch(dispatcher) {
+            val result = repository.getNumberOfCartItems()
+            _cartNo.postValue(Event(result))
         }
     }
 

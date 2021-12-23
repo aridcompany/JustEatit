@@ -16,4 +16,6 @@ interface MainRepository {
 
     suspend fun searchProduct(query: String) : Resource<List<Product>>
 
+    suspend fun getNumberOfCartItems() : Resource<Int>
+
 }
