@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ari_d.justeatit.Adapters.ProductsAdapter
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -36,9 +36,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
-        homeViewModel.getProducts("products")
+        homeViewModel.getProducts()
         home_swipe.setOnRefreshListener {
-            homeViewModel.getProducts("products")
+            homeViewModel.getProducts()
         }
 
         setupRecyclerView()

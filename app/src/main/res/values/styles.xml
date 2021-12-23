@@ -9,4 +9,10 @@
         <item name="cornerSize">6dp</item>
         <item name="color">@color/off_white</item>
     </style>
+
+    <style name="_curved_images" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">50dp</item>
+        <item name="color">@color/off_white</item>
+    </style>
 </resources>

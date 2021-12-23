@@ -25,10 +25,10 @@ class DefaultMainRepository : MainRepository {
     private val users = firestore.collection("users")
     private val products = Firebase.firestore.collection("products")
 
-    override suspend fun getProducts(rootBranch: String) =
+    override suspend fun getProducts() =
         withContext(Dispatchers.IO) {
             safeCall {
-                val result = Firebase.firestore.collection(rootBranch).get().await()
+                val result = products.get().await()
                 val products = result.toObjects<Product>().onEach { product ->
                     currentUser?.let {
                         product.isAddedToShoppingBag = currentUser.uid in product.shoppingBagList

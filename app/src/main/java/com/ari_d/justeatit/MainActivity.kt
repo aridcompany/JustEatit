@@ -1,20 +1,25 @@
 package com.ari_d.justeatit
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.appcompat.app.AppCompatActivity
 import com.ari_d.justeatit.Adapters.ViewPagerAdapter
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
 import com.ari_d.justeatit.ui.Main.mainFragments.favorites.FavoritesFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.home.HomeFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.search.SearchFragment
 import com.ari_d.justeatit.ui.Profile.ProfileActivity
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -24,6 +29,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         FirebaseApp.initializeApp(this)
         setUpTabs()
+
+        btn_cart.getViewTreeObserver().addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            @SuppressLint("UnsafeOptInUsageError")
+            override fun onGlobalLayout() {
+                val badgeDrawable = BadgeDrawable.create(this@MainActivity)
+                badgeDrawable.number = 2
+                //Important to change the position of the Badge
+                badgeDrawable.horizontalOffset = 30
+                badgeDrawable.verticalOffset = 20
+                BadgeUtils.attachBadgeDrawable(badgeDrawable, btn_cart, null)
+                btn_cart.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+            }
+        })
     }
     private fun setUpTabs() {
         val adapter = ViewPagerAdapter(supportFragmentManager)

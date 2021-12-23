@@ -6,7 +6,7 @@ import com.ari_d.justeatit.other.Resource
 
 interface MainRepository {
 
-    suspend fun getProducts(rootBranch : String) : Resource<List<Product>>
+    suspend fun getProducts() : Resource<List<Product>>
 
     suspend fun getFavorites() : Resource<MutableList<Favorite>>
 

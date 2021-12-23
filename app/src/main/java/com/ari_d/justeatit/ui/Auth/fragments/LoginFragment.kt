@@ -10,6 +10,7 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
 import com.ari_d.justeatit.Extensions.slideUpViews
 import com.ari_d.justeatit.Extensions.snackbar
+import com.ari_d.justeatit.MainActivity
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.ViewModels.AuthViewModel
 import com.ari_d.justeatit.ui.Profile.ProfileActivity
@@ -74,7 +75,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
         ) {
             progressBar.isVisible = false
             btn_login.isVisible = true
-            Intent(requireContext(), ProfileActivity::class.java).also {
+            Intent(requireContext(), MainActivity::class.java).also {
                 startActivity(it)
                 requireActivity().finish()
             }

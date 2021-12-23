@@ -36,10 +36,10 @@ class MainViewModel @Inject constructor(
     private val _searchResults = MutableLiveData<Event<Resource<List<Product>>>>()
     val searchResults: LiveData<Event<Resource<List<Product>>>> = _searchResults
 
-    fun getProducts(rootBranch: String) {
+    fun getProducts() {
         _getProducts.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
-            val result = repository.getProducts(rootBranch)
+            val result = repository.getProducts()
             _getProducts.postValue(Event(result))
         }
     }
