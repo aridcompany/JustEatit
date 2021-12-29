@@ -3,13 +3,18 @@
     package="com.ari_d.justeatit">
 
     <application
-        android:allowBackup="true"
         android:name=".JustEatit"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
+        <activity
+            android:name=".ui.Details.Details_Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:label="@string/title_activity_details" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -28,7 +33,7 @@
         <activity
             android:name=".ui.Profile.ProfileActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

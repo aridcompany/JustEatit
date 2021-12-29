@@ -1,6 +1,7 @@
 package com.ari_d.justeatit.ui.Main.mainFragments.favorites
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.FavoritesAdapter
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
+import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
 
         setupRecyclerView()
+        favoritesAdapter.setOnNavigateToProductDetailsClickListener { favorite, i ->
+            Intent(requireActivity(), Details_Activity::class.java).also {
+                it.putExtra("product_id", favorite.product_id)
+                startActivity(it)
+            }
+        }
     }
 
     private fun setupRecyclerView() = recycler_favorites.apply {

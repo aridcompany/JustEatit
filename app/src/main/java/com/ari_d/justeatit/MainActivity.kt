@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             onError = {},
             onLoading = {},
         ){
-            setCartBadgeNumber(it)
+           setCartBadgeNumber(it)
         })
     }
 

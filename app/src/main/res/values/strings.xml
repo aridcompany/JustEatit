@@ -49,4 +49,7 @@
     <string name="title_removed_from_shoppingbag">Removed from Bag!</string>
     <string name="title_empty_favorites">You haven\'t added anything to your favorites</string>
     <string name="title_signIn_to_continue">Log in to continue!</string>
+    <string name="title_activity_details">Details_Activity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

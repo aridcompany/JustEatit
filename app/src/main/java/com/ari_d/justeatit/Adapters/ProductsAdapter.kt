@@ -78,6 +78,11 @@ class ProductsAdapter @Inject constructor(
                     if (!product.isAddingToShoppingBag) click(product, holder.layoutPosition)
                 }
             }
+            itemView.setOnClickListener {
+                onNavigateToProductDetailsListener?.let { click ->
+                    click(product, holder.layoutPosition)
+                }
+            }
         }
     }
 
@@ -89,11 +94,17 @@ class ProductsAdapter @Inject constructor(
 
     private var onAddToShoppingBagListener: ((Product, Int) -> Unit)? = null
 
+    private var onNavigateToProductDetailsListener: ((Product, Int) -> Unit)? = null
+
     fun setOnAddToFavoritesClickListener(listener: (Product, Int) -> Unit) {
         onAddToFavoritesClickListener = listener
     }
 
     fun setOnAddToShoppingBagClickListener(listener: (Product, Int) -> Unit) {
         onAddToShoppingBagListener = listener
+    }
+
+    fun setOnNavigateToProductsDetailsClickListener(listener: (Product, Int) -> Unit) {
+        onNavigateToProductDetailsListener = listener
     }
 }
