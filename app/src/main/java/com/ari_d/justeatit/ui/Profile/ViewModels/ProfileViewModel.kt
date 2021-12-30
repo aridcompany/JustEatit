@@ -7,12 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.data.entities.Wallet
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
+import com.ari_d.justeatit.other.walletEvent
 import com.ari_d.justeatit.ui.Profile.Repositories.ProfileRepository
+import com.ari_d.justeatit.util.Routes
+import com.ari_d.justeatit.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +29,11 @@ class ProfileViewModel @Inject constructor(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
 
+    val wallets = repository.getWallets()
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     private val _setNameStatus = MutableLiveData<Event<Resource<Unit>>>()
     val setNameStatus: LiveData<Event<Resource<Unit>>> = _setNameStatus
 
@@ -31,6 +42,45 @@ class ProfileViewModel @Inject constructor(
 
     private val _logOutStatus = MutableLiveData<Event<Resource<Unit>>>()
     val logOutStatus: LiveData<Event<Resource<Unit>>> = _logOutStatus
+
+    private var deletedWallet: Wallet? = null
+
+    fun onEvent(event: walletEvent) {
+        when(event) {
+            is walletEvent.onWalletClick -> {
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET + "walletId=${event.wallet.id}"))
+            }
+            is walletEvent.onAddWalletClick -> {
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET))
+            }
+            is walletEvent.onUndoDeleteClick -> {
+                deletedWallet?.let { wallet ->
+                    viewModelScope.launch {
+                        repository.insertWallet(wallet)
+                    }
+                }
+            }
+            is walletEvent.onDeleteWalletClick -> {
+                viewModelScope.launch {
+                    deletedWallet = event.wallet
+                    repository.deleteWallet(event.wallet)
+                    sendUiEvent(UiEvent.ShowSnackbar(
+                        message = "Wallet deleted",
+                        action = "Undo"
+                    ))
+                }
+            }
+            is walletEvent.onDoneChange -> {
+                viewModelScope.launch {
+                    repository.insertWallet(
+                        event.wallet.copy(
+                            isDone = event.isDone
+                        )
+                    )
+                }
+            }
+        }
+    }
 
     fun setNameandEmail(welcome: String, name: TextView, exclam: String, email: TextView) {
         _setNameStatus.postValue(Event(Resource.Loading()))
@@ -61,6 +111,12 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.LogOut()
             _logOutStatus.postValue(Event(Resource.Success(result)))
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }

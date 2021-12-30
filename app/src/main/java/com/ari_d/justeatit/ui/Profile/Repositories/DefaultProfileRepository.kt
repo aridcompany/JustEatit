@@ -2,6 +2,8 @@ package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.widget.TextView
 import com.ari_d.justeatit.data.entities.User
+import com.ari_d.justeatit.data.entities.Wallet
+import com.ari_d.justeatit.data.entities.WalletDao
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
@@ -9,31 +11,39 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class DefaultProfileRepository : ProfileRepository{
+class DefaultProfileRepository(
+    private val dao: WalletDao
+) : ProfileRepository {
 
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val users = Firebase.firestore.collection("users")
 
-    override suspend fun setNameandEmail(welcome: String, name: TextView, exclam: String, email: TextView) {
-       return withContext(Dispatchers.IO) {
-           safeCall {
-               val user_email = currentUser?.email.toString()
-               val user_name = currentUser?.displayName.toString()
-               val result = currentUser?.let {
-                   if (user_name == "null") {
-                       name.text = welcome + exclam
-                   } else {
-                       name.text = welcome + " " + user_name + exclam
-                   }
-                   email.text = user_email
-               }
-               Resource.Success(result)
-           }
-       }
+    override suspend fun setNameandEmail(
+        welcome: String,
+        name: TextView,
+        exclam: String,
+        email: TextView
+    ) {
+        return withContext(Dispatchers.IO) {
+            safeCall {
+                val user_email = currentUser?.email.toString()
+                val user_name = currentUser?.displayName.toString()
+                val result = currentUser?.let {
+                    if (user_name == "null") {
+                        name.text = welcome + exclam
+                    } else {
+                        name.text = welcome + " " + user_name + exclam
+                    }
+                    email.text = user_email
+                }
+                Resource.Success(result)
+            }
+        }
     }
 
     override suspend fun UpdateUserNameandEmail(name: String) {
@@ -61,5 +71,21 @@ class DefaultProfileRepository : ProfileRepository{
                 Resource.Success(result)
             }
         }
+    }
+
+    override suspend fun insertWallet(wallet: Wallet) {
+        dao.insertWallet(wallet)
+    }
+
+    override suspend fun deleteWallet(wallet: Wallet) {
+        dao.deleteWallet(wallet)
+    }
+
+    override suspend fun getWallet(id: Int): Wallet? {
+        return dao.getWallet(id)
+    }
+
+    override fun getWallets(): Flow<List<Wallet>> {
+        return dao.getWallets()
     }
 }
