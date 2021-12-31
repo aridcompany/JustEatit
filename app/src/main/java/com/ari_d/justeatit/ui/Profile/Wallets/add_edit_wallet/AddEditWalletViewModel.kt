@@ -77,7 +77,7 @@ class AddEditWalletViewModel @Inject constructor(
             }
             is AddEditWalletEvent.OnSaveWalletClick -> {
                 viewModelScope.launch {
-                    if (cardName.isNotBlank() || cardNumber.isNotBlank() || cvv.isNotBlank() || expiryMonth.isNotBlank() || expiryYear.isNotBlank()) {
+                    if (cardName.isBlank() || cardNumber.isBlank() || cvv.isBlank() || expiryMonth.isBlank() || expiryYear.isBlank()) {
                         sendUiEvent(
                             UiEvent.ShowSnackbar(
                                 message = "No field should be left blank"

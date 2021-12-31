@@ -64,12 +64,45 @@ fun AddEditWalletScreen(
                 )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
-                value = viewModel.cardName,
+                value = viewModel.cardNumber,
                 onValueChange = {
-                    viewModel.onEvent(AddEditWalletEvent.OnCardNameChanged(it))
+                    viewModel.onEvent(AddEditWalletEvent.OnCardNumberChanged(it))
                 },
                 placeholder = {
-                    Text(text = "Card Name")
+                    Text(text = "Card Number")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = viewModel.cvv,
+                onValueChange = {
+                    viewModel.onEvent(AddEditWalletEvent.OnCardCvvChanged(it))
+                },
+                placeholder = {
+                    Text(text = "Card CVV")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = viewModel.expiryMonth,
+                onValueChange = {
+                    viewModel.onEvent(AddEditWalletEvent.OnCardExpiryMonthChanged(it))
+                },
+                placeholder = {
+                    Text(text = "Card Exp. Month")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = viewModel.expiryYear,
+                onValueChange = {
+                    viewModel.onEvent(AddEditWalletEvent.OnCardExpiryYearChanged(it))
+                },
+                placeholder = {
+                    Text(text = "Card Exp. Year")
                 },
                 modifier = Modifier.fillMaxWidth()
             )
