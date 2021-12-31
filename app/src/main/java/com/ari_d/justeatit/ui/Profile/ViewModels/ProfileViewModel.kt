@@ -48,7 +48,7 @@ class ProfileViewModel @Inject constructor(
     fun onEvent(event: walletEvent) {
         when(event) {
             is walletEvent.onWalletClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET + "walletId=${event.wallet.id}"))
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET + "?walletId=${event.wallet.id}"))
             }
             is walletEvent.onAddWalletClick -> {
                 sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET))
