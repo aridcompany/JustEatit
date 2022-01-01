@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ds.xml" value="0.23692307692307693" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_add_wallet.xml" value="0.240625" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_calendar_today_24.xml" value="0.215625" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_credit_card_24.xml" value="0.215625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_empty_favorites.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/activity_details.xml" value="0.10916919959473151" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/activity_main.xml" value="0.22142121524201855" />

@@ -8,5 +8,6 @@ class Details_Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_JustEatIt)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_details)
     }
 }

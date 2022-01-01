@@ -1,5 +1,6 @@
 package com.ari_d.justeatit.ui.Profile.Wallets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
@@ -10,11 +11,13 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ari_d.justeatit.data.entities.Wallet
 import com.ari_d.justeatit.other.walletEvent
+import com.ari_d.justeatit.R
 
 @Composable
 fun WalletItem(
@@ -39,23 +42,23 @@ fun WalletItem(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                IconButton(onClick = {
-                    onEvent(walletEvent.onDeleteWalletClick(wallet))
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = ""
-                    )
-                }
+                Checkbox(
+                    checked = wallet.isDone,
+                    onCheckedChange = { isChecked ->
+                        onEvent(walletEvent.onDoneChange(wallet, isChecked))
+                    }
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = wallet.cardNumber)
         }
-        Checkbox(
-            checked = wallet.isDone,
-            onCheckedChange = { isChecked ->
-                onEvent(walletEvent.onDoneChange(wallet, isChecked))
-            }
-        )
+        IconButton(onClick = {
+            onEvent(walletEvent.onDeleteWalletClick(wallet))
+        }) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = ""
+            )
+        }
     }
 }

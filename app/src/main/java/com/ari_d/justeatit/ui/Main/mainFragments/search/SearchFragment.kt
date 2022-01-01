@@ -1,5 +1,6 @@
 package com.ari_d.justeatit.ui.Main.mainFragments.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.Constants.SEARCH_TIME_DELAY
 import com.ari_d.justeatit.other.EventObserver
+import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -41,6 +43,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 editable?.let {
                     viewModel.searchProducts(it.toString())
                 }
+            }
+        }
+        productsAdapter.setOnNavigateToProductDetailsClickListener { product, i ->
+            Intent(requireActivity(), Details_Activity::class.java).also {
+                it.putExtra("product_id", product.product_id)
+                startActivity(it)
             }
         }
     }
