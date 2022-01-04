@@ -84,6 +84,20 @@ class AddEditWalletViewModel @Inject constructor(
                             )
                         )
                         return@launch
+                    } else if (cvv.length != 3) {
+                        sendUiEvent(
+                            UiEvent.ShowSnackbar(
+                                message = "Invalid CVV!"
+                            )
+                        )
+                        return@launch
+                    } else if (expiryMonth.length != 2 || expiryYear.length != 2) {
+                        sendUiEvent(
+                            UiEvent.ShowSnackbar(
+                                message = "Invalid Expiration date/month!"
+                            )
+                        )
+                        return@launch
                     }
                     repository.insertWallet(
                         Wallet(

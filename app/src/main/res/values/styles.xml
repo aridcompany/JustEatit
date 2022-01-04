@@ -17,6 +17,24 @@
         <item name="color">@color/off_white</item>
     </style>
 
+    <style name="my_button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="backgroundTint">@color/accent</item>
+    </style>
+
+    <style name="my_button2" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="my_button3" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="backgroundTint">@color/primary_dark</item>
+    </style>
+
     <style name="Widget.splashScreenTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>

@@ -13,6 +13,8 @@ data class Product(
     var comments : List<String> = listOf(),
     val sizes : List<String> = listOf(),
     val increment_price : String = "",
+    val shipping_fee : String = "",
+    val contact_no : String = "",
     var favoritesList: List<String> = listOf(),
     var shoppingBagList: List<String> = listOf(),
     var isAvailable: Boolean = true,

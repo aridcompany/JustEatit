@@ -53,4 +53,8 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="todo">TODO</string>
+    <string name="title_details">Details</string>
+    <string name="title_to_shoppingBag">ADD TO BAG</string>
+    <string name="enter_comment">Add a comment...</string>
 </resources>

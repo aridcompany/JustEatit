@@ -18,7 +18,8 @@
         <activity
             android:name=".ui.Details.Details_Activity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/title_details"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
