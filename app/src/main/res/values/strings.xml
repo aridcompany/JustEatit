@@ -50,6 +50,7 @@
     <string name="title_empty_favorites">You haven\'t added anything to your favorites</string>
     <string name="title_signIn_to_continue">Log in to continue!</string>
     <string name="title_activity_details">Details_Activity</string>
+    <string name="title_activity_cart">Cart_Activity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
@@ -57,4 +58,6 @@
     <string name="title_details">Details</string>
     <string name="title_to_shoppingBag">ADD TO BAG</string>
     <string name="enter_comment">Add a comment...</string>
+    <string name="title_comments">Comments</string>
+    <string name="title_cart">Cart</string>
 </resources>

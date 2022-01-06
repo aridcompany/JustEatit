@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ui.CartActivity"
+            android:exported="false"
+            android:label="@string/title_activity_cart"
+            android:theme="@style/splashScreenTheme.NoActionBar" />
+        <activity
             android:name=".ui.Profile.Wallets.ui.MainActivity"
             android:exported="false"
             android:label="@string/title_activity_main"
@@ -19,7 +24,7 @@
             android:name=".ui.Details.Details_Activity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:label="@string/title_details"/>
+            android:label="@string/title_details" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
