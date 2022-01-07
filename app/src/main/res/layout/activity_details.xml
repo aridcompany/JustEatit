@@ -79,16 +79,16 @@
                     android:layout_marginTop="30dp"
                     android:orientation="horizontal">
 
-                    <RatingBar
-                        android:id="@+id/product_rating_bar"
+                    <TextView
+                        android:id="@+id/product_likes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:numStars="5"
-                        android:scaleX=".5"
-                        android:scaleY=".5"
-                        android:transformPivotX="0dp"
-                        android:transformPivotY="15dp"
+                        android:fontFamily="@font/alegreya"
+                        android:text="@string/title_likes"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

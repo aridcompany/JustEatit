@@ -15,6 +15,7 @@ data class Product(
     val increment_price : String = "",
     val shipping_fee : String = "",
     val contact_no : String = "",
+    val quantity : String = "1",
     var favoritesList: List<String> = listOf(),
     var shoppingBagList: List<String> = listOf(),
     var isAvailable: Boolean = true,
