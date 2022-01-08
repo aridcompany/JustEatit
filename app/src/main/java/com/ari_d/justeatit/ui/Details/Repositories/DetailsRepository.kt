@@ -22,7 +22,7 @@ interface DetailsRepository {
 
     suspend fun getFavoritesProductDetails(product_id: String) : Resource<Int>
 
-    suspend fun setUiInterface(product: Product) : Resource<Task<Void>>
+    suspend fun setUiInterface(product_id: String) : Resource<Task<Void>>
 
     suspend fun increaseCartNo(value: String, product_id: String) : Resource<Int>
 

@@ -62,4 +62,5 @@
     <string name="title_cart">Cart</string>
     <string name="title_likes">likes</string>
     <string name="title_insufficient_stock">Desired quantity is greater than available stock!</string>
+    <string name="title_out_of_stock">Out Of Stock!</string>
 </resources>

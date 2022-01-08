@@ -1,7 +1,5 @@
 package com.ari_d.justeatit.ui.Details.Repositories
 
-import android.content.Context
-import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
@@ -12,7 +10,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class DefaultDetailsRepository : DetailsRepository {
 
@@ -164,11 +161,15 @@ class DefaultDetailsRepository : DetailsRepository {
         }
     }
 
-    override suspend fun setUiInterface(product: Product) = withContext(Dispatchers.IO) {
+    override suspend fun setUiInterface(product_id: String) = withContext(Dispatchers.IO) {
         safeCall {
+            val product = products.document(product_id)
+                .get()
+                .await()
+                .toObject<Product>()
             val result = when {
-                product.stock.equals(0) -> {
-                    products.document(product.product_id)
+                product!!.stock.equals(0) -> {
+                    products.document(product_id)
                         .update(
                             "isAvailable",
                             false
