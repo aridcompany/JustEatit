@@ -70,7 +70,7 @@ class AuthViewModel @Inject constructor(
         val error = if (email.isEmpty() || name.isEmpty() || password.isEmpty()) {
             applicationContext.getString(R.string.title_empty_input)
         } else if (password.length < MIN_PASSWORD_LENGTH) {
-            applicationContext.getString(R.string.title_passwor_too_short, MIN_PASSWORD_LENGTH)
+            applicationContext.getString(R.string.title_password_too_short, MIN_PASSWORD_LENGTH)
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             applicationContext.getString(R.string.title_not_a_valid_email)
         } else null

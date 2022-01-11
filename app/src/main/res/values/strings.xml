@@ -7,13 +7,13 @@
     <string name="title_profile">Profile</string>
     <string name="title_welcome_back">Welcome Back</string>
     <string name="title_welcome">Welcome </string>
-    <string name="exclam">!</string>
+    <string name="exclaim">!</string>
     <string name="title_email">E-mail</string>
     <string name="title_password">Password</string>
     <string name="title_signIn">Sign in</string>
     <string name="title_signIn_"><u>Sign in</u></string>
     <string name="title_signUp">Sign up</string>
-    <string name="search_hint">Search...</string>
+    <string name="search_hint">Search…</string>
     <string name="title_signUp_"><u>Sign up</u></string>
     <string name="title_forgotPassword">Forgot Password</string>
     <string name="title_resetPassword">Reset Password</string>
@@ -21,7 +21,7 @@
     <string name="title_createAccount">Create Account</string>
     <string name="title_name">Name</string>
     <string name="title_empty_input">No field should be left empty</string>
-    <string name="title_passwor_too_short">Password must be at least %d characters</string>
+    <string name="title_password_too_short">Password must be at least %d characters</string>
     <string name="title_not_a_valid_email">E-mail address must be valid</string>
     <string name="title_registration_successful">Successfully registered account</string>
     <string name="title_empty_email">Please provide a email address!</string>
@@ -41,12 +41,12 @@
     <string name="title_update_my_details">Update Details</string>
     <string name="title_update">Update My Details</string>
     <string name="title_successfully_updated_details">Details Updated!</string>
-    <string name="title_details_updated">You have successully updated your account details.</string>
+    <string name="title_details_updated">You have successfully updated your account details.</string>
     <string name="title_my_wallet">My Wallet</string>
     <string name="title_added_to_favorites">Added to Favorites!</string>
     <string name="title_removed_from_favorites">Removed from Favorites!</string>
-    <string name="title_added_to_shoppingbag">Added to Bag!</string>
-    <string name="title_removed_from_shoppingbag">Removed from Bag!</string>
+    <string name="title_added_to_shopping_bag">Added to Bag!</string>
+    <string name="title_removed_from_shopping_bag">Removed from Bag!</string>
     <string name="title_empty_favorites">You haven\'t added anything to your favorites</string>
     <string name="title_signIn_to_continue">Log in to continue!</string>
     <string name="title_activity_details">Details_Activity</string>
@@ -57,10 +57,15 @@
     <string name="todo">TODO</string>
     <string name="title_details">Details</string>
     <string name="title_to_shoppingBag">ADD TO BAG</string>
-    <string name="enter_comment">Add a comment...</string>
+    <string name="enter_comment">Add a comment…</string>
     <string name="title_comments">Comments</string>
     <string name="title_cart">Cart</string>
     <string name="title_likes">likes</string>
     <string name="title_insufficient_stock">Desired quantity is greater than available stock!</string>
     <string name="title_out_of_stock">Out Of Stock!</string>
+    <string name="title_unknown_error_occurred">An unknown error occurred</string>
+    <string name="title_naira_sign">₦</string>
+    <string name="title_shipping_fee">+ shipping fee ₦</string>
+    <string name="title_product_stock">Only %d left in stock!</string>
+    <string name="title_like">"liked by %d person"</string>
 </resources>

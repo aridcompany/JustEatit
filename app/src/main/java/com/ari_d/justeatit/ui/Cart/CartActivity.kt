@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui
+package com.ari_d.justeatit.ui.Cart
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.ari_d.justeatit.ui.ui.theme.JustEatItTheme
+import com.ari_d.justeatit.ui.theme.JustEatItTheme
 
 class CartActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

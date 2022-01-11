@@ -41,7 +41,7 @@ class DefaultDetailsRepository : DetailsRepository {
                     transaction.set(
                         cartItems.document(product_id),
                         _productResult!!
-                        )
+                    )
                     transaction.update(
                         products.document(product_id),
                         "shoppingBagList",
@@ -96,16 +96,16 @@ class DefaultDetailsRepository : DetailsRepository {
     }
 
     override suspend fun deleteItemFromCart(product_id: String) = withContext(Dispatchers.IO) {
-       safeCall {
-           val result = currentUser?.let {
-               users.document(it.uid)
-                   .collection("shopping bag")
-                   .document(product_id)
-                   .delete()
-                   .await()
-           }
-           Resource.Success(result!!)
-       }
+        safeCall {
+            val result = currentUser?.let {
+                users.document(it.uid)
+                    .collection("shopping bag")
+                    .document(product_id)
+                    .delete()
+                    .await()
+            }
+            Resource.Success(result!!)
+        }
     }
 
     override suspend fun deleteItemFromFavorites(product_id: String) = withContext(Dispatchers.IO) {
@@ -130,32 +130,12 @@ class DefaultDetailsRepository : DetailsRepository {
                     .document(product_id)
                     .get()
                     .await()
-               _product?.let {
-                   val product = it.toObject<Product>()
-                   val _result = product!!.quantity.toInt()
-                   result.clear()
-                   result.add(_result)
-               }
-            }
-            Resource.Success(result[0])
-        }
-    }
-
-    override suspend fun getFavoritesProductDetails(product_id: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val result = mutableListOf<Int>()
-            currentUser?.let {
-                val _product = users.document(it.uid)
-                    .collection("favorites")
-                    .document(product_id)
-                    .get()
-                    .await()
-               _product?.let {
-                   val product = it.toObject<Product>()
-                   val _result = product!!.quantity.toInt()
-                   result.clear()
-                   result.add(_result)
-               }
+                _product?.let {
+                    val product = it.toObject<Product>()
+                    val _result = product!!.quantity.toInt()
+                    result.clear()
+                    result.add(_result)
+                }
             }
             Resource.Success(result[0])
         }
@@ -167,85 +147,84 @@ class DefaultDetailsRepository : DetailsRepository {
                 .get()
                 .await()
                 .toObject<Product>()
-            val result = when {
-                product!!.stock.equals(0) -> {
-                    products.document(product_id)
-                        .update(
-                            "isAvailable",
-                            false
-                        )
-                }
-                else -> {null}
+            if (product!!.stock.equals(0)) {
+                products.document(product_id)
+                    .update(
+                        "isAvailable",
+                        false
+                    )
             }
-            Resource.Success(result!!)
+            Resource.Success(product)
         }
     }
 
-    override suspend fun increaseCartNo(value: String, product_id: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val product = products.document(product_id).get().await().toObject<Product>()
-            val result = mutableListOf<Int>()
-            if (product!!.stock < value) {
-                Resource.Success(value.toInt())
-            } else {
-                currentUser?.let {
-                    val quantity = users.document(it.uid)
-                        .collection("shopping bag")
-                        .document(product_id)
-                        .get()
-                        .await()
-                        .toObject<Product>()
-                        ?.quantity!!.toInt()
-                    users.document(it.uid)
-                        .collection("shopping bag")
-                        .document(product_id)
-                        .update(
-                            "quantity",
-                            quantity + 1
-                        )
-                    result.clear()
-                    result.add(quantity+1)
+    override suspend fun increaseCartNo(value: String, product_id: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val product = products.document(product_id).get().await().toObject<Product>()
+                val result = mutableListOf<Int>()
+                if (product!!.stock < value) {
+                    Resource.Success(value.toInt())
+                } else {
+                    currentUser?.let {
+                        val quantity = users.document(it.uid)
+                            .collection("shopping bag")
+                            .document(product_id)
+                            .get()
+                            .await()
+                            .toObject<Product>()
+                            ?.quantity!!.toInt()
+                        users.document(it.uid)
+                            .collection("shopping bag")
+                            .document(product_id)
+                            .update(
+                                "quantity",
+                                quantity + 1
+                            )
+                        result.clear()
+                        result.add(quantity + 1)
+                    }
+                    Resource.Success(result[0])
+                }
+            }
+        }
+
+    override suspend fun DecreaseCartNo(value: String, product_id: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val result = mutableListOf<Int>()
+                if (value < "1") {
+                    currentUser?.let {
+                        val quantity = users.document(it.uid)
+                            .collection("shopping bag")
+                            .document(product_id)
+                            .get()
+                            .await()
+                            .toObject<Product>()
+                            ?.quantity!!.toInt()
+                        users.document(it.uid)
+                            .collection("shopping bag")
+                            .document(product_id)
+                            .update(
+                                "quantity",
+                                quantity - 1
+                            )
+                        result.clear()
+                        result.add(quantity - 1)
+                    }
+                    Resource.Success(result[0])
+                } else {
+                    currentUser?.let {
+                        users.document(it.uid)
+                            .collection("shopping bag")
+                            .document(product_id)
+                            .delete()
+                            .await()
+                        result.clear()
+                        result.add(0)
+                    }
                 }
                 Resource.Success(result[0])
             }
         }
-    }
-
-    override suspend fun DecreaseCartNo(value: String, product_id: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val result = mutableListOf<Int>()
-            if (value < "1") {
-                currentUser?.let {
-                    val quantity = users.document(it.uid)
-                        .collection("shopping bag")
-                        .document(product_id)
-                        .get()
-                        .await()
-                        .toObject<Product>()
-                        ?.quantity!!.toInt()
-                    users.document(it.uid)
-                        .collection("shopping bag")
-                        .document(product_id)
-                        .update(
-                            "quantity",
-                            quantity - 1
-                        )
-                    result.clear()
-                    result.add(quantity - 1)
-                }
-                Resource.Success(result[0])
-            } else {
-                currentUser?.let {
-                    users.document(it.uid)
-                        .collection("shopping bag")
-                        .document(product_id)
-                        .delete()
-                        .await()
-                    result.clear()
-                    result.add(0)
-                }
-            }
-            Resource.Success(result[0])
-        }
-    }
 }

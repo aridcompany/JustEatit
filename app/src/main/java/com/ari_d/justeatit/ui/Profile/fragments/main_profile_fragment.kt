@@ -36,7 +36,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment){
         viewModel.setNameandEmail(
             requireContext().getString(R.string.title_welcome),
             txt_username,
-            requireContext().getString(R.string.exclam),
+            requireContext().getString(R.string.exclaim),
             txt_useremail
         )
 

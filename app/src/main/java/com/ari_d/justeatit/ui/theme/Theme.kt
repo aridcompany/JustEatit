@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.ui.theme
+package com.ari_d.justeatit.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

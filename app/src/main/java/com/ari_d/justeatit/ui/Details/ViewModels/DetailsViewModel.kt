@@ -8,7 +8,6 @@ import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.ui.Details.Repositories.DetailsRepository
-import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -42,11 +41,8 @@ class DetailsViewModel @Inject constructor(
     private val _getCartProductDetailsStatus = MutableLiveData<Event<Resource<Int>>>()
     val getCartProductDetailsStatus : LiveData<Event<Resource<Int>>> = _getCartProductDetailsStatus
 
-    private val _getFavoritesProductDetailsStatus = MutableLiveData<Event<Resource<Int>>>()
-    val getFavoritesProductDetailsStatus : LiveData<Event<Resource<Int>>> = _getFavoritesProductDetailsStatus
-
-    private val _setUiInterfaceStatus = MutableLiveData<Event<Resource<Task<Void>>>>()
-    val setUiInterfaceStatus : LiveData<Event<Resource<Task<Void>>>> = _setUiInterfaceStatus
+    private val _setUiInterfaceStatus = MutableLiveData<Event<Resource<Product>>>()
+    val setUiInterfaceStatus : LiveData<Event<Resource<Product>>> = _setUiInterfaceStatus
 
     private val _increaseCartNumberStatus = MutableLiveData<Event<Resource<Int>>>()
     val increaseCartNumberStatus : LiveData<Event<Resource<Int>>> = _increaseCartNumberStatus
@@ -107,14 +103,6 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             val result = repository.getCartProductDetails(product_id)
             _getCartProductDetailsStatus.postValue(Event(result))
-        }
-    }
-
-    fun getFavoritesProductDetails(product_id: String) {
-        _getFavoritesProductDetailsStatus.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.getFavoritesProductDetails(product_id)
-            _getFavoritesProductDetailsStatus.postValue(Event(result))
         }
     }
 

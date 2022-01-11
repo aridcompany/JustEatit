@@ -161,10 +161,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     isAddingToShoppingBag = false
                     if (isAddedToShoppingBag) {
                         shoppingBagList += uid
-                        snackbar(getString(R.string.title_added_to_shoppingbag))
+                        snackbar(getString(R.string.title_added_to_shopping_bag))
                     } else {
                         shoppingBagList -= uid
-                        snackbar(getString(R.string.title_removed_from_shoppingbag))
+                        snackbar(getString(R.string.title_removed_from_shopping_bag))
                     }
                 }
                 productsAdapter.notifyItemChanged(index)
