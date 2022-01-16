@@ -5,20 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.ari_d.justeatit.Adapters.Products_Details_ViewPager_Adapter
+import com.ari_d.justeatit.Extensions.MyBounceInterpolator
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Cart.CartActivity
 import com.ari_d.justeatit.ui.Details.ViewModels.DetailsViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_details.*
 import java.text.DecimalFormat
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class Details_Activity : AppCompatActivity() {
@@ -37,9 +38,17 @@ class Details_Activity : AppCompatActivity() {
         viewModel.setUiInterface(product_id)
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
+
+        btn_like.setOnClickListener {
+            viewModel.addToFavorites(product_id)
+        }
     }
 
     private fun subscribeToObservers() {
+        val myAnim: Animation = AnimationUtils.loadAnimation(this, R.anim.bounce)
+        val interpolator = MyBounceInterpolator(0.2, 20.0)
+        myAnim.interpolator = interpolator
+
         viewModel.setUiInterfaceStatus.observe(this, EventObserver(
             onLoading = {
                 progressBar.isVisible = true
@@ -81,6 +90,8 @@ class Details_Activity : AppCompatActivity() {
                 txt_product_shipping_fee.text =
                     getString(R.string.title_shipping_fee) + decimalFormat.format(product.shipping_fee.toInt())
                 txt_product_details.text = product.description
+                if (auth.currentUser!!.uid in product.favoritesList)
+                    btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
                 if (product.stock.toInt() > 5) return@EventObserver
                 product_stock.isVisible = true
                 product_stock.text = getString(R.string.title_product_stock, product.stock.toInt())
@@ -96,6 +107,27 @@ class Details_Activity : AppCompatActivity() {
                     btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
 
+        })
+        viewModel.addToFavoritesStatus.observe(this, EventObserver(
+            onLoading = {
+                progressBar.isVisible = true
+                btn_like.isEnabled = false
+            },
+            onError = {
+                progressBar.isVisible = false
+                btn_like.isEnabled = true
+            }
+        ) { isAddedToFavorites ->
+            progressBar.isVisible = false
+            btn_like.isEnabled = true
+            btn_like.animation = myAnim
+            if (isAddedToFavorites) {
+                btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
+                btn_like.animation = myAnim
+            } else {
+                btn_like.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                btn_like.animation = myAnim
+            }
         })
     }
 

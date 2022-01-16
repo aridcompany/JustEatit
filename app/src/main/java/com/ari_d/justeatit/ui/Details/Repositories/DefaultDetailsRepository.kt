@@ -57,24 +57,39 @@ class DefaultDetailsRepository : DetailsRepository {
     override suspend fun addToFavorites(product_id: String) = withContext(Dispatchers.IO) {
         safeCall {
             var isAddedToFavorites = false
+            val product = products.document(product_id)
+                .get()
+                .await()
+                .toObject<Product>()
             currentUser?.let {
                 val favorites = users.document(currentUser.uid).collection("favorites")
                 firestore.runTransaction { transaction ->
-                    val _productResult = transaction.get(
-                        products.document(product_id)
-                    ).toObject<Product>()
+                    val _productResult = transaction.get(products.document(product_id))
                     val currentFavorites =
-                        _productResult?.favoritesList ?: listOf()
-                    transaction.set(
-                        favorites.document(product_id),
-                        _productResult!!
+                        _productResult.toObject<Product>()?.favoritesList ?: listOf()
+                    val productResult = transaction.get(
+                        favorites
+                            .document(product_id)
                     )
-                    transaction.update(
-                        products.document(product_id),
-                        "favoritesList",
-                        currentFavorites + currentUser.uid
-                    )
-                    isAddedToFavorites = true
+                    if (productResult.exists()) {
+                        transaction.delete(favorites.document(product_id))
+                        transaction.update(
+                            products.document(product_id),
+                            "favoritesList",
+                            currentFavorites - currentUser.uid
+                        )
+                    } else {
+                        transaction.set(
+                            favorites.document(product_id),
+                            product!!
+                        )
+                        transaction.update(
+                            products.document(product.product_id),
+                            "favoritesList",
+                            currentFavorites + currentUser.uid
+                        )
+                        isAddedToFavorites = true
+                    }
                 }.await()
             }
             Resource.Success(isAddedToFavorites)
