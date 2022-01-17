@@ -45,6 +45,10 @@
             android:name=".ui.Profile.ProfileActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

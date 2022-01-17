@@ -41,6 +41,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.getProducts()
         home_swipe.setOnRefreshListener {
             homeViewModel.getProducts()
+            homeViewModel.getCartItemsNo()
+            (activity as MainActivity).subscribeToObservers()
         }
 
         setupRecyclerView()

@@ -42,6 +42,10 @@ class Details_Activity : AppCompatActivity() {
         btn_like.setOnClickListener {
             viewModel.addToFavorites(product_id)
         }
+
+        btn_add_to_bag.setOnClickListener {
+            viewModel.addToShoppingBag(product_id)
+        }
     }
 
     private fun subscribeToObservers() {
@@ -105,6 +109,11 @@ class Details_Activity : AppCompatActivity() {
                 }
                 if (auth.currentUser!!.uid in product.favoritesList)
                     btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
+                if (auth.currentUser!!.uid in product.shoppingBagList) {
+                    btn_add_to_bag.isVisible = false
+                    increase_layout.isVisible = true
+                    viewModel.getCartProductDetails(product_id)
+                }
             }
 
         })
@@ -128,6 +137,29 @@ class Details_Activity : AppCompatActivity() {
                 btn_like.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                 btn_like.animation = myAnim
             }
+        })
+        viewModel.addToShoppingBagStatus.observe(this, EventObserver(
+            onLoading = {
+                btn_add_to_bag.isVisible = false
+                progressBar2.isVisible = true
+            },
+            onError = {
+                btn_add_to_bag.isVisible = true
+                progressBar2.isVisible = false
+            }
+        ) {
+            btn_add_to_bag.isVisible = false
+            increase_layout.isVisible = true
+            progressBar2.isVisible = false
+            viewModel.getCartProductDetails(product_id)
+        })
+        viewModel.getCartProductDetailsStatus.observe(this, EventObserver(
+            onLoading = {progressBar2.isVisible = true},
+            onError = {progressBar2.isVisible = false}
+        ){ quantity ->
+            progressBar2.isVisible = false
+            txt_cart_value.text = quantity.toString()
+            txt_cart_value.animation = myAnim
         })
     }
 
