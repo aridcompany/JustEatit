@@ -8,7 +8,6 @@ data class Favorite(
     val product_id : String = "",
     val seller_id : String = "",
     val seller : String = "",
-    val comments : List<String> = listOf(),
     val sizes : List<String> = listOf(),
     val increment_price : String = "",
 )

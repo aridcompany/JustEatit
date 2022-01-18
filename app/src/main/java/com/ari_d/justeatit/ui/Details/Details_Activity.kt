@@ -7,18 +7,25 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.ari_d.justeatit.Adapters.Products_Details_ViewPager_Adapter
 import com.ari_d.justeatit.Extensions.MyBounceInterpolator
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.other.Constants
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Cart.CartActivity
 import com.ari_d.justeatit.ui.Details.ViewModels.DetailsViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
@@ -29,6 +36,8 @@ class Details_Activity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     private lateinit var product_id: String
+
+    private val stock = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_JustEatIt)
@@ -45,6 +54,27 @@ class Details_Activity : AppCompatActivity() {
 
         btn_add_to_bag.setOnClickListener {
             viewModel.addToShoppingBag(product_id)
+        }
+
+        var job: Job? = null
+        btn_increase.setOnClickListener {
+            val value = txt_cart_value.text.toString().toInt() + 1
+            txt_cart_value.text = value.toString()
+            job?.cancel()
+            job = lifecycleScope.launch {
+                delay(Constants.SEARCH_TIME_DELAY)
+                viewModel.increaseCartNo(txt_cart_value.text.toString(), product_id)
+            }
+        }
+
+        btn_decrease.setOnClickListener {
+            val value = txt_cart_value.text.toString().toInt() - 1
+            txt_cart_value.text = value.toString()
+            job?.cancel()
+            job = lifecycleScope.launch {
+                delay(Constants.SEARCH_TIME_DELAY)
+                viewModel.decreaseCartNo(txt_cart_value.text.toString(), product_id)
+            }
         }
     }
 
@@ -94,6 +124,8 @@ class Details_Activity : AppCompatActivity() {
                 txt_product_shipping_fee.text =
                     getString(R.string.title_shipping_fee) + decimalFormat.format(product.shipping_fee.toInt())
                 txt_product_details.text = product.description
+                stock.clear()
+                stock.add(product.stock.toInt())
                 if (auth.currentUser!!.uid in product.favoritesList)
                     btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
                 if (product.stock.toInt() > 5) return@EventObserver
@@ -154,12 +186,61 @@ class Details_Activity : AppCompatActivity() {
             viewModel.getCartProductDetails(product_id)
         })
         viewModel.getCartProductDetailsStatus.observe(this, EventObserver(
-            onLoading = {progressBar2.isVisible = true},
-            onError = {progressBar2.isVisible = false}
-        ){ quantity ->
+            onLoading = { progressBar2.isVisible = true },
+            onError = { progressBar2.isVisible = false }
+        ) { quantity ->
             progressBar2.isVisible = false
             txt_cart_value.text = quantity.toString()
             txt_cart_value.animation = myAnim
+        })
+        viewModel.increaseCartNumberStatus.observe(this, EventObserver(
+            onLoading = {
+                btn_decrease.isEnabled = false
+                btn_increase.isEnabled = false
+                progressBar.isVisible = true
+            },
+            onError = {
+                btn_decrease.isEnabled = true
+                btn_increase.isEnabled = true
+                progressBar.isVisible = false
+            }
+        ) { cartNumber ->
+            btn_decrease.isEnabled = true
+            btn_increase.isEnabled = true
+            progressBar.isVisible = false
+            if (cartNumber.toString() == "1") {
+                txt_cart_value.text = cartNumber.toString()
+                Toast.makeText(
+                    this,
+                    getString(R.string.title_product_stock, stock[0]), Toast.LENGTH_SHORT
+                ).show()
+                txt_cart_value.text = ""
+                viewModel.getCartProductDetails(product_id)
+            } else
+                txt_cart_value.text = cartNumber.toString()
+        })
+        viewModel.decreaseCartNumberStatus.observe(this, EventObserver(
+            onLoading = {
+                btn_increase.isEnabled = false
+                btn_decrease.isEnabled = false
+                progressBar.isVisible = true
+            },
+            onError = {
+                btn_increase.isEnabled = true
+                btn_decrease.isEnabled = true
+                progressBar.isVisible = false
+            }
+        ) { cartNumber ->
+            btn_decrease.isEnabled = true
+            btn_increase.isEnabled = true
+            progressBar.isVisible = false
+            if (cartNumber == 0) {
+                btn_add_to_bag.isVisible = true
+                increase_layout.isVisible = false
+                txt_cart_value.text = ""
+                viewModel.getCartProductDetails(product_id)
+            } else if (cartNumber > 0)
+                txt_cart_value.text = cartNumber.toString()
         })
     }
 

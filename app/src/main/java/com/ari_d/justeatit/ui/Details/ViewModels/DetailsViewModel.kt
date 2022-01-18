@@ -26,17 +26,8 @@ class DetailsViewModel @Inject constructor(
     private val _addToShoppingBagStatus = MutableLiveData<Event<Resource<Boolean>>>()
     val addToShoppingBagStatus : LiveData<Event<Resource<Boolean>>> = _addToShoppingBagStatus
 
-    private val _getNumberOfCartItemsStatus = MutableLiveData<Event<Resource<Int>>>()
-    val getNumberOfCartItemsStatus : LiveData<Event<Resource<Int>>> = _getNumberOfCartItemsStatus
-
-    private val _deleteItemsFromCartStatus = MutableLiveData<Event<Resource<Void>>>()
-    val deleteItemsFromCartStatus : LiveData<Event<Resource<Void>>> = _deleteItemsFromCartStatus
-
     private val _addToFavoritesStatus = MutableLiveData<Event<Resource<Boolean>>>()
     val addToFavoritesStatus : LiveData<Event<Resource<Boolean>>> = _addToFavoritesStatus
-
-    private val _deleteItemsFromFavoritesStatus = MutableLiveData<Event<Resource<Void>>>()
-    val deleteItemsFromFavoritesStatus : LiveData<Event<Resource<Void>>> = _deleteItemsFromFavoritesStatus
 
     private val _getCartProductDetailsStatus = MutableLiveData<Event<Resource<Int>>>()
     val getCartProductDetailsStatus : LiveData<Event<Resource<Int>>> = _getCartProductDetailsStatus
@@ -71,30 +62,6 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             val result = repository.addToFavorites(product_id)
             _addToFavoritesStatus.postValue(Event(result))
-        }
-    }
-
-    fun getNumberOfCartItems() {
-        _getNumberOfCartItemsStatus.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.getNumberOfCartItems()
-            _getNumberOfCartItemsStatus.postValue(Event(result))
-        }
-    }
-
-    fun deleteItemFromCart(product_id: String) {
-        _deleteItemsFromCartStatus.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.deleteItemFromCart(product_id)
-            _deleteItemsFromCartStatus.postValue(Event(result))
-        }
-    }
-
-    fun deleteItemFromFavorites(product_id: String) {
-        _deleteItemsFromFavoritesStatus.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.deleteItemFromFavorites(product_id)
-            _deleteItemsFromFavoritesStatus.postValue(Event(result))
         }
     }
 

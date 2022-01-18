@@ -11,12 +11,6 @@ interface DetailsRepository {
 
     suspend fun addToFavorites(product_id: String) : Resource<Boolean>
 
-    suspend fun getNumberOfCartItems() : Resource<Int>
-
-    suspend fun deleteItemFromCart(product_id: String) : Resource<Void>
-
-    suspend fun deleteItemFromFavorites(product_id: String) : Resource<Void>
-
     suspend fun getCartProductDetails(product_id: String) : Resource<Int>
 
     suspend fun setUiInterface(product_id: String) : Resource<Product>

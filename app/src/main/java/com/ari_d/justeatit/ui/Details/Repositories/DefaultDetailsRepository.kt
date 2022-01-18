@@ -96,46 +96,6 @@ class DefaultDetailsRepository : DetailsRepository {
         }
     }
 
-    override suspend fun getNumberOfCartItems() = withContext(Dispatchers.IO) {
-        safeCall {
-            val _list = mutableListOf<Product>()
-            currentUser?.let {
-                users.document(it.uid).collection("shopping bag").get().await().forEach {
-                    val item = it.toObject<Product>()
-                    _list.add(item)
-                }
-            }
-            val cartNo = _list.size
-            Resource.Success(cartNo)
-        }
-    }
-
-    override suspend fun deleteItemFromCart(product_id: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val result = currentUser?.let {
-                users.document(it.uid)
-                    .collection("shopping bag")
-                    .document(product_id)
-                    .delete()
-                    .await()
-            }
-            Resource.Success(result!!)
-        }
-    }
-
-    override suspend fun deleteItemFromFavorites(product_id: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val result = currentUser?.let {
-                users.document(it.uid)
-                    .collection("favorites")
-                    .document(product_id)
-                    .delete()
-                    .await()
-            }
-            Resource.Success(result!!)
-        }
-    }
-
     override suspend fun getCartProductDetails(product_id: String) = withContext(Dispatchers.IO) {
         safeCall {
             val result = mutableListOf<Int>()
@@ -179,25 +139,18 @@ class DefaultDetailsRepository : DetailsRepository {
                 val product = products.document(product_id).get().await().toObject<Product>()
                 val result = mutableListOf<Int>()
                 if (product!!.stock < value) {
-                    Resource.Success(value.toInt())
+                    Resource.Success(1)
                 } else {
                     currentUser?.let {
-                        val quantity = users.document(it.uid)
-                            .collection("shopping bag")
-                            .document(product_id)
-                            .get()
-                            .await()
-                            .toObject<Product>()
-                            ?.quantity!!.toInt()
                         users.document(it.uid)
                             .collection("shopping bag")
                             .document(product_id)
                             .update(
                                 "quantity",
-                                quantity + 1
+                                value
                             )
                         result.clear()
-                        result.add(quantity + 1)
+                        result.add(value.toInt())
                     }
                     Resource.Success(result[0])
                 }
@@ -208,33 +161,40 @@ class DefaultDetailsRepository : DetailsRepository {
         withContext(Dispatchers.IO) {
             safeCall {
                 val result = mutableListOf<Int>()
-                if (value < "1") {
+                if (value > "1") {
                     currentUser?.let {
-                        val quantity = users.document(it.uid)
-                            .collection("shopping bag")
-                            .document(product_id)
-                            .get()
-                            .await()
-                            .toObject<Product>()
-                            ?.quantity!!.toInt()
                         users.document(it.uid)
                             .collection("shopping bag")
                             .document(product_id)
                             .update(
                                 "quantity",
-                                quantity - 1
+                                value
                             )
                         result.clear()
-                        result.add(quantity - 1)
+                        result.add(value.toInt())
                     }
                     Resource.Success(result[0])
                 } else {
                     currentUser?.let {
-                        users.document(it.uid)
-                            .collection("shopping bag")
-                            .document(product_id)
-                            .delete()
-                            .await()
+                        val cartItems = users.document(it.uid).collection("shopping bag")
+                        firestore.runTransaction { transaction ->
+                            val _productResult =
+                                transaction.get(products.document(product_id))
+                            val currentShoppingBag =
+                                _productResult.toObject<Product>()?.shoppingBagList ?: listOf()
+                            val cartResult = transaction.get(
+                                cartItems
+                                    .document(product_id)
+                            )
+                            if (cartResult.exists()) {
+                                transaction.delete(cartItems.document(product_id))
+                                transaction.update(
+                                    products.document(product_id),
+                                    "shoppingBagList",
+                                    currentShoppingBag - currentUser.uid
+                                )
+                            }
+                        }.await()
                         result.clear()
                         result.add(0)
                     }

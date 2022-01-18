@@ -39,6 +39,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
         homeViewModel.getProducts()
+        homeViewModel.getCartItemsNo()
+        (activity as MainActivity).subscribeToObservers()
         home_swipe.setOnRefreshListener {
             homeViewModel.getProducts()
             homeViewModel.getCartItemsNo()
