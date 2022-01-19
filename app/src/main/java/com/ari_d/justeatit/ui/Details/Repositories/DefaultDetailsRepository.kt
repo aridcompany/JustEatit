@@ -161,7 +161,7 @@ class DefaultDetailsRepository : DetailsRepository {
         withContext(Dispatchers.IO) {
             safeCall {
                 val result = mutableListOf<Int>()
-                if (value > "1") {
+                if (value > "0") {
                     currentUser?.let {
                         users.document(it.uid)
                             .collection("shopping bag")

@@ -68,4 +68,5 @@
     <string name="title_shipping_fee">+ shipping fee ₦</string>
     <string name="title_product_stock">Only %d left in stock!</string>
     <string name="title_like">"liked by %d person"</string>
+    <string name="title_error_loading">Error occurred while retrieving product details!</string>
 </resources>

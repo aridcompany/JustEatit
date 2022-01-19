@@ -100,7 +100,7 @@ class Details_Activity : AppCompatActivity() {
         viewModel.getProductDetailsStatus.observe(this, EventObserver(
             onLoading = {},
             onError = {
-                getString(R.string.title_unknown_error_occurred)
+                getString(R.string.title_error_loading)
             }
         ) { product ->
             progressBar.isVisible = false
@@ -186,12 +186,22 @@ class Details_Activity : AppCompatActivity() {
             viewModel.getCartProductDetails(product_id)
         })
         viewModel.getCartProductDetailsStatus.observe(this, EventObserver(
-            onLoading = { progressBar2.isVisible = true },
-            onError = { progressBar2.isVisible = false }
+            onLoading = {
+                progressBar.isVisible = true
+                btn_decrease.isEnabled = false
+                btn_increase.isEnabled = false
+            },
+            onError = {
+                progressBar.isVisible = false
+                btn_decrease.isEnabled = false
+                btn_increase.isEnabled = false
+            }
         ) { quantity ->
-            progressBar2.isVisible = false
+            progressBar.isVisible = false
             txt_cart_value.text = quantity.toString()
             txt_cart_value.animation = myAnim
+            btn_decrease.isEnabled = true
+            btn_increase.isEnabled = true
         })
         viewModel.increaseCartNumberStatus.observe(this, EventObserver(
             onLoading = {
@@ -205,8 +215,6 @@ class Details_Activity : AppCompatActivity() {
                 progressBar.isVisible = false
             }
         ) { cartNumber ->
-            btn_decrease.isEnabled = true
-            btn_increase.isEnabled = true
             progressBar.isVisible = false
             if (cartNumber.toString() == "1") {
                 txt_cart_value.text = cartNumber.toString()
@@ -216,8 +224,11 @@ class Details_Activity : AppCompatActivity() {
                 ).show()
                 txt_cart_value.text = ""
                 viewModel.getCartProductDetails(product_id)
-            } else
+            } else {
                 txt_cart_value.text = cartNumber.toString()
+                btn_decrease.isEnabled = true
+                btn_increase.isEnabled = true
+            }
         })
         viewModel.decreaseCartNumberStatus.observe(this, EventObserver(
             onLoading = {
@@ -231,16 +242,17 @@ class Details_Activity : AppCompatActivity() {
                 progressBar.isVisible = false
             }
         ) { cartNumber ->
-            btn_decrease.isEnabled = true
-            btn_increase.isEnabled = true
             progressBar.isVisible = false
             if (cartNumber == 0) {
                 btn_add_to_bag.isVisible = true
                 increase_layout.isVisible = false
                 txt_cart_value.text = ""
                 viewModel.getCartProductDetails(product_id)
-            } else if (cartNumber > 0)
+            } else if (cartNumber > 0) {
                 txt_cart_value.text = cartNumber.toString()
+                btn_decrease.isEnabled = true
+                btn_increase.isEnabled = true
+            }
         })
     }
 

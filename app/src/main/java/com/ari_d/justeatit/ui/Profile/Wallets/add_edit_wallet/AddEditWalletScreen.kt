@@ -42,8 +42,7 @@ fun AddEditWalletScreen(
     Scaffold (
         scaffoldState= scaffoldState,
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(AddEditWalletEvent.OnSaveWalletClick)
@@ -80,7 +79,11 @@ fun AddEditWalletScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp)
+                    .padding(
+                        top = 24.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
                 )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
@@ -103,6 +106,10 @@ fun AddEditWalletScreen(
                     Text(text = "Card Number")
                 },
                 modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp
+                    )
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
@@ -125,6 +132,10 @@ fun AddEditWalletScreen(
                     Text(text = "Card CVV")
                 },
                 modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp
+                    )
             )
             Spacer(modifier = Modifier.height(16.dp))
            Row(
