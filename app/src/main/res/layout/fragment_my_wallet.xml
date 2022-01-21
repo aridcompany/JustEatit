@@ -36,8 +36,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wallet_recycler"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,16 +45,4 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_wallet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_wallet"
-        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

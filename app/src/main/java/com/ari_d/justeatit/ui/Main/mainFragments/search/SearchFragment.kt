@@ -16,6 +16,7 @@ import com.ari_d.justeatit.other.Constants.SEARCH_TIME_DELAY
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Job
@@ -29,9 +30,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     @Inject
     lateinit var productsAdapter: searchAdapter
 
+    private lateinit var auth: FirebaseAuth
+
     val viewModel: MainViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         setupRecyclerView()
         subscribeToObservers()
 
@@ -46,9 +50,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         }
         productsAdapter.setOnNavigateToProductDetailsClickListener { product, i ->
-            Intent(requireActivity(), Details_Activity::class.java).also {
-                it.putExtra("product_id", product.product_id)
-                startActivity(it)
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+            }
+            currentUser?.let {
+                Intent(requireActivity(), Details_Activity::class.java).also {
+                    it.putExtra("product_id", product.product_id)
+                    startActivity(it)
+                }
             }
         }
     }

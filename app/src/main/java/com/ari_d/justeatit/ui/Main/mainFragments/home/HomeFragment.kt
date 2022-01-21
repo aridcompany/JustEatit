@@ -72,9 +72,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         productsAdapter.setOnNavigateToProductsDetailsClickListener { product, i ->
-            Intent(requireActivity(), Details_Activity::class.java).also {
-                it.putExtra("product_id", product.product_id)
-                startActivity(it)
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+            }
+            currentUser?.let {
+                Intent(requireActivity(), Details_Activity::class.java).also {
+                    it.putExtra("product_id", product.product_id)
+                    startActivity(it)
+                }
             }
         }
     }

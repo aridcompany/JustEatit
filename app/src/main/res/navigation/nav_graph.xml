@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/details_Fragment">
+
+    <action android:id="@+id/globalActionToCommentDialog"
+        app:destination="@id/commentDialog"/>
+
+    <dialog
+        android:id="@+id/commentDialog"
+        android:name="com.ari_d.justeatit.Dialogs.CommentDialog"
+        android:label="CommentDialog">
+        <argument
+            android:name="productId"
+            app:argType="string"/>
+    </dialog>
+    <fragment
+        android:id="@+id/details_Fragment"
+        android:name="com.ari_d.justeatit.ui.Details.Fragments.Details_Fragment"
+        android:label="Details_Fragment" />
+</navigation>

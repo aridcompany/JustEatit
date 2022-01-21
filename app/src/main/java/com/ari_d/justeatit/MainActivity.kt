@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ari_d.justeatit.Adapters.ViewPagerAdapter
+import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
+import com.ari_d.justeatit.ui.Cart.CartActivity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.ari_d.justeatit.ui.Main.mainFragments.favorites.FavoritesFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.home.HomeFragment
@@ -27,22 +30,41 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     val viewModel: MainViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_JustEatIt)
         setContentView(R.layout.activity_main)
         FirebaseApp.initializeApp(this)
+        auth = FirebaseAuth.getInstance()
         setUpTabs()
         viewModel.getCartItemsNo()
         subscribeToObservers()
+
+        btn_cart.setOnClickListener {
+            if (auth.currentUser != null) {
+                startActivity(
+                    Intent(
+                        this,
+                        CartActivity::class.java
+                    )
+                )
+            } else {
+                Toast.makeText(
+                    this, getString(R.string.title_signIn_to_continue),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
+
     internal fun subscribeToObservers() {
         viewModel.cartNo.observe(this, EventObserver(
             onError = {},
             onLoading = {},
-        ){
-           setCartBadgeNumber(it)
+        ) {
+            setCartBadgeNumber(it)
         })
     }
 
@@ -73,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_heartimage)
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_search)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val User = FirebaseAuth.getInstance()
         val loggedInUser = User.currentUser
@@ -80,19 +103,22 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_profile -> if (loggedInUser != null) {
                 startActivity(
                     Intent(
-                    this,
-                    ProfileActivity::class.java
-                )
+                        this,
+                        ProfileActivity::class.java
+                    )
                 )
             } else {
-                startActivity(Intent(
-                    this,
-                    Auth_Activity::class.java
-                ))
+                startActivity(
+                    Intent(
+                        this,
+                        Auth_Activity::class.java
+                    )
+                )
             }
         }
         return true
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.tool_bar_menu, menu)
         return true

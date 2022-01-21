@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ari_d.justeatit.data.entities.Comment
 import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
@@ -40,6 +41,15 @@ class DetailsViewModel @Inject constructor(
 
     private val _decreaseCartNumberStatus = MutableLiveData<Event<Resource<Int>>>()
     val decreaseCartNumberStatus : LiveData<Event<Resource<Int>>> = _decreaseCartNumberStatus
+
+    private val _createCommentStatus = MutableLiveData<Event<Resource<Comment>>>()
+    val createCommentStatus: LiveData<Event<Resource<Comment>>> = _createCommentStatus
+
+    private val _deleteCommentStatus = MutableLiveData<Event<Resource<Comment>>>()
+    val deleteCommentStatus: LiveData<Event<Resource<Comment>>> = _deleteCommentStatus
+
+    private val _commentForProductStatus = MutableLiveData<Event<Resource<List<Comment>>>>()
+    val commentForProductStatus: LiveData<Event<Resource<List<Comment>>>> = _commentForProductStatus
 
     fun getProductDetails(product_id: String) {
         _getProductDetailsStatus.postValue(Event(Resource.Loading()))
@@ -94,6 +104,31 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             val result = repository.DecreaseCartNo(value, product_id)
             _decreaseCartNumberStatus.postValue(Event(result))
+        }
+    }
+
+    fun createComment(commentText: String, product_id: String) {
+        if (commentText.isEmpty()) return
+        _createCommentStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch(dispatcher) {
+            val result = repository.createComment(commentText, product_id)
+            _createCommentStatus.postValue(Event(result))
+        }
+    }
+
+    fun deleteComment(comment: Comment) {
+        _deleteCommentStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch (dispatcher){
+            val result = repository.deleteComment(comment)
+            _deleteCommentStatus.postValue(Event(result))
+        }
+    }
+
+    fun getCommentForProduct(product_id: String) {
+        _commentForProductStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch (dispatcher){
+            val result = repository.getCommentForProduct(product_id)
+            _commentForProductStatus.postValue(Event(result))
         }
     }
 }

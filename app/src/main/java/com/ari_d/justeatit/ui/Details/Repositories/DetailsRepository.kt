@@ -1,7 +1,10 @@
 package com.ari_d.justeatit.ui.Details.Repositories
 
+import com.ari_d.justeatit.data.entities.Comment
 import com.ari_d.justeatit.data.entities.Product
+import com.ari_d.justeatit.data.entities.User
 import com.ari_d.justeatit.other.Resource
+import kotlinx.coroutines.withContext
 
 interface DetailsRepository {
 
@@ -18,5 +21,13 @@ interface DetailsRepository {
     suspend fun increaseCartNo(value: String, product_id: String) : Resource<Int>
 
     suspend fun DecreaseCartNo(value: String, product_id: String) : Resource<Int>
+
+    suspend fun createComment(commentText: String, postId: String): Resource<Comment>
+
+    suspend fun deleteComment(comment: Comment) : Resource<Comment>
+
+    suspend fun getCommentForProduct(productId: String) : Resource<List<Comment>>
+
+    suspend fun getUser(uid: String) : Resource<User>
 
 }

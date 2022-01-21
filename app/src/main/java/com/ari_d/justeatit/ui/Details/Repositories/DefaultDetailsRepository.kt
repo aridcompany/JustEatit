@@ -1,15 +1,19 @@
 package com.ari_d.justeatit.ui.Details.Repositories
 
+import com.ari_d.justeatit.data.entities.Comment
 import com.ari_d.justeatit.data.entities.Product
+import com.ari_d.justeatit.data.entities.User
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class DefaultDetailsRepository : DetailsRepository {
 
@@ -18,6 +22,7 @@ class DefaultDetailsRepository : DetailsRepository {
     private val currentUser = auth.currentUser
     private val users = Firebase.firestore.collection("users")
     private val firestore = Firebase.firestore
+    private val comments = Firebase.firestore.collection("comments")
 
     override suspend fun getProductDetails(product_id: String) = withContext(Dispatchers.IO) {
         safeCall {
@@ -138,7 +143,7 @@ class DefaultDetailsRepository : DetailsRepository {
             safeCall {
                 val product = products.document(product_id).get().await().toObject<Product>()
                 val result = mutableListOf<Int>()
-                if (product!!.stock < value) {
+                if (product!!.stock.toInt() < value.toInt()) {
                     Resource.Success(1)
                 } else {
                     currentUser?.let {
@@ -161,7 +166,7 @@ class DefaultDetailsRepository : DetailsRepository {
         withContext(Dispatchers.IO) {
             safeCall {
                 val result = mutableListOf<Int>()
-                if (value > "0") {
+                if (value.toInt() > 0) {
                     currentUser?.let {
                         users.document(it.uid)
                             .collection("shopping bag")
@@ -200,6 +205,58 @@ class DefaultDetailsRepository : DetailsRepository {
                     }
                 }
                 Resource.Success(result[0])
+            }
+        }
+
+    override suspend fun createComment(commentText: String, productId: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val uid = currentUser!!.uid
+                val commentId = UUID.randomUUID().toString()
+                val user = getUser(uid).data!!
+                val comment = Comment(
+                    commentId,
+                    productId,
+                    uid,
+                    user.name,
+                    commentText
+                )
+                comments.document(commentId).set(comment).await()
+                Resource.Success(comment)
+            }
+        }
+
+    override suspend fun deleteComment(comment: Comment) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                comments.document(comment.commentId).delete().await()
+                Resource.Success(comment)
+            }
+        }
+
+    override suspend fun getCommentForProduct(productId: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val commentsForProduct = comments
+                    .whereEqualTo("productId", productId)
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .get()
+                    .await()
+                    .toObjects(Comment::class.java)
+                    .onEach { comment ->
+                        val user = getUser(comment.uid).data!!
+                        comment.name = user.name
+                    }
+                Resource.Success(commentsForProduct)
+            }
+    }
+
+    override suspend fun getUser(uid: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val user = users.document(uid).get().await().toObject<User>()
+                    ?: throw IllegalStateException()
+                Resource.Success(user)
             }
         }
 }

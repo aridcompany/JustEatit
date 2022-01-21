@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.FavoritesAdapter
+import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Details.Details_Activity
@@ -44,9 +45,15 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
         setupRecyclerView()
         favoritesAdapter.setOnNavigateToProductDetailsClickListener { favorite, i ->
-            Intent(requireActivity(), Details_Activity::class.java).also {
-                it.putExtra("product_id", favorite.product_id)
-                startActivity(it)
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+            }
+            currentUser?.let {
+                Intent(requireActivity(), Details_Activity::class.java).also {
+                    it.putExtra("product_id", favorite.product_id)
+                    startActivity(it)
+                }
             }
         }
     }

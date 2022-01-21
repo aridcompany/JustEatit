@@ -5,7 +5,8 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComments"
@@ -44,6 +45,8 @@
             android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColorHint="@color/grey"
+            android:textColor="@color/black"
             android:maxLines="3"
             android:inputType="textMultiLine" />
 

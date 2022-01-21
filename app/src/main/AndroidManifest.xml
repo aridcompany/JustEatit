@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ari_d.justeatit">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
     <application
         android:name=".JustEatit"
         android:allowBackup="true"
@@ -14,11 +16,6 @@
             android:name=".ui.Cart.CartActivity"
             android:exported="false"
             android:label="@string/title_activity_cart"
-            android:theme="@style/splashScreenTheme.NoActionBar" />
-        <activity
-            android:name=".ui.Profile.Wallets.ui.MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
             android:theme="@style/splashScreenTheme.NoActionBar" />
         <activity
             android:name=".ui.Details.Details_Activity"

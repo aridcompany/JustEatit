@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/alegreya"
             android:text="@string/title_empty_favorites"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/primary_light"
             android:textSize="14sp" />
 
     </LinearLayout>
