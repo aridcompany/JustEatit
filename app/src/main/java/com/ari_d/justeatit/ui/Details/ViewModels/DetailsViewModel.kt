@@ -4,14 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.ari_d.justeatit.data.entities.Comment
 import com.ari_d.justeatit.data.entities.Product
+import com.ari_d.justeatit.data.pagingsource.CommentsPagingSource
+import com.ari_d.justeatit.other.Constants
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
+import com.ari_d.justeatit.ui.Details.Repositories.DefaultDetailsRepository
 import com.ari_d.justeatit.ui.Details.Repositories.DetailsRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -124,11 +133,13 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    fun getCommentForProduct(product_id: String) {
-        _commentForProductStatus.postValue(Event(Resource.Loading()))
-        viewModelScope.launch (dispatcher){
-            val result = repository.getCommentForProduct(product_id)
-            _commentForProductStatus.postValue(Event(result))
-        }
+    fun getPagingFlow(productId: String): Flow<PagingData<Comment>> {
+        return Pager(PagingConfig(Constants.PAGE_SIZE)) {
+            CommentsPagingSource(
+                FirebaseFirestore.getInstance(),
+                repository as DefaultDetailsRepository,
+                productId
+            )
+        }.flow.cachedIn(viewModelScope)
     }
 }

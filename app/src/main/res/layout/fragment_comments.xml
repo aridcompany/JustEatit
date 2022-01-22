@@ -5,13 +5,24 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="8dp">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComments"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComments2"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,22 +56,55 @@
             android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColorHint="@color/grey"
-            android:textColor="@color/black"
+            android:inputType="textMultiLine"
             android:maxLines="3"
-            android:inputType="textMultiLine" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnComment"
+        style="@style/my_button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comment"
-        style="@style/my_button3"
         android:drawableRight="@drawable/ic_baseline_send_24"
+        android:text="Comment"
         app:layout_constraintBottom_toBottomOf="@+id/tilComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tilComment" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <LinearLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline16"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/guideline17"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/ic_empty_searchresults" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

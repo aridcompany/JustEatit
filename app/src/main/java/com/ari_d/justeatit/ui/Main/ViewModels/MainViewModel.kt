@@ -4,14 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.ari_d.justeatit.data.entities.Favorite
 import com.ari_d.justeatit.data.entities.Product
+import com.ari_d.justeatit.data.pagingsource.FavoritesPagingSource
+import com.ari_d.justeatit.data.pagingsource.ProductsPagingSource
+import com.ari_d.justeatit.other.Constants.PAGE_SIZE
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.ui.Main.Repositories.MainRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,20 +48,22 @@ class MainViewModel @Inject constructor(
     private val _cartNo = MutableLiveData<Event<Resource<Int>>>()
     val cartNo: LiveData<Event<Resource<Int>>> = _cartNo
 
-    fun getProducts() {
-        _getProducts.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.getProducts()
-            _getProducts.postValue(Event(result))
-        }
+    fun getPagingFlow(): Flow<PagingData<Product>> {
+        val pagingSource = ProductsPagingSource(
+            FirebaseFirestore.getInstance(),
+        )
+        return Pager(PagingConfig(PAGE_SIZE)) {
+            pagingSource
+        }.flow.cachedIn(viewModelScope)
     }
 
-    fun getFavorites() {
-        _getFavorites.postValue(Event(Resource.Loading()))
-        viewModelScope.launch(dispatcher) {
-            val result = repository.getFavorites()
-            _getFavorites.postValue(Event(result))
-        }
+    fun getPagingFlowForFavorites(): Flow<PagingData<Favorite>> {
+        val pagingSource = FavoritesPagingSource(
+            FirebaseFirestore.getInstance(),
+        )
+        return Pager(PagingConfig(PAGE_SIZE)) {
+            pagingSource
+        }.flow.cachedIn(viewModelScope)
     }
 
     fun getCartItemsNo() {

@@ -8,6 +8,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ari_d.justeatit.Adapters.ProductsAdapter
@@ -19,6 +21,9 @@ import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,16 +38,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var auth: FirebaseAuth
 
+    @InternalCoroutinesApi
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
-        homeViewModel.getProducts()
+        shimmer_layout?.apply {
+            stopShimmer()
+            isVisible = true
+        }
+        getPosts()
         homeViewModel.getCartItemsNo()
         (activity as MainActivity).subscribeToObservers()
         home_swipe.setOnRefreshListener {
-            homeViewModel.getProducts()
+            getPosts()
             homeViewModel.getCartItemsNo()
             (activity as MainActivity).subscribeToObservers()
         }
@@ -85,37 +95,43 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun subscribeToObservers() {
-        homeViewModel.getProducts.observe(viewLifecycleOwner, EventObserver(
-            onError = {
-                empty_layout.isVisible = true
-            },
-            onLoading = {
-                empty_layout.isVisible = false
-                products_recycler.isVisible = false
-                shimmer_layout.apply {
-                    startShimmer()
+    @InternalCoroutinesApi
+    private fun getPosts() {
+        lifecycleScope.launch {
+            homeViewModel.getPagingFlow().collect {
+                productsAdapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            productsAdapter.loadStateFlow.collectLatest {
+                if (it.refresh is LoadState.Loading || it.append is LoadState.Loading) {
+                    empty_layout.isVisible = false
+                } else if (it.refresh is LoadState.Error) {
+                    empty_layout.isVisible = true
+                    shimmer_layout.apply {
+                        stopShimmer()
+                        isVisible = false
+                    }
+                    home_swipe.isRefreshing = false
+                } else if (it.refresh is LoadState.NotLoading || it.append is LoadState.NotLoading) {
+                    shimmer_layout.apply {
+                        stopShimmer()
+                        isVisible = false
+                    }
+                    home_swipe.isRefreshing = false
+                    empty_layout.isVisible = false
+                    home_swipe.isRefreshing = false
                 }
             }
-        ) { products ->
-            productsAdapter.products = products
-            shimmer_layout.apply {
-                stopShimmer()
-                isVisible = false
-            }
-            products_recycler.isVisible = true
-            home_swipe.isRefreshing = false
+        }
+    }
 
-            if (products.isEmpty()) {
-                empty_layout.isVisible = true
-                products_recycler.isVisible = false
-            }
-        })
-
+    private fun subscribeToObservers() {
         homeViewModel.addToFavorites.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 curAddedIndex?.let { index ->
-                    productsAdapter.products[index].isAddingToFavorites = false
+                    productsAdapter.peek(index)?.isAddingToFavorites = false
                     productsAdapter.notifyItemChanged(index)
                 }
                 snackbar(it)
@@ -123,7 +139,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             },
             onLoading = {
                 curAddedIndex?.let { index ->
-                    productsAdapter.products[index].isAddingToFavorites = true
+                    productsAdapter.peek(index)?.isAddingToFavorites = true
                     productsAdapter.notifyItemChanged(index)
                 }
                 progressBar.isVisible = true
@@ -131,7 +147,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         ) { isAddedToFavorites ->
             curAddedIndex?.let { index ->
                 val uid = FirebaseAuth.getInstance().uid!!
-                productsAdapter.products[index].apply {
+                productsAdapter.peek(index)?.apply {
                     this.isAddedToFavorites = isAddedToFavorites
                     isAddingToFavorites = false
                     if (isAddedToFavorites) {
@@ -150,7 +166,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.addToShoppingBag.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 curAddedIndex?.let { index ->
-                    productsAdapter.products[index].isAddingToShoppingBag = false
+                    productsAdapter.peek(index)?.isAddingToShoppingBag = false
                     productsAdapter.notifyItemChanged(index)
                 }
                 snackbar(it)
@@ -158,7 +174,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             },
             onLoading = {
                 curAddedIndex?.let { index ->
-                    productsAdapter.products[index].isAddingToShoppingBag = true
+                    productsAdapter.peek(index)?.isAddingToShoppingBag = true
                     productsAdapter.notifyItemChanged(index)
                 }
                 progressBar.isVisible = true
@@ -166,7 +182,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         ) { isAddedToShoppingBag ->
             curAddedIndex?.let { index ->
                 val uid = FirebaseAuth.getInstance().uid!!
-                productsAdapter.products[index].apply {
+                productsAdapter.peek(index)?.apply {
                     this.isAddedToShoppingBag = isAddedToShoppingBag
                     isAddingToShoppingBag = false
                     if (isAddedToShoppingBag) {

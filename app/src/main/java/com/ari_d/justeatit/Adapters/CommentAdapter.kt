@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 class CommentAdapter @Inject constructor(
     private val glide: RequestManager
-) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+) : PagingDataAdapter<Comment, CommentAdapter.CommentViewHolder>(Companion) {
 
     class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvCommentUsername: TextView = itemView.tvCommentUsername
@@ -26,7 +27,7 @@ class CommentAdapter @Inject constructor(
         val ibDeleteComment: ImageButton = itemView.ibDeleteComment
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Comment>() {
+    companion object : DiffUtil.ItemCallback<Comment>() {
         override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
@@ -35,12 +36,6 @@ class CommentAdapter @Inject constructor(
             return oldItem.commentId == newItem.commentId
         }
     }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    var comments: List<Comment>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(
@@ -52,14 +47,11 @@ class CommentAdapter @Inject constructor(
         )
     }
 
-    override fun getItemCount(): Int {
-        return comments.size
-    }
-
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        val comment = comments[position]
+        val comment = getItem(position) ?: return
         holder.apply {
             ibDeleteComment.isVisible = comment.uid == FirebaseAuth.getInstance().uid!!
+            ibDeleteComment.setImageResource(R.drawable.ic_baseline_delete_forever_24)
 
             tvComment.text = comment.comment
             tvCommentUsername.text = comment.name

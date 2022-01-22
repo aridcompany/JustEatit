@@ -7,11 +7,12 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.FavoritesAdapter
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
-import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_favorites.empty_layout
 import kotlinx.android.synthetic.main.fragment_favorites.shimmer_layout
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,16 +37,51 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     private lateinit var auth: FirebaseAuth
 
+    @InternalCoroutinesApi
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeToObservers()
+        getFavorites()
         auth = FirebaseAuth.getInstance()
-        viewModel.getFavorites()
         favorites_swipe.setOnRefreshListener {
-            viewModel.getFavorites()
+            if (auth.currentUser == null) {
+                snackbar(getString(R.string.title_signIn_to_continue))
+                favorites_swipe.isRefreshing = false
+            }
+            auth.currentUser?.let {
+                getFavorites()
+            }
+        }
+    }
+    @InternalCoroutinesApi
+    private fun getFavorites() {
+        lifecycleScope.launch {
+            viewModel.getPagingFlowForFavorites().collect {
+                favoritesAdapter.submitData(it)
+            }
         }
 
+        lifecycleScope.launch {
+            favoritesAdapter.loadStateFlow.collectLatest {
+                if (it.refresh is LoadState.Loading || it.append is LoadState.Loading) {
+                    empty_layout.isVisible = false
+                } else if (it.refresh is LoadState.Error) {
+                    empty_layout.isVisible = true
+                    shimmer_layout.apply {
+                        stopShimmer()
+                        isVisible = false
+                    }
+                    favorites_swipe.isRefreshing = false
+
+                } else if (it.refresh is LoadState.NotLoading || it.append is LoadState.NotLoading) {
+                    shimmer_layout.apply {
+                        stopShimmer()
+                        isVisible = false
+                    }
+                    favorites_swipe.isRefreshing = false
+                }
+            }
+        }
         setupRecyclerView()
         favoritesAdapter.setOnNavigateToProductDetailsClickListener { favorite, i ->
             val currentUser = auth.currentUser
@@ -62,32 +101,5 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         adapter = favoritesAdapter
         layoutManager = LinearLayoutManager(requireContext())
         itemAnimator = null
-    }
-
-    private fun subscribeToObservers() {
-        viewModel.getFavorites.observe(viewLifecycleOwner, EventObserver(
-            onError = {
-                empty_layout.isVisible = true
-            },
-            onLoading = {
-                empty_layout.isVisible = false
-                recycler_favorites.isVisible = false
-                shimmer_layout.apply {
-                    startShimmer()
-                }
-            }
-        ) { favorites ->
-            favoritesAdapter.favorites = favorites
-            shimmer_layout.apply {
-                stopShimmer()
-                isVisible = false
-            }
-            recycler_favorites.isVisible = true
-            favorites_swipe.isRefreshing = false
-            if (favorites.isEmpty()) {
-                empty_layout.isVisible = true
-                recycler_favorites.isVisible = false
-            }
-        })
     }
 }

@@ -16,6 +16,7 @@
             android:name=".ui.Cart.CartActivity"
             android:exported="false"
             android:label="@string/title_activity_cart"
+            android:screenOrientation="portrait"
             android:theme="@style/splashScreenTheme.NoActionBar" />
         <activity
             android:name=".ui.Details.Details_Activity"
