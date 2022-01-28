@@ -5,16 +5,15 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ari_d.justeatit.Extensions.alertDialog
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
-import com.ari_d.justeatit.ui.Profile.ProfileActivity
 import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_update_details.*
-import kotlinx.android.synthetic.main.main_profile_fragment.*
 
 @AndroidEntryPoint
 class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details){
@@ -30,7 +29,11 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details){
         TextInputEditText_email.setText(currentUser!!.email)
 
         btn_back.setOnClickListener {
-            (activity as ProfileActivity).setCurrentFragment(main_profile_fragment())
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().popBackStack()
+            } else findNavController().navigate(
+                UpdateDetailsFragmentDirections.actionUpdateDetailsFragmentToMainProfileFragment()
+            )
         }
 
         btn_update_details.setOnClickListener {

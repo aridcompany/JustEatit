@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.Cart.ui.theme
+package com.ari_d.justeatit.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

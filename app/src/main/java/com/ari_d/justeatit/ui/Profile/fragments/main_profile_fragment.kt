@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.ari_d.justeatit.Adapters.MainProfileFragmentAdapter
@@ -14,16 +15,15 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Account_Items
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
-import com.ari_d.justeatit.ui.Profile.ProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_profile_fragment.*
 
 @AndroidEntryPoint
-class main_profile_fragment : Fragment(R.layout.main_profile_fragment){
+class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
 
     val viewModel: ProfileViewModel by viewModels()
-    private lateinit var mainProfileAdapter : MainProfileFragmentAdapter
-    private lateinit var mainProfileAdapter_settings : MainProfileFragmentAdapter_Settings
+    private lateinit var mainProfileAdapter: MainProfileFragmentAdapter
+    private lateinit var mainProfileAdapter_settings: MainProfileFragmentAdapter_Settings
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment){
 
         var account_items = mutableListOf(
             Account_Items("Orders History", R.drawable.ic_orders),
-            Account_Items("Saved Items", R.drawable.ic_saved_items),
+            Account_Items("My Wishlist", R.drawable.ic_saved_items),
             Account_Items("Address Book", R.drawable.ic_addresses),
             Account_Items("Track Orders", R.drawable.ic_track_orders)
         )
@@ -55,11 +55,27 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment){
             Account_Items("My Wallet", R.drawable.ic_wallet),
         )
         mainProfileAdapter_settings.setOnUpdateDetailsClickListener {
-            (activity as ProfileActivity).setCurrentFragment(UpdateDetailsFragment())
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().popBackStack()
+            } else findNavController().navigate(
+                main_profile_fragmentDirections.actionMainProfileFragmentToUpdateDetailsFragment()
+            )
         }
 
         mainProfileAdapter_settings.setOnWalletClickListener {
-            (activity as ProfileActivity).setCurrentFragment(MyWalletFragment())
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().popBackStack()
+            } else findNavController().navigate(
+                main_profile_fragmentDirections.actionMainProfileFragmentToMyWalletFragment()
+            )
+        }
+
+        mainProfileAdapter.setOnAddressBookClickListener {
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().popBackStack()
+            } else findNavController().navigate(
+                main_profile_fragmentDirections.actionMainProfileFragmentToAddressBookFragment()
+            )
         }
 
         recycler_account.apply {
@@ -90,7 +106,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment){
         viewModel.logOutStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {},
             onLoading = {},
-        ){
+        ) {
             Intent(requireContext(), Auth_Activity::class.java).also {
                 startActivity(it)
                 requireActivity().finish()

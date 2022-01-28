@@ -48,6 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             stopShimmer()
             isVisible = true
         }
+        products_recycler.isVisible = false
         getPosts()
         homeViewModel.getCartItemsNo()
         (activity as MainActivity).subscribeToObservers()
@@ -119,6 +120,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         stopShimmer()
                         isVisible = false
                     }
+                    products_recycler.isVisible = true
                     home_swipe.isRefreshing = false
                     empty_layout.isVisible = false
                     home_swipe.isRefreshing = false

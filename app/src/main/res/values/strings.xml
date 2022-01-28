@@ -70,4 +70,6 @@
     <string name="title_like">"liked by %d person"</string>
     <string name="title_error_loading">Error occurred while retrieving product details!</string>
     <string name="comments">Comments</string>
+    <string name="title_my_addresses">My Addresses</string>
+    <string name="title_edit_address">Edit Address</string>
 </resources>

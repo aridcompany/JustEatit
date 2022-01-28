@@ -47,10 +47,24 @@ class MainProfileFragmentAdapter @Inject constructor(
         holder.itemView.apply {
             txt_item.text = items[position].title
             btn_1st_img.setImageResource(items[position].img)
+
+           holder.itemView.setOnClickListener {
+               if (txt_item.text == context.getString(R.string.title_address_book)) {
+                   onAddressBookClickListener?.let { click ->
+                       click(item)
+                   }
+               }
+           }
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    private var onAddressBookClickListener: ((Account_Items) -> Unit)? = null
+
+    fun setOnAddressBookClickListener(listener: (Account_Items) -> Unit) {
+        onAddressBookClickListener = listener
     }
 }

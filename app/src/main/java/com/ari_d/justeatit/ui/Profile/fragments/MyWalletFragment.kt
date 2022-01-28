@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavType
@@ -12,13 +11,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.ari_d.justeatit.Extensions.slideUpViews
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.databinding.FragmentMyWalletBinding
 import com.ari_d.justeatit.ui.Profile.Wallets.WalletListScreen
 import com.ari_d.justeatit.ui.Profile.Wallets.add_edit_wallet.AddEditWalletScreen
-import com.ari_d.justeatit.ui.Profile.Wallets.ui.theme.JustEatItTheme
+import com.ari_d.justeatit.ui.theme.JustEatItTheme
 import com.ari_d.justeatit.util.Routes
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_my_wallet.*
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @AndroidEntryPoint
@@ -73,6 +74,15 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet) {
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        slideUpViews(
+            requireContext(),
+            appBarLayout2,
+            compose_view
+        )
     }
 
     override fun onDestroyView() {

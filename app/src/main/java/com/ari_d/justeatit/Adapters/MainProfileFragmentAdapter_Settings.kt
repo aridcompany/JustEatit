@@ -54,11 +54,11 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
             btn_1st_img.setImageResource(items[position].img)
 
             holder.itemView.setOnClickListener {
-               if (txt_item.text == context.getString(R.string.title_update)) {
+                if (txt_item.text == context.getString(R.string.title_update)) {
                     onUpdateDetailsClickListener?.let { click ->
                         click(item)
                     }
-                } else if (txt_item.text == context.getText(R.string.title_my_wallet)) {
+                } else if (txt_item.text == context.getString(R.string.title_my_wallet)) {
                     onWalletClickListener?.let { click ->
                         click(item)
                     }
@@ -71,10 +71,9 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
         return items.size
     }
 
-   private var onUpdateDetailsClickListener: ((Account_Items) -> Unit)? = null
+    private var onUpdateDetailsClickListener: ((Account_Items) -> Unit)? = null
 
     private var onWalletClickListener: ((Account_Items) -> Unit)? = null
-
 
     fun setOnUpdateDetailsClickListener(listener: (Account_Items) -> Unit) {
         onUpdateDetailsClickListener = listener

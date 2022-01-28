@@ -1,11 +1,11 @@
 package com.ari_d.justeatit.ui.Profile.Wallets
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -64,15 +64,13 @@ fun WalletListScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             items(wallets.value) { wallet ->
-                WalletItem(
+                CreditCardItem(
                     wallet = wallet,
                     onEvent = viewModel::onEvent,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            viewModel.onEvent(walletEvent.onWalletClick(wallet))
-                        }
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    imagePainter = painterResource(id = R.drawable.credit_card)
                 )
             }
         }

@@ -1,13 +1,11 @@
 package com.ari_d.justeatit.ui.Profile.Wallets.add_edit_wallet
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -39,15 +37,16 @@ fun AddEditWalletScreen(
             }
         }
     }
-    Scaffold (
-        scaffoldState= scaffoldState,
+    Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxSize(),
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(AddEditWalletEvent.OnSaveWalletClick)
-            },
-            backgroundColor = colorResource(id = R.color.accent)
+            FloatingActionButton(
+                onClick = {
+                    viewModel.onEvent(AddEditWalletEvent.OnSaveWalletClick)
+                },
+                backgroundColor = colorResource(id = R.color.accent)
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
@@ -62,18 +61,18 @@ fun AddEditWalletScreen(
             TextField(
                 value = viewModel.cardName,
                 leadingIcon = {
-                              IconButton(onClick = { /*TODO*/ }) {
-                                  Icon(
-                                      painter = painterResource(id = R.drawable.ic_baseline_person_24),
-                                      contentDescription = "Card Holder's Name"
-                                  )
-                              }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_person_24),
+                            contentDescription = "Card Holder's Name"
+                        )
+                    }
                 },
                 singleLine = true,
                 maxLines = 1,
-                    onValueChange = {
-                        viewModel.onEvent(AddEditWalletEvent.OnCardNameChanged(it))
-                    },
+                onValueChange = {
+                    viewModel.onEvent(AddEditWalletEvent.OnCardNameChanged(it))
+                },
                 label = {
                     Text(text = "CardHolder's Name")
                 },
@@ -84,7 +83,7 @@ fun AddEditWalletScreen(
                         start = 16.dp,
                         end = 16.dp
                     )
-                )
+            )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = viewModel.cardNumber,
@@ -92,12 +91,12 @@ fun AddEditWalletScreen(
                 singleLine = true,
                 maxLines = 1,
                 leadingIcon = {
-                              IconButton(onClick = { /*TODO*/ }) {
-                                  Icon(
-                                      painter = painterResource(id = R.drawable.ic_baseline_credit_card_24),
-                                      contentDescription = "Card Number"
-                                  )
-                              }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_credit_card_24),
+                            contentDescription = "Card Number"
+                        )
+                    }
                 },
                 onValueChange = {
                     viewModel.onEvent(AddEditWalletEvent.OnCardNumberChanged(it))
@@ -105,7 +104,8 @@ fun AddEditWalletScreen(
                 label = {
                     Text(text = "Card Number")
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
                         start = 16.dp,
                         end = 16.dp
@@ -131,60 +131,67 @@ fun AddEditWalletScreen(
                 label = {
                     Text(text = "Card CVV")
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
                         start = 16.dp,
                         end = 16.dp
                     )
             )
             Spacer(modifier = Modifier.height(16.dp))
-           Row(
-               modifier = Modifier.fillMaxWidth(),
-               horizontalArrangement = Arrangement.SpaceAround
-           ) {
-               TextField(
-                   value = viewModel.expiryMonth,
-                   modifier = Modifier.width(160.dp),
-                   leadingIcon = {
-                       IconButton(onClick = { /*TODO*/ }) {
-                           Icon(
-                               painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
-                               contentDescription = "Card Number"
-                           )
-                       }
-                   },
-                   onValueChange = {
-                       viewModel.onEvent(AddEditWalletEvent.OnCardExpiryMonthChanged(it))
-                   },
-                   label = {
-                       Text(text = "Exp. Month")
-                   },
-                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                   singleLine = true,
-                   maxLines = 1
-               )
-               TextField(
-                   value = viewModel.expiryYear,
-                   modifier = Modifier.width(130.dp),
-                   leadingIcon = {
-                       IconButton(onClick = { /*TODO*/ }) {
-                           Icon(
-                               painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
-                               contentDescription = "Card Number"
-                           )
-                       }
-                   },
-                   onValueChange = {
-                       viewModel.onEvent(AddEditWalletEvent.OnCardExpiryYearChanged(it))
-                   },
-                   label = {
-                       Text(text = "Exp. Yr.")
-                   },
-                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                   singleLine = true,
-                   maxLines = 1
-               )
-           }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                TextField(
+                    value = viewModel.expiryMonth,
+                    modifier = Modifier.fillMaxWidth(0.5f),
+                    leadingIcon = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
+                                contentDescription = "Expiry Month"
+                            )
+                        }
+                    },
+                    onValueChange = {
+                        viewModel.onEvent(AddEditWalletEvent.OnCardExpiryMonthChanged(it))
+                    },
+                    label = {
+                        Text(text = "Expiry Month")
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    maxLines = 1
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                TextField(
+                    value = viewModel.expiryYear,
+                    modifier = Modifier.fillMaxWidth(0.5f),
+                    leadingIcon = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
+                                contentDescription = "Expiry Year"
+                            )
+                        }
+                    },
+                    onValueChange = {
+                        viewModel.onEvent(AddEditWalletEvent.OnCardExpiryYearChanged(it))
+                    },
+                    label = {
+                        Text(text = "Expiry Year")
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    maxLines = 1
+                )
+            }
         }
     }
 }
