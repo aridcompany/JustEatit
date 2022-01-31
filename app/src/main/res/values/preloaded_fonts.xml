@@ -4,5 +4,7 @@
         <item>@font/alegreya</item>
         <item>@font/alex_brush</item>
         <item>@font/dhurjati</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_thin</item>
     </array>
 </resources>

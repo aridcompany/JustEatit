@@ -72,4 +72,14 @@
     <string name="comments">Comments</string>
     <string name="title_my_addresses">My Addresses</string>
     <string name="title_edit_address">Edit Address</string>
+    <string name="title_back_button">Back Button</string>
+    <string name="title_residential_address">Residential address</string>
+    <string name="title_enter_address">Please enter your current address</string>
+    <string name="title_street_address">Street address and city</string>
+    <string name="title_apt_suite">Apt, Suite, Bldg #</string>
+    <string name="title_postcode">Postcode</string>
+    <string name="title_next">Next</string>
+    <string name="title_additional_phone">Line 2 (optional)</string>
+    <string name="title_phone_number">Phone number</string>
+    <string name="title_save_address">Save</string>
 </resources>

@@ -56,47 +56,47 @@
         app:layout_constraintTop_toBottomOf="@id/textView3" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextInputLayout_street_address"
+        android:id="@+id/TextInputLayout_phone"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="184dp"
         android:background="@drawable/corner_radius"
-        android:hint="@string/title_street_address"
-        android:textColorHint="#000000"
+        android:hint="@string/title_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColorHint="#000000"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditText_email"
+            android:id="@+id/TextInputEditText_phone"
             android:layout_width="match_parent"
+            android:textColorHint="#000000"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
             android:lines="1"
-            android:textColorHint="#000000"
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="#000000"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextInputLayout_street_apt."
+        android:id="@+id/TextInputLayout_street_additional_phone."
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="273dp"
-        android:textColorHint="#000000"
         android:background="@drawable/corner_radius"
-        android:hint="@string/title_apt_suite"
+        android:hint="@string/title_additional_phone"
+        android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditText_apt."
+            android:id="@+id/TextInputEditText_additional_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
@@ -104,32 +104,6 @@
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="#000000" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextInputLayout_street_postcode"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="269dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="368dp"
-        android:textColorHint="#000000"
-        android:background="@drawable/corner_radius"
-        android:hint="@string/title_postcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditText_postcode"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:lines="1"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColorHint="#000000"
             android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,29 +111,18 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="470dp"
+        android:layout_marginTop="370dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_progress1" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="470dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_progressbar2" />
+        app:srcCompat="@drawable/ic_progress3" />
 
     <ImageView
         android:id="@+id/btn_next_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="535dp"
+        android:layout_marginTop="435dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,8 +133,8 @@
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="536.5dp"
-        android:text="@string/title_next"
+        android:layout_marginTop="436.5dp"
+        android:text="@string/title_save_address"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -183,12 +146,12 @@
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="536.5dp"
+        android:layout_marginTop="436.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_forward" />
+        app:srcCompat="@drawable/ic_baseline_save_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

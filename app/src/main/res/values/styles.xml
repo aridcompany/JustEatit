@@ -23,6 +23,12 @@
         <item name="backgroundTint">@color/accent</item>
     </style>
 
+    <style name="back_arrow" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">4dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+
     <style name="my_button2" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">8dp</item>
         <item name="cornerFamily">rounded</item>
