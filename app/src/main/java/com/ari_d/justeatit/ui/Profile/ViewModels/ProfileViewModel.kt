@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.data.entities.Address
 import com.ari_d.justeatit.data.entities.Wallet
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
@@ -42,6 +43,18 @@ class ProfileViewModel @Inject constructor(
 
     private val _logOutStatus = MutableLiveData<Event<Resource<Unit>>>()
     val logOutStatus: LiveData<Event<Resource<Unit>>> = _logOutStatus
+
+    private val _getAddressesStatus = MutableLiveData<Event<Resource<List<Address>>>>()
+    val getAddressesStatus: LiveData<Event<Resource<List<Address>>>> = _getAddressesStatus
+
+    private val _getSupportedLocationStaus = MutableLiveData<Event<Resource<List<String>>>>()
+    val getSupportedLocationStatus: LiveData<Event<Resource<List<String>>>> = _getSupportedLocationStaus
+
+    private val _createAddressStatus = MutableLiveData<Event<Resource<Address>>>()
+    val createAddressStatus: LiveData<Event<Resource<Address>>> = _createAddressStatus
+
+    private val _deleteAddressStatus = MutableLiveData<Event<Resource<Address>>>()
+    val deleteAddressStatus: LiveData<Event<Resource<Address>>> = _deleteAddressStatus
 
     private var deletedWallet: Wallet? = null
 
@@ -111,6 +124,50 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.LogOut()
             _logOutStatus.postValue(Event(Resource.Success(result)))
+        }
+    }
+
+    fun getSupportedLocations() {
+        _getSupportedLocationStaus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getSupportedLocations()
+            _getSupportedLocationStaus.postValue(Event(result))
+        }
+    }
+
+    fun getAddresses() {
+        _getAddressesStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getAddresses()
+            _getAddressesStatus.postValue(Event(result))
+        }
+    }
+
+    fun createAddress(
+        street_address: String,
+        apt_suite: String,
+        city: String,
+        phone_number: String,
+        additional_phoneNumber: String,
+    ) {
+        _createAddressStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.createAddress(
+                street_address,
+                apt_suite,
+                city,
+                phone_number,
+                additional_phoneNumber,
+            )
+            _createAddressStatus.postValue(Event(result))
+        }
+    }
+
+    fun deleteAddress(address: Address) {
+        _deleteAddressStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.deleteAddress(address)
+            _deleteAddressStatus.postValue(Event(result))
         }
     }
 

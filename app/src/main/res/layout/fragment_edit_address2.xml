@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/accent">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
@@ -75,6 +87,7 @@
             android:textColorHint="#000000"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
+            android:inputType="number"
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
@@ -101,6 +114,7 @@
             android:layout_height="match_parent"
             android:background="#FFFFFF"
             android:textColorHint="#000000"
+            android:inputType="number"
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
@@ -119,7 +133,7 @@
         app:srcCompat="@drawable/ic_progress3" />
 
     <ImageView
-        android:id="@+id/btn_next_page"
+        android:id="@+id/btn_save_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="435dp"

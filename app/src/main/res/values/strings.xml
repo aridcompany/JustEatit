@@ -75,11 +75,15 @@
     <string name="title_back_button">Back Button</string>
     <string name="title_residential_address">Residential address</string>
     <string name="title_enter_address">Please enter your current address</string>
-    <string name="title_street_address">Street address and city</string>
+    <string name="title_street_address">Street address</string>
     <string name="title_apt_suite">Apt, Suite, Bldg #</string>
-    <string name="title_postcode">Postcode</string>
+    <string name="title_postcode">Postcode or city</string>
     <string name="title_next">Next</string>
     <string name="title_additional_phone">Line 2 (optional)</string>
     <string name="title_phone_number">Phone number</string>
     <string name="title_save_address">Save</string>
+    <string name="title_unavailable">This service is not supported in your region! :(</string>
+    <string name="title_important">* Field cannot be left blank!</string>
+    <string name="title_address_saved_successfully">Address saved successfully!</string>
+    <string name="title_deleted">Deleted!</string>
 </resources>

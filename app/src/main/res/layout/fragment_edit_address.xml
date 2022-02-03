@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/accent">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
@@ -70,7 +81,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/TextInputEditText_email"
+            android:id="@+id/TextInputEditText_street_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
@@ -100,6 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
+            android:inputType="number"
             android:textColorHint="#000000"
             android:lines="1"
             android:maxLines="1"
@@ -125,6 +137,7 @@
             android:id="@+id/TextInputEditText_postcode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="textCapSentences"
             android:background="#FFFFFF"
             android:lines="1"
             android:maxLines="1"
@@ -149,9 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="470dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_progressbar2" />
 

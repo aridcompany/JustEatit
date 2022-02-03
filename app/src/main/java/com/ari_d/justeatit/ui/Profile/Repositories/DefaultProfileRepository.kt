@@ -1,9 +1,7 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.widget.TextView
-import com.ari_d.justeatit.data.entities.User
-import com.ari_d.justeatit.data.entities.Wallet
-import com.ari_d.justeatit.data.entities.WalletDao
+import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class DefaultProfileRepository(
     private val dao: WalletDao
@@ -87,5 +86,65 @@ class DefaultProfileRepository(
 
     override fun getWallets(): Flow<List<Wallet>> {
         return dao.getWallets()
+    }
+
+    override suspend fun getAddresses() = withContext(Dispatchers.IO) {
+        safeCall {
+            val addresses =
+                users.document(currentUser!!.uid)
+                    .collection("addresses")
+                    .get()
+                    .await()
+                    .toObjects(Address::class.java)
+            Resource.Success(addresses)
+        }
+    }
+
+    override suspend fun getSupportedLocations() = withContext(Dispatchers.IO) {
+        safeCall {
+            val supported_locations =
+                Firebase.firestore
+                    .collection("Just Eat it")
+                    .document("supported locations")
+                    .get()
+                    .await()
+                    .toObject(SupportedLocations::class.java)
+            Resource.Success(supported_locations!!.supportedLocations)
+        }
+    }
+
+    override suspend fun deleteAddress(address: Address) = withContext(Dispatchers.IO) {
+        users.document(currentUser!!.uid)
+            .collection("addresses")
+            .document(address.addressUID)
+            .delete()
+            .await()
+        Resource.Success(address)
+    }
+
+    override suspend fun createAddress(
+        street_address: String,
+        apt_suite: String,
+        city: String,
+        phone_number: String,
+        additional_phoneNumber: String
+    ) = withContext(Dispatchers.IO) {
+        safeCall {
+            val addressID = street_address.lowercase(Locale.getDefault())
+            val address = Address(
+                street_address,
+                apt_suite,
+                city,
+                phone_number,
+                additional_phoneNumber,
+                addressID
+            )
+            users.document(currentUser!!.uid)
+                .collection("addresses")
+                .document(addressID)
+                .set(address)
+                .await()
+            Resource.Success(address)
+        }
     }
 }

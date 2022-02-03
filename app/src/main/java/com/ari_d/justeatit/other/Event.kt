@@ -14,7 +14,7 @@ class Event<out T>(private val content: T) {
         } else null
     }
 
-    fun peekContent() = content
+    fun peekContent(): T = content
 }
 
 class EventObserver<T>(
