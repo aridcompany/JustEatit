@@ -86,4 +86,5 @@
     <string name="title_important">* Field cannot be left blank!</string>
     <string name="title_address_saved_successfully">Address saved successfully!</string>
     <string name="title_deleted">Deleted!</string>
+    <string name="title_empty_address">Your address book is empty!</string>
 </resources>

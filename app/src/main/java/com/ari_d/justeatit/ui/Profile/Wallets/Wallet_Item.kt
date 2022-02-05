@@ -13,6 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ari_d.justeatit.data.entities.Wallet
@@ -66,10 +70,10 @@ fun CreditCardItem(
                     )
                 }
             }
-            Box (
+            Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.BottomEnd
-            ){
+            ) {
                 IconButton(
                     onClick = {
                         onEvent(walletEvent.onDeleteWalletClick(wallet))
@@ -82,5 +86,26 @@ fun CreditCardItem(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun emptyAddressBook() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_empty_address),
+            contentDescription = "Empty Address"
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = stringResource(id = R.string.title_empty_address),
+            fontFamily = FontFamily.Default,
+            color = colorResource(id = R.color.primary_light),
+            fontSize = 14.sp
+        )
     }
 }

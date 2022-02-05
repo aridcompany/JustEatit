@@ -1,11 +1,8 @@
 package com.ari_d.justeatit.ui.Profile.Wallets
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +28,7 @@ fun WalletListScreen(
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
-            when(event) {
+            when (event) {
                 is UiEvent.ShowSnackbar -> {
                     val result = scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message,
@@ -46,20 +43,25 @@ fun WalletListScreen(
             }
         }
     }
-    Scaffold (
+    Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(walletEvent.onAddWalletClick)
-            },
-            backgroundColor = colorResource(id = R.color.accent)) {
-                Icon (
+            FloatingActionButton(
+                onClick = {
+                    viewModel.onEvent(walletEvent.onAddWalletClick)
+                },
+                backgroundColor = colorResource(id = R.color.accent)
+            ) {
+                Icon(
                     painter = painterResource(id = R.drawable.ic_add_wallet),
                     contentDescription = "Add"
                 )
             }
         }
-            ){
+    ) {
+        if (wallets.value.isEmpty()) {
+            emptyAddressBook()
+        } else
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -69,6 +71,9 @@ fun WalletListScreen(
                     onEvent = viewModel::onEvent,
                     modifier = Modifier
                         .fillMaxWidth()
+                        // clickable {
+                        // viewModel . onEvent (walletEvent.onWalletClick(wallet))
+                        // }
                         .padding(16.dp),
                     imagePainter = painterResource(id = R.drawable.credit_card)
                 )

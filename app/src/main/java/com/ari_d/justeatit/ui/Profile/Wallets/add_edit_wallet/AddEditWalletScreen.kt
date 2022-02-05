@@ -1,6 +1,7 @@
 package com.ari_d.justeatit.ui.Profile.Wallets.add_edit_wallet
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,7 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ari_d.justeatit.R
@@ -82,7 +87,8 @@ fun AddEditWalletScreen(
                         top = 24.dp,
                         start = 16.dp,
                         end = 16.dp
-                    )
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
@@ -109,7 +115,8 @@ fun AddEditWalletScreen(
                     .padding(
                         start = 16.dp,
                         end = 16.dp
-                    )
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
@@ -136,62 +143,76 @@ fun AddEditWalletScreen(
                     .padding(
                         start = 16.dp,
                         end = 16.dp
-                    )
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
+                val maxChar = 4
                 TextField(
-                    value = viewModel.expiryMonth,
+                    value = viewModel.expiryDate,
                     modifier = Modifier.fillMaxWidth(0.5f),
                     leadingIcon = {
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
-                                contentDescription = "Expiry Month"
+                                contentDescription = "Expiry Date"
                             )
                         }
                     },
                     onValueChange = {
-                        viewModel.onEvent(AddEditWalletEvent.OnCardExpiryMonthChanged(it))
+                        if (it.length <= maxChar)
+                        viewModel.onEvent(AddEditWalletEvent.OnCardExpiryDateChanged(it))
                     },
                     label = {
-                        Text(text = "Expiry Month")
+                        Text(text = "Expiry Date")
                     },
+                    visualTransformation = DateTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    maxLines = 1
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                TextField(
-                    value = viewModel.expiryYear,
-                    modifier = Modifier.fillMaxWidth(0.5f),
-                    leadingIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_calendar_today_24),
-                                contentDescription = "Expiry Year"
-                            )
-                        }
-                    },
-                    onValueChange = {
-                        viewModel.onEvent(AddEditWalletEvent.OnCardExpiryYearChanged(it))
-                    },
-                    label = {
-                        Text(text = "Expiry Year")
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    maxLines = 1
+                    maxLines = 1,
+                    shape = RoundedCornerShape(16.dp)
                 )
             }
         }
     }
+}
+
+class DateTransformation() : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return dateFilter(text)
+    }
+}
+
+fun dateFilter(text: AnnotatedString): TransformedText {
+
+    val trimmed = if (text.text.length >= 4) text.text.substring(0..3) else text.text
+    var out = ""
+    for (i in trimmed.indices) {
+        out += trimmed[i]
+        if (i % 2 == 1 && i < 2) out += "/"
+    }
+
+    val numberOffsetTranslator = object : OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            if (offset <= 1) return offset
+            if (offset <= 3) return offset +1
+            return 5
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            if (offset <=2) return offset
+            if (offset <=5) return offset -1
+            return 4
+        }
+    }
+
+    return TransformedText(AnnotatedString(out), numberOffsetTranslator)
 }

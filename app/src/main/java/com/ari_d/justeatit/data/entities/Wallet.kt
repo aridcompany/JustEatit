@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 data class Wallet (
     val cardNumber: String,
     val cvv: String,
-    val expiryMonth: String,
-    val expiryYear: String,
+    val expiryDate: String,
     val cardName: String,
     val isDone: Boolean,
     @PrimaryKey val id: Int? = null

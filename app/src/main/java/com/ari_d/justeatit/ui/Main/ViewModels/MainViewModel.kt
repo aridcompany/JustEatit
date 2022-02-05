@@ -1,9 +1,8 @@
 package com.ari_d.justeatit.ui.Main.ViewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.hilt.Assisted
+import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -47,6 +46,11 @@ class MainViewModel @Inject constructor(
 
     private val _cartNo = MutableLiveData<Event<Resource<Int>>>()
     val cartNo: LiveData<Event<Resource<Int>>> = _cartNo
+
+    // Pagination starts at '1' (-1 = exhausted)
+    val page = mutableStateOf(1)
+
+    var productsListScrollPosition = 0
 
     fun getPagingFlow(): Flow<PagingData<Product>> {
         val pagingSource = ProductsPagingSource(

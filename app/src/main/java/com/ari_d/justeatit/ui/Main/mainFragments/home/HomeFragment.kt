@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ari_d.justeatit.Adapters.ProductsAdapter
 import com.ari_d.justeatit.Extensions.snackbar
@@ -101,6 +102,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lifecycleScope.launch {
             homeViewModel.getPagingFlow().collect {
                 productsAdapter.submitData(it)
+                products_recycler.adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             }
         }
 

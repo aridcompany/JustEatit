@@ -33,10 +33,7 @@ class AddEditWalletViewModel @Inject constructor(
     var cvv by mutableStateOf("")
         private set
 
-    var expiryMonth by mutableStateOf("")
-        private set
-
-    var expiryYear by mutableStateOf("")
+    var expiryDate by mutableStateOf("")
         private set
 
     private val _uiEvent = Channel<UiEvent>()
@@ -50,8 +47,7 @@ class AddEditWalletViewModel @Inject constructor(
                     cardName = wallet.cardName
                     cardNumber = wallet.cardNumber
                     cvv = wallet.cvv
-                    expiryMonth = wallet.expiryMonth
-                    expiryYear = wallet.expiryYear
+                    expiryDate = wallet.expiryDate
                     this@AddEditWalletViewModel.wallet = wallet
                 }
             }
@@ -69,15 +65,12 @@ class AddEditWalletViewModel @Inject constructor(
             is AddEditWalletEvent.OnCardCvvChanged -> {
                 cvv = event.cvv
             }
-            is AddEditWalletEvent.OnCardExpiryMonthChanged -> {
-                expiryMonth = event.expiryMonth
-            }
-            is AddEditWalletEvent.OnCardExpiryYearChanged -> {
-                expiryYear = event.expiryYear
+            is AddEditWalletEvent.OnCardExpiryDateChanged -> {
+                expiryDate = event.expiryDate
             }
             is AddEditWalletEvent.OnSaveWalletClick -> {
                 viewModelScope.launch {
-                    if (cardName.isBlank() || cardNumber.isBlank() || cvv.isBlank() || expiryMonth.isBlank() || expiryYear.isBlank()) {
+                    if (cardName.isBlank() || cardNumber.isBlank() || cvv.isBlank() || expiryDate.isBlank()) {
                         sendUiEvent(
                             UiEvent.ShowSnackbar(
                                 message = "No field should be left blank"
@@ -91,10 +84,17 @@ class AddEditWalletViewModel @Inject constructor(
                             )
                         )
                         return@launch
-                    } else if (expiryMonth.length != 2 || expiryYear.length != 2) {
+                    } else if (expiryDate.length != 4) {
                         sendUiEvent(
                             UiEvent.ShowSnackbar(
                                 message = "Invalid Expiration date/month!"
+                            )
+                        )
+                        return@launch
+                    } else if (cardNumber.length < 10) {
+                        sendUiEvent(
+                            UiEvent.ShowSnackbar(
+                                message = "Invalid Card Number!"
                             )
                         )
                         return@launch
@@ -104,8 +104,7 @@ class AddEditWalletViewModel @Inject constructor(
                             cardName = cardName,
                             cardNumber = cardNumber,
                             cvv = cvv,
-                            expiryMonth = expiryMonth,
-                            expiryYear = expiryYear,
+                            expiryDate = expiryDate,
                             isDone = wallet?.isDone ?: false,
                             id = wallet?.id
                         )
