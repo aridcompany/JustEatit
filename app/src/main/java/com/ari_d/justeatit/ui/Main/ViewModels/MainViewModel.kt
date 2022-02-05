@@ -1,7 +1,6 @@
 package com.ari_d.justeatit.ui.Main.ViewModels
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.hilt.Assisted
 import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -62,11 +61,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun getPagingFlowForFavorites(): Flow<PagingData<Favorite>> {
-        val pagingSource = FavoritesPagingSource(
-            FirebaseFirestore.getInstance(),
-        )
         return Pager(PagingConfig(PAGE_SIZE)) {
-            pagingSource
+            FavoritesPagingSource(
+                FirebaseFirestore.getInstance(),
+            )
         }.flow.cachedIn(viewModelScope)
     }
 

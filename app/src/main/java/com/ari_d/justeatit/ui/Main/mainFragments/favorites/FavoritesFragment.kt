@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.FavoritesAdapter
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.data.entities.Favorite
 import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -72,13 +73,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                         isVisible = false
                     }
                     favorites_swipe.isRefreshing = false
-
+                    recycler_favorites.isVisible = false
                 } else if (it.refresh is LoadState.NotLoading || it.append is LoadState.NotLoading) {
                     shimmer_layout.apply {
                         stopShimmer()
                         isVisible = false
                     }
                     favorites_swipe.isRefreshing = false
+                    recycler_favorites.isVisible = true
                 }
             }
         }
