@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ari_d.justeatit.Adapters.ViewPagerAdapter
-import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
 import com.ari_d.justeatit.ui.Cart.CartActivity
@@ -21,6 +20,7 @@ import com.ari_d.justeatit.ui.Main.mainFragments.search.SearchFragment
 import com.ari_d.justeatit.ui.Profile.ProfileActivity
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,16 +84,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpTabs() {
-        val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(HomeFragment(), getString(R.string.title_home))
-        adapter.addFragment(FavoritesFragment(), getString(R.string.title_favorites))
-        adapter.addFragment(SearchFragment(), getString(R.string.title_search))
+        val adapter = ViewPagerAdapter(this)
+        adapter.addFragment(HomeFragment())
+        adapter.addFragment(FavoritesFragment())
+        adapter.addFragment(SearchFragment())
         viewPager.adapter = adapter
-        tabs.setupWithViewPager(viewPager)
-
-        tabs.getTabAt(0)!!.setIcon(R.drawable.ic_home)
-        tabs.getTabAt(1)!!.setIcon(R.drawable.ic_heartimage)
-        tabs.getTabAt(2)!!.setIcon(R.drawable.ic_search)
+        TabLayoutMediator(tabs, viewPager) {tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Home"
+                    tab.setIcon(R.drawable.ic_home)
+                }
+                1 -> {
+                    tab.text = "Favorites"
+                    tab.setIcon(R.drawable.ic_heartimage)
+                }
+                2 -> {
+                    tab.text = "Search"
+                    tab.setIcon(R.drawable.ic_search)
+                }
+            }
+        }.attach()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

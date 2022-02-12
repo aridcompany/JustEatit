@@ -2,10 +2,10 @@ package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.widget.TextView
 import com.ari_d.justeatit.data.entities.Address
-import com.ari_d.justeatit.data.entities.SupportedLocations
+import com.ari_d.justeatit.data.entities.Contact_Info
+import com.ari_d.justeatit.data.entities.Feedback
 import com.ari_d.justeatit.data.entities.Wallet
 import com.ari_d.justeatit.other.Resource
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
@@ -42,5 +42,11 @@ interface ProfileRepository {
         phone_number: String,
         additional_phoneNumber: String
     ): Resource<Address>
+
+    suspend fun getHelpUrl(): Resource<Contact_Info>
+
+    suspend fun getUrl(): Resource<Contact_Info>
+
+    suspend fun createFeedback(rating: String, info: String) : Resource<String>
 
 }

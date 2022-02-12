@@ -11,9 +11,9 @@ import com.ari_d.justeatit.data.entities.Account_Items
 import kotlinx.android.synthetic.main.account_items_menu.view.*
 import javax.inject.Inject
 
-class MainProfileFragmentAdapter_Settings @Inject constructor(
+class MainProfileFragmentAdapter_About @Inject constructor(
 
-) : RecyclerView.Adapter<MainProfileFragmentAdapter_Settings.MainProfileFragmentViewHolder>() {
+) : RecyclerView.Adapter<MainProfileFragmentAdapter_About.MainProfileFragmentViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Account_Items>() {
         override fun areContentsTheSame(oldItem: Account_Items, newItem: Account_Items): Boolean {
@@ -49,12 +49,12 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
             btn_1st_img.setImageResource(items[position].img)
 
             holder.itemView.setOnClickListener {
-                if (txt_item.text == context.getString(R.string.title_update)) {
-                    onUpdateDetailsClickListener?.let { click ->
+                if (txt_item.text == context.getString(R.string.title_feedback)) {
+                    onFeedbackClickListener?.let { click ->
                         click(item)
                     }
-                } else if (txt_item.text == context.getString(R.string.title_my_wallet)) {
-                    onWalletClickListener?.let { click ->
+                } else if (txt_item.text == context.getString(R.string.title_help)) {
+                    onHelpClickListener?.let { click ->
                         click(item)
                     }
                 }
@@ -66,15 +66,15 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
         return items.size
     }
 
-    private var onUpdateDetailsClickListener: ((Account_Items) -> Unit)? = null
+    private var onFeedbackClickListener: ((Account_Items) -> Unit)? = null
 
-    private var onWalletClickListener: ((Account_Items) -> Unit)? = null
+    private var onHelpClickListener: ((Account_Items) -> Unit)? = null
 
-    fun setOnUpdateDetailsClickListener(listener: (Account_Items) -> Unit) {
-        onUpdateDetailsClickListener = listener
+    fun setOnFeedbackClickListener(listener: (Account_Items) -> Unit) {
+        onFeedbackClickListener = listener
     }
 
-    fun setOnWalletClickListener(listener: (Account_Items) -> Unit) {
-        onWalletClickListener = listener
+    fun setOnHelpClickListener(listener: (Account_Items) -> Unit) {
+        onHelpClickListener = listener
     }
 }

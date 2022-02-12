@@ -4,6 +4,19 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="http"/>
+        </intent>
+
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="mailto"/>
+        </intent>
+    </queries>
+
     <application
         android:name=".JustEatit"
         android:allowBackup="true"

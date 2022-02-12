@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#FFC0CB</color>
+    <color name="green">#28B828</color>
 
     <color name="primary">#795548</color>
     <color name="primary_dark">#5D4037</color>
@@ -18,6 +19,8 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="off_white">#FAF9F6</color>
+    <color name="ooooo">#000000</color>
+    <color name="off_white_inverse">#323130</color>
     <color name="off_white2">#323130</color>
     <color name="shimmerColor">#C2C2C2</color>
     <color name="light_blue_600">#FF039BE5</color>

@@ -16,7 +16,7 @@
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintHorizontal_bias="0.5"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent">
+       app:layout_constraintTop_toBottomOf="@id/tilComment">
 
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/rvComments"
@@ -25,7 +25,7 @@
            app:layout_constraintEnd_toEndOf="parent"
            app:layout_constraintHorizontal_bias="0.5"
            app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent" />
+           app:layout_constraintTop_toTopOf="@id/constraint" />
 
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/rvComments2"
@@ -35,7 +35,7 @@
            app:layout_constraintEnd_toEndOf="parent"
            app:layout_constraintHorizontal_bias="0.5"
            app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent" />
+           app:layout_constraintTop_toTopOf="@id/constraint" />
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,10 +58,14 @@
         android:layout_marginEnd="8dp"
         android:hint="@string/enter_comment"
         app:endIconCheckable="true"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopStart="16dp"
         app:endIconDrawable="@drawable/ic_comment"
         app:layout_constraintEnd_toStartOf="@+id/btnComment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraint">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etComment"
@@ -83,7 +87,7 @@
         android:text="Comment"
         app:layout_constraintBottom_toBottomOf="@+id/tilComment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tilComment" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"

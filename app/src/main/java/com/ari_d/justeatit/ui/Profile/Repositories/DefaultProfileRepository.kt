@@ -147,4 +147,43 @@ class DefaultProfileRepository(
             Resource.Success(address)
         }
     }
+
+    override suspend fun getHelpUrl() = withContext(Dispatchers.IO) {
+        safeCall {
+            val url = Firebase.firestore
+                .collection("Just Eat it")
+                .document("contact info")
+                .get()
+                .await()
+                .toObject(Contact_Info::class.java)
+            Resource.Success(url!!)
+        }
+    }
+
+    override suspend fun getUrl() = withContext(Dispatchers.IO) {
+        safeCall {
+            val url = Firebase.firestore
+                .collection("Just Eat it")
+                .document("contact info")
+                .get()
+                .await()
+                .toObject(Contact_Info::class.java)
+            Resource.Success(url!!)
+        }
+    }
+
+    override suspend fun createFeedback(rating: String, info: String) = withContext(Dispatchers.IO) {
+        safeCall {
+            val feedback = Firebase.firestore
+                .collection("Just Eat it")
+                .document("user feedbacks")
+                .collection("Feedbacks")
+            feedback.document(currentUser!!.email.toString())
+                .set(Feedback(
+                    rating,
+                    info
+                )).await()
+            Resource.Success("Thanks for sending your feedback!")
+        }
+    }
 }

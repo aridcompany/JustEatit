@@ -117,9 +117,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     home_swipe.isRefreshing = false
                 } else if (it.refresh is LoadState.NotLoading || it.append is LoadState.NotLoading) {
-                    shimmer_layout.apply {
-                        stopShimmer()
-                        isVisible = false
+                    @Suppress("DEPRECATION")
+                    if (userVisibleHint) {
+                        shimmer_layout.apply {
+                            stopShimmer()
+                            isVisible = false
+                        }
                     }
                     products_recycler.isVisible = true
                     home_swipe.isRefreshing = false
@@ -209,5 +212,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         adapter = productsAdapter
         itemAnimator = null
+        products_recycler.adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 }

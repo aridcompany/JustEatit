@@ -53,6 +53,18 @@ class MainProfileFragmentAdapter @Inject constructor(
                    onAddressBookClickListener?.let { click ->
                        click(item)
                    }
+               } else  if (txt_item.text == context.getString(R.string.title_my_wallet)) {
+                   onWalletClickListener?.let { click ->
+                       click(item)
+                   }
+               } else  if (txt_item.text == context.getString(R.string.title_my_orders)) {
+                   onMyOrdersClickListener?.let { click ->
+                       click(item)
+                   }
+               } else  if (txt_item.text == context.getString(R.string.title_track_orders)) {
+                   onTrackMyOrdersClickListener?.let { click ->
+                       click(item)
+                   }
                }
            }
         }
@@ -64,7 +76,25 @@ class MainProfileFragmentAdapter @Inject constructor(
 
     private var onAddressBookClickListener: ((Account_Items) -> Unit)? = null
 
+    private var onWalletClickListener: ((Account_Items) -> Unit)? = null
+
+    private var onMyOrdersClickListener: ((Account_Items) -> Unit)? = null
+
+    private var onTrackMyOrdersClickListener: ((Account_Items) -> Unit)? = null
+
     fun setOnAddressBookClickListener(listener: (Account_Items) -> Unit) {
         onAddressBookClickListener = listener
+    }
+
+    fun setOnWalletClickListener(listener: (Account_Items) -> Unit) {
+        onWalletClickListener = listener
+    }
+
+    fun setOnMyOrdersClickListener(listener: (Account_Items) -> Unit) {
+        onMyOrdersClickListener = listener
+    }
+
+    fun setOnTrackMyOrdersClickListener(listener: (Account_Items) -> Unit) {
+        onTrackMyOrdersClickListener = listener
     }
 }

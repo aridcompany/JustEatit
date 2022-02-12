@@ -60,7 +60,7 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details){
             alertDialog(
                 getString(R.string.title_successfully_updated_details),
                 getString(R.string.title_details_updated),
-                requireActivity().resources.getDrawable(R.drawable.ic_baseline_person_24)
+                requireActivity().resources.getDrawable(R.drawable.ic_update_details_icon)
             )
         })
     }

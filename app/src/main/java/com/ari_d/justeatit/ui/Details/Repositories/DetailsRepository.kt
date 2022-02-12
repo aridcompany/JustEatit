@@ -4,7 +4,6 @@ import com.ari_d.justeatit.data.entities.Comment
 import com.ari_d.justeatit.data.entities.Product
 import com.ari_d.justeatit.data.entities.User
 import com.ari_d.justeatit.other.Resource
-import kotlinx.coroutines.withContext
 
 interface DetailsRepository {
 
