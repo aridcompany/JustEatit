@@ -8,10 +8,8 @@
         android:id="@+id/btn_order_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +18,12 @@
 
         <ImageView
             android:id="@+id/btn_1st_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_orders"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_order_history"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,18 +32,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:textColor="#000000"
-            android:textSize="19sp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/app_name"
+            android:textColor="#323130"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_1st_img"
             app:layout_constraintStart_toEndOf="@+id/btn_1st_img"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/btn_1st_img" />
 
         <ImageView
-            android:id="@+id/btn_2nd_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_forward_ios"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layerType="software"
+            android:src="@drawable/dash_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/btn_1st_img"
+            android:layout_marginTop="4dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

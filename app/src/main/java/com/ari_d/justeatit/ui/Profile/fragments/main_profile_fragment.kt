@@ -41,10 +41,8 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         subscribeToObservers()
 
         viewModel.setNameandEmail(
-            requireContext().getString(R.string.title_welcome),
-            txt_username,
-            requireContext().getString(R.string.exclaim),
-            txt_useremail
+            user_name,
+            user_email
         )
 
         btn_logOut.setOnClickListener {
@@ -52,17 +50,17 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         }
 
         var account_items = mutableListOf(
-            Account_Items("Order History", R.drawable.ic_orders),
-            Account_Items("Track Orders", R.drawable.ic_track_orders),
-            Account_Items("Address Book", R.drawable.ic_addresses),
-            Account_Items("My Wallet", R.drawable.ic_wallet),
+            Account_Items("Order History", R.drawable.ic_order_history),
+            Account_Items("Track Orders", R.drawable.ic_track_order),
+            Account_Items("Address Book", R.drawable.ic_address_book),
+            Account_Items("My Wallet", R.drawable.ic_credit_cards),
         )
         var settings_items = mutableListOf(
-            Account_Items("Update My Details", R.drawable.ic_update_my_details)
+            Account_Items("Update My Details", R.drawable.ic_update_details)
         )
         var about_items = mutableListOf(
-            Account_Items(getString(R.string.title_feedback), R.drawable.ic_baseline_feedback_24),
-            Account_Items(getString(R.string.title_help), R.drawable.ic_baseline_help_24)
+            Account_Items(getString(R.string.title_feedback), R.drawable.ic_feedback),
+            Account_Items(getString(R.string.title_help), R.drawable.ic_help)
         )
         mainProfileAdapter_settings.setOnUpdateDetailsClickListener {
             if (findNavController().previousBackStackEntry != null) {
@@ -147,10 +145,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         viewModel.setNameStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {},
             onLoading = {}
-        ) {
-            toolbar.title = txt_username.text.toString()
-            toolbar.subtitle = txt_useremail.text.toString()
-        })
+        ) {})
 
         viewModel.logOutStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {},

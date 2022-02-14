@@ -8,6 +8,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/bottom_nav_selector.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/corner_radius.xml" value="0.2045" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/curved_layout.xml" value="0.205" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/dash_line.xml" value="0.199" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/default_dot.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ds.xml" value="0.23692307692307693" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/edit_text_box_border.xml" value="0.12760416666666666" />
@@ -39,6 +40,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_empty_address.xml" value="0.1675" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_empty_favorites.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_loading_error.xml" value="0.168" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_order_history.xml" value="0.1675" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_progress1.xml" value="0.2045" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_progress3.xml" value="0.2045" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_progressbar2.xml" value="0.2045" />
@@ -53,7 +55,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/tab_selector.xml" value="1.4892857142857143" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-night/fragment_feedback.xml" value="0.17844202898550723" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-night/fragment_search.xml" value="0.17844202898550723" />
-        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/account_items_menu.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/account_items_menu.xml" value="0.25" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/activity_auth.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/activity_cart.xml" value="0.11548913043478261" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/activity_details.xml" value="0.25" />
@@ -80,7 +82,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/item_comment.xml" value="0.33" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/item_order_history.xml" value="0.16" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/item_track_orders.xml" value="0.3911028730305839" />
-        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/main_profile_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/main_profile_fragment.xml" value="0.18" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/product_images_item.xml" value="0.1503623188405797" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/product_layout.xml" value="0.1" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/product_size_item.xml" value="0.22" />

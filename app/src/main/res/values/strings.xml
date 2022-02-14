@@ -27,8 +27,8 @@
     <string name="title_empty_email">Please provide a email address!</string>
     <string name="email_sent">E-mail sent!</string>
     <string name="email_sent_msg">We just sent a password reset e-mail to this e-mail address!</string>
-    <string name="title_account">ACCOUNT</string>
-    <string name="title_settings">MY SETTINGS</string>
+    <string name="title_account">My account</string>
+    <string name="title_settings">My settings</string>
     <string name="title_log_out">LOGOUT</string>
     <string name="title_test_email">abugewazenith@gmail.com</string>
     <string name="title_dark_mode">Dark Mode</string>
@@ -87,10 +87,10 @@
     <string name="title_address_saved_successfully">Address saved successfully!</string>
     <string name="title_deleted">Deleted!</string>
     <string name="title_empty_address">Your haven\'t saved any credit/debit cards!</string>
-    <string name="title_about">ABOUT</string>
+    <string name="title_about">About</string>
     <string name="title_feedback">Feedback</string>
     <string name="title_help">Help</string>
-    <string name="title_just_eat_it">"Just Eat it from Ari_D: Copyright ©. All Rights Reserved."</string>
+    <string name="title_just_eat_it">"Just Eat it from Ari_D: Copyright © 2022. All Rights Reserved."</string>
     <string name="title_hi">Hi I\'m …</string>
     <string name="title_btn_delete">Delete comment</string>
     <string name="title_my_orders">Order History</string>

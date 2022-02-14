@@ -116,10 +116,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun setNameandEmail(welcome: String, name: TextView, exclam: String, email: TextView) {
+    fun setNameandEmail(name: TextView, email: TextView) {
         _setNameStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
-            val result = repository.setNameandEmail(welcome, name, exclam, email)
+            val result = repository.setNameandEmail(name, email)
             _setNameStatus.postValue(Event(Resource.Success(result)))
         }
     }

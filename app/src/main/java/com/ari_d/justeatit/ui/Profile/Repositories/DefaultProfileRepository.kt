@@ -23,9 +23,7 @@ class DefaultProfileRepository(
     val users = Firebase.firestore.collection("users")
 
     override suspend fun setNameandEmail(
-        welcome: String,
         name: TextView,
-        exclam: String,
         email: TextView
     ) {
         return withContext(Dispatchers.IO) {
@@ -34,9 +32,9 @@ class DefaultProfileRepository(
                 val user_name = currentUser?.displayName.toString()
                 val result = currentUser?.let {
                     if (user_name == "null") {
-                        name.text = welcome + exclam
+                        name.text = "Welcome"
                     } else {
-                        name.text = welcome + " " + user_name + exclam
+                        name.text = user_name
                     }
                     email.text = user_email
                 }

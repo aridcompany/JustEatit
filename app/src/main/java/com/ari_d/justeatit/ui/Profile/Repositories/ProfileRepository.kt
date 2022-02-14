@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProfileRepository {
 
     suspend fun setNameandEmail(
-        welcome: String,
         name: TextView,
-        exclam: String,
         email: TextView
     ): Unit
 
