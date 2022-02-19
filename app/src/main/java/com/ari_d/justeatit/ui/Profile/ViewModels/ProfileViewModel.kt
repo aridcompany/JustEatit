@@ -47,11 +47,14 @@ class ProfileViewModel @Inject constructor(
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val _setNameStatus = MutableLiveData<Event<Resource<Unit>>>()
-    val setNameStatus: LiveData<Event<Resource<Unit>>> = _setNameStatus
+    private val _setNameStatus = MutableLiveData<Event<Resource<User>>>()
+    val setNameStatus: LiveData<Event<Resource<User>>> = _setNameStatus
 
-    private val _updateUserDetailsStatus = MutableLiveData<Event<Resource<Unit>>>()
-    val updateUserDetailsStautus: LiveData<Event<Resource<Unit>>> = _updateUserDetailsStatus
+    private val _updateUserDetailsStatus = MutableLiveData<Event<Resource<Void>>>()
+    val updateUserDetailsStautus: LiveData<Event<Resource<Void>>> = _updateUserDetailsStatus
+
+    private val _deleteProfilePicStatus = MutableLiveData<Event<Resource<Void>>>()
+    val deleteProfilePicStatus: LiveData<Event<Resource<Void>>> = _deleteProfilePicStatus
 
     private val _logOutStatus = MutableLiveData<Event<Resource<Unit>>>()
     val logOutStatus: LiveData<Event<Resource<Unit>>> = _logOutStatus
@@ -116,15 +119,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun setNameandEmail(name: TextView, email: TextView) {
+    fun setNameandEmail() {
         _setNameStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
-            val result = repository.setNameandEmail(name, email)
-            _setNameStatus.postValue(Event(Resource.Success(result)))
+            val result = repository.setNameandEmail()
+            _setNameStatus.postValue(Event(result))
         }
     }
 
-    fun updateUserDetails(name: String) {
+    fun updateUserDetails(name: String, profile_pic: String) {
         val error = if (name.isEmpty()) {
             applicationContext.getString(R.string.title_empty_input)
         } else null
@@ -135,8 +138,16 @@ class ProfileViewModel @Inject constructor(
         }
         _updateUserDetailsStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
-            val result = repository.UpdateUserNameandEmail(name)
-            _updateUserDetailsStatus.postValue(Event(Resource.Success(result)))
+            val result = repository.UpdateUserNameandEmail(name, profile_pic)
+            _updateUserDetailsStatus.postValue(Event(result))
+        }
+    }
+
+    fun deleteProfilePhoto() {
+        _deleteProfilePicStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch(dispatcher) {
+            val result = repository.deleteProfilePhoto()
+            _deleteProfilePicStatus.postValue(Event(result))
         }
     }
 

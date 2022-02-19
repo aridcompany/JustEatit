@@ -17,8 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.widget.ConstraintSet
 import com.ari_d.justeatit.data.entities.Wallet
 import com.ari_d.justeatit.other.walletEvent
 import com.ari_d.justeatit.R
@@ -34,8 +36,7 @@ fun CreditCardItem(
         Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 5.dp
+        shape = RoundedCornerShape(8.dp)
     ) {
         Box(
             modifier = Modifier
@@ -57,15 +58,27 @@ fun CreditCardItem(
                 Column {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = wallet.cardName,
-                        fontSize = 20.sp,
+                        text = "Credit card",
+                        fontSize = 16.sp,
                         color = Color(0xFFFFFFFF)
                     )
-                    Spacer(modifier = Modifier.height(14.dp))
+                    Spacer(modifier = Modifier.height(35.dp))
                     Text(
                         text = wallet.cardNumber
                             .substring(0, 4) + " " + "****" + " " + "****" + " " + "****",
                         fontSize = 28.sp,
+                        color = Color(0xFFFFFFFF)
+                    )
+                    Spacer(modifier = Modifier.height(35.dp))
+                    Text(
+                        text = "Card Holder's name",
+                        fontSize = 14.sp,
+                        color = Color(0xFFFFFFFF)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = wallet.cardName,
+                        fontSize = 20.sp,
                         color = Color(0xFFFFFFFF)
                     )
                 }

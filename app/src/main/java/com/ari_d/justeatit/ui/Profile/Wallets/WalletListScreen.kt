@@ -75,7 +75,7 @@ fun WalletListScreen(
                         // viewModel . onEvent (walletEvent.onWalletClick(wallet))
                         // }
                         .padding(16.dp),
-                    imagePainter = painterResource(id = R.drawable.credit_card)
+                    imagePainter = painterResource(id = R.drawable.ic_credit_card_painter)
                 )
             }
         }

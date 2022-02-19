@@ -1,13 +1,17 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.widget.TextView
+import androidx.core.net.toUri
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
@@ -21,43 +25,57 @@ class DefaultProfileRepository(
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val users = Firebase.firestore.collection("users")
+    val storageRef = Firebase.storage.reference
 
-    override suspend fun setNameandEmail(
-        name: TextView,
-        email: TextView
-    ) {
-        return withContext(Dispatchers.IO) {
-            safeCall {
-                val user_email = currentUser?.email.toString()
-                val user_name = currentUser?.displayName.toString()
-                val result = currentUser?.let {
-                    if (user_name == "null") {
-                        name.text = "Welcome"
-                    } else {
-                        name.text = user_name
-                    }
-                    email.text = user_email
-                }
-                Resource.Success(result)
+    override suspend fun setNameandEmail() = withContext(Dispatchers.IO) {
+        safeCall {
+            val user = currentUser?.let {
+                getUser(it.uid).data!!
             }
+            Resource.Success(user!!)
         }
     }
 
-    override suspend fun UpdateUserNameandEmail(name: String) {
-        return withContext(Dispatchers.IO) {
+    override suspend fun UpdateUserNameandEmail(name: String, profile_pic_uri: String) =
+        withContext(Dispatchers.IO) {
+            var profile_pic_Uri = ""
             safeCall {
                 val profileUpdates = userProfileChangeRequest {
                     displayName = name
                 }
 
+                if (profile_pic_uri != "") {
+                    val profile_pic = profile_pic_uri.toUri()
+                    val profileRef = storageRef
+                        .child("profile picture/${currentUser!!.uid}")
+                        .putFile(profile_pic).await()
+                    val _profile_pic_Url =
+                        profileRef?.metadata?.reference?.downloadUrl?.await().toString()
+                    profile_pic_Uri = _profile_pic_Url
+                }
                 val result = currentUser?.let {
                     currentUser.updateProfile(profileUpdates)
                     val uid = currentUser.uid
-                    val user = User(uid, name)
+                    val user = User(uid, name, profile_pic_Uri)
                     users.document(uid).set(user).await()
                 }
-                Resource.Success(result)
+                Resource.Success(result!!)
             }
+        }
+
+    override suspend fun deleteProfilePhoto() = withContext(Dispatchers.IO) {
+        safeCall {
+            val result = storageRef
+                .child("profile picture/${currentUser!!.uid}")
+                .delete().await()
+            val uid = currentUser.uid
+            val user = mutableMapOf<String, Any>()
+            user["profile_pic"] = ""
+            users.document(uid).set(
+                user,
+                SetOptions.merge()
+            ).await()
+            Resource.Success(result)
         }
     }
 
@@ -170,18 +188,30 @@ class DefaultProfileRepository(
         }
     }
 
-    override suspend fun createFeedback(rating: String, info: String) = withContext(Dispatchers.IO) {
-        safeCall {
-            val feedback = Firebase.firestore
-                .collection("Just Eat it")
-                .document("user feedbacks")
-                .collection("Feedbacks")
-            feedback.document(currentUser!!.email.toString())
-                .set(Feedback(
-                    rating,
-                    info
-                )).await()
-            Resource.Success("Thanks for sending your feedback!")
+    override suspend fun createFeedback(rating: String, info: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val feedback = Firebase.firestore
+                    .collection("Just Eat it")
+                    .document("user feedbacks")
+                    .collection("Feedbacks")
+                feedback.document(currentUser!!.email.toString())
+                    .set(
+                        Feedback(
+                            rating,
+                            info
+                        )
+                    ).await()
+                Resource.Success("Thanks for sending your feedback!")
+            }
         }
-    }
+
+    override suspend fun getUser(uid: String) =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val user = users.document(uid).get().await().toObject<User>()
+                    ?: throw IllegalStateException()
+                Resource.Success(user)
+            }
+        }
 }

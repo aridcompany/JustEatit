@@ -16,7 +16,6 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_address_book.*
-import kotlinx.android.synthetic.main.fragment_address_book.empty_layout
 import kotlinx.android.synthetic.main.fragment_address_book.shimmer_layout
 import javax.inject.Inject
 
@@ -56,7 +55,7 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
             onError = {
                 recycler_addresses.isVisible = false
                 shimmer_layout.isVisible = false
-                empty_layout.isVisible = true
+                empty_recycler.isVisible = true
                 progressBar.isVisible = false
                 address_swipe.isRefreshing = false
                 empty_recycler.isVisible = false
@@ -64,14 +63,14 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
             onLoading = {
                 recycler_addresses.isVisible = false
                 shimmer_layout.isVisible = true
-                empty_layout.isVisible = false
+                empty_recycler.isVisible = false
                 progressBar.isVisible = false
                 empty_recycler.isVisible = false
             }
         ) { addresses ->
             recycler_addresses.isVisible = true
             shimmer_layout.isVisible = false
-            empty_layout.isVisible = false
+            empty_recycler.isVisible = false
             progressBar.isVisible = false
             addressAdapter.addressses = addresses
             address_swipe.isRefreshing = false

@@ -53,10 +53,6 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
                     onUpdateDetailsClickListener?.let { click ->
                         click(item)
                     }
-                } else if (txt_item.text == context.getString(R.string.title_my_wallet)) {
-                    onWalletClickListener?.let { click ->
-                        click(item)
-                    }
                 }
             }
         }
@@ -68,13 +64,7 @@ class MainProfileFragmentAdapter_Settings @Inject constructor(
 
     private var onUpdateDetailsClickListener: ((Account_Items) -> Unit)? = null
 
-    private var onWalletClickListener: ((Account_Items) -> Unit)? = null
-
     fun setOnUpdateDetailsClickListener(listener: (Account_Items) -> Unit) {
         onUpdateDetailsClickListener = listener
-    }
-
-    fun setOnWalletClickListener(listener: (Account_Items) -> Unit) {
-        onWalletClickListener = listener
     }
 }

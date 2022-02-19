@@ -1,21 +1,17 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.widget.TextView
-import com.ari_d.justeatit.data.entities.Address
-import com.ari_d.justeatit.data.entities.Contact_Info
-import com.ari_d.justeatit.data.entities.Feedback
-import com.ari_d.justeatit.data.entities.Wallet
+import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
 
-    suspend fun setNameandEmail(
-        name: TextView,
-        email: TextView
-    ): Unit
+    suspend fun setNameandEmail(): Resource<User>
 
-    suspend fun UpdateUserNameandEmail(name: String): Unit
+    suspend fun UpdateUserNameandEmail(name: String, profile_pic_uri: String): Resource<Void>
+
+    suspend fun deleteProfilePhoto(): Resource<Void>
 
     suspend fun LogOut(): Unit
 
@@ -46,5 +42,7 @@ interface ProfileRepository {
     suspend fun getUrl(): Resource<Contact_Info>
 
     suspend fun createFeedback(rating: String, info: String) : Resource<String>
+
+    suspend fun getUser(uid: String) : Resource<User>
 
 }

@@ -18,6 +18,7 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Account_Items
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_profile_fragment.*
 
@@ -28,8 +29,9 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
     private lateinit var mainProfileAdapter: MainProfileFragmentAdapter
     private lateinit var mainProfileAdapter_settings: MainProfileFragmentAdapter_Settings
     private lateinit var mainProfileAdapter_about: MainProfileFragmentAdapter_About
-    var webpage_help_url: String = ""
-    var webpage_url: String = ""
+    private var webpage_help_url: String = ""
+    private var webpage_url: String = ""
+    private val currentUser = FirebaseAuth.getInstance().currentUser!!
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,10 +42,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
 
         subscribeToObservers()
 
-        viewModel.setNameandEmail(
-            user_name,
-            user_email
-        )
+        viewModel.setNameandEmail()
 
         btn_logOut.setOnClickListener {
             viewModel.logOut()
@@ -98,7 +97,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
             viewModel.getHelpUrl()
         }
 
-        text_copyright.setOnClickListener{
+        text_copyright.setOnClickListener {
             viewModel.getUrl()
         }
 
@@ -114,7 +113,7 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
             if (findNavController().previousBackStackEntry != null) {
                 findNavController().popBackStack()
             } else findNavController().navigate(
-               main_profile_fragmentDirections.actionMainProfileFragmentToTrackMyOrdersFragment()
+                main_profile_fragmentDirections.actionMainProfileFragmentToTrackMyOrdersFragment()
             )
         }
 
@@ -145,7 +144,13 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         viewModel.setNameStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {},
             onLoading = {}
-        ) {})
+        ) { user ->
+            user_email.text = currentUser.email
+            if (user.name == "null")
+                user_name.text = getString(R.string.title_welcome)
+            else
+                user_name.text = user.name
+        })
 
         viewModel.logOutStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {},
