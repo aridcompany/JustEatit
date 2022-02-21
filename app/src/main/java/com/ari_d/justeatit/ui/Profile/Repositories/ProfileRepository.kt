@@ -9,9 +9,9 @@ interface ProfileRepository {
 
     suspend fun setNameandEmail(): Resource<User>
 
-    suspend fun UpdateUserNameandEmail(name: String, profile_pic_uri: String): Resource<Void>
+    suspend fun UpdateUserNameandEmail(name: String, profile_pic_uri: String): Resource<String>
 
-    suspend fun deleteProfilePhoto(): Resource<Void>
+    suspend fun deleteProfilePhoto(): Resource<String>
 
     suspend fun LogOut(): Unit
 

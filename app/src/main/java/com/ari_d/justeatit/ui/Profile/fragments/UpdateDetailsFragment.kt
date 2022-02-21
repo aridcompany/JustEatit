@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.ari_d.justeatit.ui.Profile.fragments
 
 import android.annotation.SuppressLint
@@ -7,15 +9,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.transition.TransitionInflater
 import android.util.Log
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.ari_d.justeatit.Extensions.alertDialog
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.Constants
@@ -26,8 +30,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import dagger.hilt.android.AndroidEntryPoint
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_update_details.*
-import kotlinx.android.synthetic.main.main_profile_fragment.*
+import kotlinx.android.synthetic.main.fragment_update_details.btn_back
+import kotlinx.android.synthetic.main.fragment_update_details.progressBar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,13 +45,18 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
     val viewModel: ProfileViewModel by viewModels()
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser!!
-    var img_uri: String = ""
     private val GALLERY_REQUEST_CODE = 1234
+    private var user_name: String = ""
+    private var img_uri: String = ""
+    private var img_url: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setNameandEmail()
         subscribeToObservers()
 
+        val profile_pic = view.findViewById<CircleImageView>(R.id.img_profile)
+        ViewCompat.setTransitionName(profile_pic, "item_image")
         TextInputEditText_email.setText(currentUser.email)
 
         btn_back.setOnClickListener {
@@ -57,14 +68,14 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
         }
 
         edit_profile_pic.setOnClickListener {
-           updateProfilePic()
+            pickFromGallery()
         }
         img_profile.setOnClickListener {
             updateProfilePic()
         }
 
         var job: Job? = null
-        TextInputEditText_email.addTextChangedListener { editable ->
+        TextInputEditText_name.addTextChangedListener { editable ->
             job?.cancel()
             job = lifecycleScope.launch {
                 delay(Constants.SEARCH_TIME_DELAY)
@@ -82,8 +93,34 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
         }
     }
 
-    private fun updateProfilePic() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val animation = TransitionInflater.from(requireContext()).inflateTransition(
+            android.R.transition.move
+        )
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
+    }
 
+    private fun updateProfilePic() {
+        if (user_name != "" || img_url != "") {
+            val extras = FragmentNavigatorExtras(txt_name to "img_profile_big")
+            findNavController().navigate(
+                R.id.globalActionToViewProfilePicture,
+                Bundle().apply {
+                    putString(
+                        "user_name",
+                        user_name
+                    )
+                    putString(
+                        "profile_pic",
+                        img_url
+                    )
+                },
+                null,
+                extras
+            )
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -101,26 +138,7 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
         ) {
             progressBar.isVisible = false
             btn_update_details.isVisible = true
-            alertDialog(
-                getString(R.string.title_successfully_updated_details),
-                getString(R.string.title_details_updated),
-                requireActivity().resources.getDrawable(R.drawable.ic_update_details_icon)
-            )
-        })
-        viewModel.deleteProfilePicStatus.observe(viewLifecycleOwner, EventObserver(
-            onError = {
-                progressBar.isVisible = false
-                btn_update_details.isVisible = true
-                snackbar(it)
-            },
-            onLoading = {
-                progressBar.isVisible = true
-                btn_update_details.isVisible = false
-            }
-        ) {
-            progressBar.isVisible = false
-            btn_update_details.isVisible = true
-            img_profile.setImageResource(R.drawable.ic_creative_person__1_)
+            viewModel.setNameandEmail()
         })
         viewModel.setNameStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
@@ -133,17 +151,20 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
                 btn_update_details.isVisible = false
             }
         ) { user ->
-            TextInputEditText_name.setText(user.name)
             txt_email.text = currentUser.email
             if (user.name == "null")
                 txt_name.text = getString(R.string.title_welcome)
-            else
+            else {
                 txt_name.text = user.name
-           if (user.profile_pic != "") {
-               Glide.with(this)
-                   .load(user.profile_pic)
-                   .into(img_profile)
-           }
+                TextInputEditText_name.setText(user.name)
+                user_name = user.name
+            }
+            if (user.profile_pic != "") {
+                Glide.with(requireContext())
+                    .load(user.profile_pic)
+                    .into(img_profile)
+                img_url = user.profile_pic
+            }
             progressBar.isVisible = false
             btn_update_details.isVisible = true
         })

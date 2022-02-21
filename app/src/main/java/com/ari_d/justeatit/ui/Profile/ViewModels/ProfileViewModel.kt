@@ -50,11 +50,11 @@ class ProfileViewModel @Inject constructor(
     private val _setNameStatus = MutableLiveData<Event<Resource<User>>>()
     val setNameStatus: LiveData<Event<Resource<User>>> = _setNameStatus
 
-    private val _updateUserDetailsStatus = MutableLiveData<Event<Resource<Void>>>()
-    val updateUserDetailsStautus: LiveData<Event<Resource<Void>>> = _updateUserDetailsStatus
+    private val _updateUserDetailsStatus = MutableLiveData<Event<Resource<String>>>()
+    val updateUserDetailsStautus: LiveData<Event<Resource<String>>> = _updateUserDetailsStatus
 
-    private val _deleteProfilePicStatus = MutableLiveData<Event<Resource<Void>>>()
-    val deleteProfilePicStatus: LiveData<Event<Resource<Void>>> = _deleteProfilePicStatus
+    private val _deleteProfilePicStatus = MutableLiveData<Event<Resource<String>>>()
+    val deleteProfilePicStatus: LiveData<Event<Resource<String>>> = _deleteProfilePicStatus
 
     private val _logOutStatus = MutableLiveData<Event<Resource<Unit>>>()
     val logOutStatus: LiveData<Event<Resource<Unit>>> = _logOutStatus

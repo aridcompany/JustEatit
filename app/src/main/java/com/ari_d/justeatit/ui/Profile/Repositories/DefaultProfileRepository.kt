@@ -40,33 +40,40 @@ class DefaultProfileRepository(
         withContext(Dispatchers.IO) {
             var profile_pic_Uri = ""
             safeCall {
-                val profileUpdates = userProfileChangeRequest {
-                    displayName = name
-                }
-
-                if (profile_pic_uri != "") {
-                    val profile_pic = profile_pic_uri.toUri()
-                    val profileRef = storageRef
-                        .child("profile picture/${currentUser!!.uid}")
-                        .putFile(profile_pic).await()
-                    val _profile_pic_Url =
-                        profileRef?.metadata?.reference?.downloadUrl?.await().toString()
-                    profile_pic_Uri = _profile_pic_Url
-                }
-                val result = currentUser?.let {
+                currentUser?.let { currentUser ->
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = name
+                    }
+                    if (profile_pic_uri != "") {
+                        val profile_pic = profile_pic_uri.toUri()
+                        val profileRef = storageRef
+                            .child("profile pictures/${currentUser.uid}")
+                            .putFile(profile_pic).await()
+                        val _profile_pic_Url =
+                            profileRef?.metadata?.reference?.downloadUrl?.await().toString()
+                        profile_pic_Uri = _profile_pic_Url
+                    }
                     currentUser.updateProfile(profileUpdates)
                     val uid = currentUser.uid
-                    val user = User(uid, name, profile_pic_Uri)
-                    users.document(uid).set(user).await()
+                    val user = mutableMapOf<String, Any>()
+                    user["name"] = name
+                    if (profile_pic_Uri != "") {
+                        user["profile_pic"] = profile_pic_Uri
+                    }
+                    users.document(uid).set(
+                        user,
+                        SetOptions.merge()
+                    ).await()
                 }
-                Resource.Success(result!!)
+                val result = profile_pic_Uri
+                Resource.Success(result)
             }
         }
 
     override suspend fun deleteProfilePhoto() = withContext(Dispatchers.IO) {
         safeCall {
-            val result = storageRef
-                .child("profile picture/${currentUser!!.uid}")
+            storageRef
+                .child("profile pictures/${currentUser!!.uid}")
                 .delete().await()
             val uid = currentUser.uid
             val user = mutableMapOf<String, Any>()
@@ -75,7 +82,7 @@ class DefaultProfileRepository(
                 user,
                 SetOptions.merge()
             ).await()
-            Resource.Success(result)
+            Resource.Success("")
         }
     }
 

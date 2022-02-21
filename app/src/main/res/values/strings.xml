@@ -111,4 +111,5 @@
     <string name="title_fair">Fair</string>
     <string name="title_excellent">Excellent : )</string>
     <string name="title_submitting_rating">Submitting feedback…</string>
+    <string name="title_empty">…</string>
 </resources>

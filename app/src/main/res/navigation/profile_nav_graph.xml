@@ -21,6 +21,10 @@
         app:popExitAnim="@anim/slide_out" />
 
     <action
+        android:id="@+id/globalActionToViewProfilePicture"
+        app:destination="@id/view_Profile_PicFragment" />
+
+    <action
         android:id="@+id/globalActionToAddressBook"
         app:destination="@id/addressBook_Fragment"
         app:enterAnim="@anim/slide_in"
@@ -45,11 +49,7 @@
         android:label="main_profile_fragment">
         <action
             android:id="@+id/action_main_profile_fragment_to_updateDetailsFragment"
-            app:destination="@id/updateDetailsFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:destination="@id/updateDetailsFragment" />
         <action
             android:id="@+id/action_main_profile_fragment_to_myWalletFragment"
             app:destination="@id/myWalletFragment"
@@ -92,11 +92,10 @@
         android:label="UpdateDetailsFragment">
         <action
             android:id="@+id/action_updateDetailsFragment_to_main_profile_fragment"
-            app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:destination="@id/main_profile_fragment" />
+        <action
+            android:id="@+id/action_updateDetailsFragment_to_view_Profile_PicFragment"
+            app:destination="@id/view_Profile_PicFragment" />
     </fragment>
     <fragment
         android:id="@+id/addressBook_Fragment"
@@ -185,6 +184,20 @@
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/view_Profile_PicFragment"
+        android:name="com.ari_d.justeatit.ui.Profile.fragments.View_Profile_PicFragment"
+        android:label="View_Profile_PicFragment">
+        <argument
+            android:name="user_name"
+            app:argType="string" />
+        <argument
+            android:name="profile_pic"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_view_Profile_PicFragment_to_updateDetailsFragment"
+            app:destination="@id/updateDetailsFragment" />
     </fragment>
 
 </navigation>

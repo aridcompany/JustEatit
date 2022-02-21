@@ -5,8 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
@@ -18,9 +20,11 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Account_Items
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_profile_fragment.*
+import kotlinx.android.synthetic.main.main_profile_fragment.img_profile
 
 @AndroidEntryPoint
 class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
@@ -64,9 +68,15 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         mainProfileAdapter_settings.setOnUpdateDetailsClickListener {
             if (findNavController().previousBackStackEntry != null) {
                 findNavController().popBackStack()
-            } else findNavController().navigate(
-                main_profile_fragmentDirections.actionMainProfileFragmentToUpdateDetailsFragment()
-            )
+            } else {
+                val extras = FragmentNavigatorExtras(img_profile to "image_small")
+                findNavController().navigate(
+                    R.id.action_main_profile_fragment_to_updateDetailsFragment,
+                    null,
+                    null,
+                    extras
+                )
+            }
         }
 
         mainProfileAdapter.setOnWalletClickListener {
@@ -140,16 +150,29 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     private fun subscribeToObservers() {
         viewModel.setNameStatus.observe(viewLifecycleOwner, EventObserver(
-            onError = {},
-            onLoading = {}
+            onError = { progressBar.isVisible = false },
+            onLoading = { progressBar.isVisible = true }
         ) { user ->
+            progressBar.isVisible = false
             user_email.text = currentUser.email
-            if (user.name == "null")
+            if (user.name == "null") {
                 user_name.text = getString(R.string.title_welcome)
-            else
+            } else {
                 user_name.text = user.name
+            }
+            if (user.profile_pic != "") {
+                Glide.with(requireContext())
+                    .load(user.profile_pic)
+                    .into(img_profile)
+            } else {
+                img_profile.setImageResource(R.drawable.ic_creative_person__1_)
+            }
         })
 
         viewModel.logOutStatus.observe(viewLifecycleOwner, EventObserver(
