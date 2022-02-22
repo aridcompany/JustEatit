@@ -51,6 +51,15 @@ class main_profile_fragment : Fragment(R.layout.main_profile_fragment) {
         btn_logOut.setOnClickListener {
             viewModel.logOut()
         }
+        img_profile.setOnClickListener {
+            val extras = FragmentNavigatorExtras(img_profile to "image_small")
+            findNavController().navigate(
+                R.id.action_main_profile_fragment_to_updateDetailsFragment,
+                null,
+                null,
+                extras
+            )
+        }
 
         var account_items = mutableListOf(
             Account_Items("Order History", R.drawable.ic_order_history),

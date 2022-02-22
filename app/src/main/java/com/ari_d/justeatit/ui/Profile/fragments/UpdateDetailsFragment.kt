@@ -52,6 +52,7 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        img_url = ""
         viewModel.setNameandEmail()
         subscribeToObservers()
 
@@ -80,7 +81,9 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
             job = lifecycleScope.launch {
                 delay(Constants.SEARCH_TIME_DELAY)
                 editable?.let {
-                    txt_name.text = it.toString()
+                    if (txt_name != null) {
+                        txt_name.text = it.toString()
+                    }
                 }
             }
         }
@@ -156,8 +159,10 @@ class UpdateDetailsFragment : Fragment(R.layout.fragment_update_details) {
                 txt_name.text = getString(R.string.title_welcome)
             else {
                 txt_name.text = user.name
-                TextInputEditText_name.setText(user.name)
                 user_name = user.name
+                if (TextInputEditText_name != null) {
+                    TextInputEditText_name.setText(user.name)
+                }
             }
             if (user.profile_pic != "") {
                 Glide.with(requireContext())

@@ -3,6 +3,7 @@ package com.ari_d.justeatit.ui.Profile.fragments
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -29,12 +30,14 @@ class View_Profile_PicFragment : Fragment(R.layout.fragment_view_profile_pic) {
         _binding = FragmentViewProfilePicBinding.bind(view)
         subscribeToObservers()
         if (args.profilePic != "") {
-            btn_delete_profile_pic.isEnabled = true
+            btn_delete_profile_pic.isVisible = true
             Glide.with(requireContext())
                 .load(args.profilePic)
                 .into(img_profile)
-        } else
+        } else {
+            btn_delete_profile_pic.isVisible = false
             img_profile.setImageResource(R.drawable.ic_creative_person__)
+        }
         binding.userName.text = args.userName
 
         binding.btnDeleteProfilePic.setOnClickListener {
@@ -58,6 +61,7 @@ class View_Profile_PicFragment : Fragment(R.layout.fragment_view_profile_pic) {
             },
             onLoading = {}
         ) {
+            btn_delete_profile_pic.isVisible = false
             img_profile.setImageResource(R.drawable.ic_creative_person__)
         })
     }

@@ -1,7 +1,9 @@
 package com.ari_d.justeatit.ui.Profile.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ class EditAddressFragment : Fragment(R.layout.fragment_edit_address) {
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val supportedRegions = mutableListOf<String>()
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getSupportedLocations()
@@ -38,7 +41,10 @@ class EditAddressFragment : Fragment(R.layout.fragment_edit_address) {
             job = lifecycleScope.launch {
                 delay(Constants.SEARCH_TIME_DELAY)
                 editable?.let {
-                    if (!supportedRegions.contains(TextInputEditText_postcode.text.toString())) {
+                    supportedRegions?.let {
+                        supportedRegions.replaceAll(String::lowercase)
+                    }
+                    if (!supportedRegions.contains(TextInputEditText_postcode.text.toString().lowercase())) {
                         TextInputEditText_postcode.error = getString(R.string.title_unavailable)
                     }
                 }
