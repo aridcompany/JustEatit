@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ari_d.justeatit.Adapters.Products_Details_ViewPager_Adapter
@@ -31,7 +31,7 @@ import java.text.DecimalFormat
 @AndroidEntryPoint
 class Details_Fragment: Fragment(R.layout.fragment_details) {
 
-    val viewModel: DetailsViewModel by viewModels()
+    val viewModel: DetailsViewModel by activityViewModels()
 
     private lateinit var auth: FirebaseAuth
 
@@ -47,6 +47,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
         viewModel.setUiInterface(product_id)
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
+        tabLayout.background = null
 
         btn_like.setOnClickListener {
             viewModel.addToFavorites(product_id)
@@ -81,7 +82,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
             }
         }
 
-        btn_products_comments.setOnClickListener {
+        btn_product_comments.setOnClickListener {
             findNavController().navigate(
                 R.id.globalActionToCommentDialog,
                 Bundle().apply { putString("productId", product_id) }
@@ -148,7 +149,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
                         getString(R.string.title_like, product.favoritesList.size)
                 } else {
                     product_likes.text =
-                        decimalFormat.format(product.favoritesList.size) + getString(R.string.title_likes)
+                        decimalFormat.format(product.favoritesList.size) + " " + getString(R.string.title_likes)
                 }
                 if (auth.currentUser!!.uid in product.favoritesList)
                     btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)

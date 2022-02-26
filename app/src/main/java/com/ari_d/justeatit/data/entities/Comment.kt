@@ -12,5 +12,7 @@ data class Comment(
     @get: Exclude
     var name: String = "",
     val comment: String = "",
+    @get: Exclude
+    var profile_pic: String = "",
     val date: Long = System.currentTimeMillis()
 )

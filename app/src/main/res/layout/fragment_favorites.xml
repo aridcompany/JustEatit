@@ -38,6 +38,7 @@
         android:id="@+id/favorites_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,47 +55,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shimmer_duration="2300"
-            tools:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-
-                <include layout="@layout/shimmer_for_favorites" />
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_duration="2300"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+
+            <include layout="@layout/shimmer_for_favorites" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,8 @@
 package com.ari_d.justeatit.ui.Profile.fragments
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RatingBar
@@ -15,12 +18,12 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_feedback.*
 
-
 @AndroidEntryPoint
 class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
 
     var _rating: String = "1"
     val viewModel: ProfileViewModel by activityViewModels()
+    private var webpage_help_url: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,6 +31,10 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
         subscribeToObservers()
         btn_save_feedback.setOnClickListener {
             viewModel.createFeedback(_rating, etComment.text.toString())
+        }
+
+        txt_url.setOnClickListener{
+            viewModel.getHelpUrl()
         }
 
         btn_back.setOnClickListener {
@@ -60,12 +67,28 @@ class FeedBackFragment : Fragment(R.layout.fragment_feedback) {
         viewModel.feedbackStatus.observe(viewLifecycleOwner, EventObserver(
             onError = { snackbar(it) },
             onLoading = { snackbar(getString(R.string.title_submitting_rating)) }
-        ){
+        ) {
             Toast.makeText(
                 requireContext(),
                 it,
                 Toast.LENGTH_SHORT
             ).show()
         })
+        viewModel.getHelpUrlStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = { snackbar(getString(R.string.title_unknown_error_occurred)) },
+            onLoading = {}
+        ) {
+            webpage_help_url = it.webpage_help_url
+            openUrl(webpage_help_url)
+        })
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun openUrl(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            requireContext().startActivity(intent)
+        }
     }
 }

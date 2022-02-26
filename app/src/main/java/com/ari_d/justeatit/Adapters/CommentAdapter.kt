@@ -14,6 +14,7 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Comment
 import com.bumptech.glide.RequestManager
 import com.google.firebase.auth.FirebaseAuth
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_comment.view.*
 import javax.inject.Inject
 
@@ -25,6 +26,7 @@ class CommentAdapter @Inject constructor(
         val tvCommentUsername: TextView = itemView.tvCommentUsername
         val tvComment: TextView = itemView.tvComment
         val ibDeleteComment: ImageButton = itemView.ibDeleteComment
+        val ivCommentProfilePic: CircleImageView = itemView.ivCommentUserProfilePicture
     }
 
     companion object : DiffUtil.ItemCallback<Comment>() {
@@ -55,6 +57,11 @@ class CommentAdapter @Inject constructor(
 
             tvComment.text = comment.comment
             tvCommentUsername.text = comment.name
+            if (comment.profile_pic != "")
+                glide.load(comment.profile_pic)
+                    .into(ivCommentProfilePic)
+            else
+                ivCommentProfilePic.setImageResource(R.drawable.ic_creative_person__1_)
             ibDeleteComment.setOnClickListener {
                 onDeleteCommentClickListener?.let { click ->
                     click(comment)

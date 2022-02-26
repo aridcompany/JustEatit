@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.FavoritesAdapter
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
-import com.ari_d.justeatit.data.entities.Favorite
 import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +41,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shimmer_layout.apply {
+            startShimmer()
+            isVisible = true
+        }
         getFavorites()
         auth = FirebaseAuth.getInstance()
         favorites_swipe.setOnRefreshListener {

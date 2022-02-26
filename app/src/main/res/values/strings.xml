@@ -58,7 +58,7 @@
     <string name="title_details">Details</string>
     <string name="title_to_shoppingBag">ADD TO BAG</string>
     <string name="enter_comment">Add a comment…</string>
-    <string name="title_comments">Comments</string>
+    <string name="title_comments"><u>Comments</u></string>
     <string name="title_cart">Cart</string>
     <string name="title_likes">likes</string>
     <string name="title_insufficient_stock">Desired quantity is greater than available stock!</string>

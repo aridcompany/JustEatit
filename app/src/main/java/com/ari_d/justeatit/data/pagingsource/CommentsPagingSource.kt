@@ -39,6 +39,7 @@ class CommentsPagingSource(
                     .onEach { comment ->
                         val user = repository.getUser(comment.uid).data!!
                         comment.name = user.name
+                        comment.profile_pic = user.profile_pic
                     },
             null,
                 nextPage

@@ -6,7 +6,7 @@
     app:startDestination="@id/details_Fragment">
 
     <action android:id="@+id/globalActionToCommentDialog"
-        app:destination="@id/commentDialog"/>
+        app:destination="@id/commentDialog" />
 
     <dialog
         android:id="@+id/commentDialog"

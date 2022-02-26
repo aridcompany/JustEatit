@@ -5,39 +5,40 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:padding="8dp">
+    android:background="@color/white">
 
 
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:id="@+id/constraint"
-       android:layout_width="match_parent"
-       android:layout_height="300dp"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.5"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tilComment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/tilComment"
+        app:layout_constraintEnd_toEndOf="@+id/rootLayout"
+        app:layout_constraintStart_toStartOf="@+id/rootLayout"
+        app:layout_constraintTop_toTopOf="@+id/rootLayout">
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/rvComments"
-           android:layout_width="match_parent"
-           android:layout_height="300dp"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.5"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="@id/constraint" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="@+id/constraint"
+            app:layout_constraintStart_toStartOf="@+id/constraint"
+            app:layout_constraintTop_toTopOf="@id/constraint" />
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/rvComments2"
-           android:layout_width="match_parent"
-           android:layout_height="300dp"
-           android:visibility="gone"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.5"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="@id/constraint" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments2"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/constraint"
+            app:layout_constraintStart_toStartOf="@+id/constraint"
+            app:layout_constraintTop_toTopOf="@id/constraint" />
 
-   </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/commentProgressBar"
@@ -46,26 +47,28 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/constraint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilComment"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:hint="@string/enter_comment"
-        app:endIconCheckable="true"
-        app:boxCornerRadiusTopEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:endIconDrawable="@drawable/ic_comment"
-        app:layout_constraintEnd_toStartOf="@+id/btnComment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:boxStrokeColor="@color/primary"
+        app:endIconDrawable="@drawable/ic_baseline_send_24"
+        app:endIconMode="custom"
+        app:endIconTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@+id/rootLayout"
+        app:layout_constraintEnd_toEndOf="@id/rootLayout"
+        app:layout_constraintStart_toStartOf="@+id/rootLayout"
+        app:layout_constraintTop_toBottomOf="@+id/constraint">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etComment"
@@ -74,20 +77,10 @@
             android:inputType="textMultiLine"
             android:maxLines="3"
             android:textColor="@color/black"
-            android:textColorHint="@color/grey" />
+            android:textColorHint="#757575"
+            tools:ignore="TextContrastCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnComment"
-        style="@style/my_button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/ic_baseline_send_24"
-        android:text="Comment"
-        app:layout_constraintBottom_toBottomOf="@+id/tilComment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
@@ -109,15 +102,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guideline16"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/guideline17"
+        app:layout_constraintBottom_toTopOf="@id/tilComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="130dp"
             android:layout_height="130dp"
+            android:contentDescription="@string/title_empty"
             android:src="@drawable/ic_empty_searchresults" />
 
     </LinearLayout>
