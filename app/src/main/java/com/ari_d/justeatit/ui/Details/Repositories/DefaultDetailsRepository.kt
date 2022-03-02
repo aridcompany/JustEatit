@@ -127,10 +127,10 @@ class DefaultDetailsRepository : DetailsRepository {
                 .get()
                 .await()
                 .toObject<Product>()
-            if (product!!.stock.equals(0)) {
+            if (product!!.stock.toInt() == 0) {
                 products.document(product_id)
                     .update(
-                        "isAvailable",
+                        "available",
                         false
                     )
             }
@@ -249,7 +249,7 @@ class DefaultDetailsRepository : DetailsRepository {
                     }
                 Resource.Success(commentsForProduct)
             }
-    }
+        }
 
     override suspend fun getUser(uid: String) =
         withContext(Dispatchers.IO) {

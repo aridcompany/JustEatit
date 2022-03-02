@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
-class Details_Fragment: Fragment(R.layout.fragment_details) {
+class Details_Fragment : Fragment(R.layout.fragment_details) {
 
     val viewModel: DetailsViewModel by activityViewModels()
 
@@ -37,7 +37,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
 
     private lateinit var product_id: String
 
-    private val stock = mutableListOf<Int>()
+    private var stock: String = ""
 
     private var contact_no: String = ""
 
@@ -57,7 +57,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
             viewModel.addToShoppingBag(product_id)
         }
 
-        btn_call_to_order.setOnClickListener{
+        btn_call_to_order.setOnClickListener {
             dialContactNo(contact_no)
         }
 
@@ -89,6 +89,8 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
             )
         }
     }
+
+    @SuppressLint("SetTextI18n")
     private fun subscribeToObservers() {
         val myAnim: Animation = AnimationUtils.loadAnimation(context, R.anim.bounce)
         val interpolator = MyBounceInterpolator(0.2, 20.0)
@@ -105,7 +107,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
             onError = {
                 getString(R.string.title_unknown_error_occurred)
             }
-        ) {
+        ) { product ->
             viewModel.getProductDetails(product_id)
         })
         viewModel.getProductDetailsStatus.observe(viewLifecycleOwner, EventObserver(
@@ -114,18 +116,19 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
                 getString(R.string.title_error_loading)
             }
         ) { product ->
-            progressBar.isVisible = false
-            btn_add_to_bag.isVisible = true
-            scrollView2.isVisible = true
-            progressBar2.isVisible = false
-            btn_call_to_order.isVisible = true
-            setUpViewPager(product.images)
             if (!product.isAvailable) {
                 btn_call_to_order.isEnabled = false
                 btn_add_to_bag.isEnabled = false
                 scrollView2.isVisible = false
                 out_of_stock.isVisible = true
+                progressBar2.isVisible = false
             } else {
+                progressBar.isVisible = false
+                btn_add_to_bag.isVisible = true
+                scrollView2.isVisible = true
+                progressBar2.isVisible = false
+                btn_call_to_order.isVisible = true
+                setUpViewPager(product.images)
                 btn_add_to_bag.isEnabled = true
                 btn_call_to_order.isEnabled = true
                 val decimalFormat = DecimalFormat("#,###,###")
@@ -135,31 +138,34 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
                 txt_product_shipping_fee.text =
                     getString(R.string.title_shipping_fee) + decimalFormat.format(product.shipping_fee.toInt())
                 txt_product_details.text = product.description
-                stock.clear()
-                stock.add(product.stock.toInt())
+                stock = product.stock
                 contact_no = product.contact_no
                 if (auth.currentUser!!.uid in product.favoritesList)
-                    btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
-                if (product.stock.toInt() > 5) return@EventObserver
-                product_stock.isVisible = true
-                product_stock.text = getString(R.string.title_product_stock, product.stock.toInt())
-                if (product.favoritesList.size == 0) {
-                } else if (product.favoritesList.size == 1) {
-                    product_likes.text =
-                        getString(R.string.title_like, product.favoritesList.size)
-                } else {
-                    product_likes.text =
-                        decimalFormat.format(product.favoritesList.size) + " " + getString(R.string.title_likes)
-                }
-                if (auth.currentUser!!.uid in product.favoritesList)
-                    btn_like.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    btn_like.setImageResource(
+                        R.drawable.ic_baseline_favorite_24
+                    )
                 if (auth.currentUser!!.uid in product.shoppingBagList) {
                     btn_add_to_bag.isVisible = false
                     increase_layout.isVisible = true
                     viewModel.getCartProductDetails(product_id)
                 }
+                if (product.stock.toInt() > 4) {
+                    product_stock.isVisible = true
+                    product_stock.text = getString(R.string.title_in_stock)
+                } else if (product.stock.toInt() < 5) {
+                    product_stock.isVisible = true
+                    product_stock.text =
+                        getString(R.string.title_product_stock, product.stock.toInt())
+                }
+                when {
+                    product.favoritesList.size == 1 -> product_likes.text =
+                        getString(R.string.title_like, product.favoritesList.size)
+                    product.favoritesList.size > 1 -> product_likes.text =
+                        decimalFormat.format(product.favoritesList.size) + " " + getString(R.string.title_likes)
+                    product.favoritesList.isEmpty() -> product_likes.text =
+                        getString(R.string.title_no_likes)
+                }
             }
-
         })
         viewModel.addToFavoritesStatus.observe(viewLifecycleOwner, EventObserver(
             onLoading = {
@@ -232,7 +238,7 @@ class Details_Fragment: Fragment(R.layout.fragment_details) {
                 txt_cart_value.text = cartNumber.toString()
                 Toast.makeText(
                     context,
-                    getString(R.string.title_product_stock, stock[0]), Toast.LENGTH_SHORT
+                    getString(R.string.title_product_stock, stock.toInt()), Toast.LENGTH_SHORT
                 ).show()
                 txt_cart_value.text = ""
                 viewModel.getCartProductDetails(product_id)

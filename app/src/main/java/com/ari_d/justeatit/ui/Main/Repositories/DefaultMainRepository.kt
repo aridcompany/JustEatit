@@ -103,8 +103,9 @@ class DefaultMainRepository : MainRepository {
 
                     firestore.runTransaction { transaction ->
                         val _productResult = transaction.get(products.document(product.product_id))
-                        val currentShoppingBag =
-                            _productResult.toObject<Product>()?.shoppingBagList ?: listOf()
+                        val _currentShoppingBag =
+                            _productResult.toObject<Product>()
+                        val currentShoppingBag = _currentShoppingBag?.shoppingBagList ?: listOf()
                         val cartResult = transaction.get(
                             cartItems
                                 .document(product.product_id)
@@ -117,16 +118,18 @@ class DefaultMainRepository : MainRepository {
                                 currentShoppingBag - currentUser.uid
                             )
                         } else {
-                            transaction.set(
-                                cartItems.document(product.product_id),
-                                product
-                            )
-                            transaction.update(
-                                products.document(product.product_id),
-                                "shoppingBagList",
-                                currentShoppingBag + currentUser.uid
-                            )
-                            isAddedToShoppingBag = true
+                            if (_currentShoppingBag!!.stock.toInt() != 0) {
+                                transaction.set(
+                                    cartItems.document(product.product_id),
+                                    product
+                                )
+                                transaction.update(
+                                    products.document(product.product_id),
+                                    "shoppingBagList",
+                                    currentShoppingBag + currentUser.uid
+                                )
+                                isAddedToShoppingBag = true
+                            } else {}
                         }
                     }.await()
                 }

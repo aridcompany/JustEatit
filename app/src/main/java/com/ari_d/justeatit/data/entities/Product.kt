@@ -10,8 +10,6 @@ data class Product(
     val product_id : String = "",
     val seller_id : String = "",
     val seller : String = "",
-    val sizes : List<String> = listOf(),
-    val increment_price : String = "",
     val shipping_fee : String = "",
     val contact_no : String = "",
     val quantity : String = "1",

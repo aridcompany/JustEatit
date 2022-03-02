@@ -128,7 +128,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     home_swipe.isRefreshing = false
                     empty_layout.isVisible = false
                     home_swipe.isRefreshing = false
-                    products_recycler.adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                    products_recycler.adapter?.stateRestorationPolicy =
+                        RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                 }
             }
         }
@@ -212,6 +213,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         adapter = productsAdapter
         itemAnimator = null
-        products_recycler.adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        products_recycler.adapter?.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 }
