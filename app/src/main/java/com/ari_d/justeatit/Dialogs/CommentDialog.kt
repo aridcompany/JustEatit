@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -54,8 +55,19 @@ class CommentDialog : BottomSheetDialogFragment() {
             etComment.text?.clear()
         }
 
-        commentAdapter.setOnDeleteCommentClickListener { comment ->
-            viewModel.deleteComment(comment)
+        commentAdapter.setOnDeleteCommentClickListener { comment, view ->
+            val popupMenu = PopupMenu(requireContext(), view)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.delete_address -> {
+                        viewModel.deleteComment(comment)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.inflate(R.menu.address_menu)
+            popupMenu.show()
         }
     }
 

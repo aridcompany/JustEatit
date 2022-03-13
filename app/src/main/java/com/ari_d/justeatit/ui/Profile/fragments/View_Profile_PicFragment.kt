@@ -3,6 +3,7 @@ package com.ari_d.justeatit.ui.Profile.fragments
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,7 +42,18 @@ class View_Profile_PicFragment : Fragment(R.layout.fragment_view_profile_pic) {
         binding.userName.text = args.userName
 
         binding.btnDeleteProfilePic.setOnClickListener {
-           viewModel.deleteProfilePhoto()
+            val popupMenu = PopupMenu(requireContext(), it)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.delete_address -> {
+                        viewModel.deleteProfilePhoto()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.inflate(R.menu.address_menu)
+            popupMenu.show()
         }
     }
 

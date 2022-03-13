@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.ari_d.justeatit"
-        minSdk 21
+        minSdk 25
         targetSdk 32
         versionCode 1
         versionName "1.0"

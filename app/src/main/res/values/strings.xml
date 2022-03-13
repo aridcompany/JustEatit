@@ -114,4 +114,15 @@
     <string name="title_empty">…</string>
     <string name="title_in_stock">In stock!</string>
     <string name="title_no_likes">No likes</string>
+    <string name="title_my_shopping_bag">My shopping bag</string>
+    <string name="title_subtotal">Subtotal:</string>
+    <string name="title_checkout">Checkout</string>
+    <string name="title_delivery_address">Delivery address</string>
+    <string name="title_progress">Progress</string>
+    <string name="title_btn_summary">Summary Button</string>
+    <string name="title_add_address">Create a new address</string>
+    <string name="title_delete">Delete</string>
+    <string name="title_total">Total:</string>
+    <string name="title_payment">Payment</string>
+    <string name="title_transactions">Transactions</string>
 </resources>

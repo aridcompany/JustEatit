@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/title_btn_delete"
-        android:src="@drawable/ic_baseline_delete_forever_24"
+        android:src="@drawable/ic_options"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tvCommentUsername"
         app:layout_constraintEnd_toEndOf="parent"

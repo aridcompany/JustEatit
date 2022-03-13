@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/divider">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/curved_layout_for_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_curved_layout_for_address"
+        tools:ignore="ImageContrastCheck"
+        android:contentDescription="@string/title_just_eat_it"/>
+
+    <TextView
+        android:id="@+id/txt_delivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:fontFamily="@font/lato"
+        android:text="@string/title_delivery_address"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:ignore="TextContrastCheck" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt_delivery"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.04"
+        android:orientation="vertical"
+        android:id="@+id/guideline1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.96"
+        android:orientation="vertical"
+        android:id="@+id/guideline2"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70"
+        android:id="@+id/guideline3"/>
+
+        <RelativeLayout
+            android:id="@+id/deltaRelative"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintBottom_toBottomOf="@id/guideline3"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="21dp"
+                android:background="@drawable/curved_recycler" />
+
+            <ImageView
+                android:id="@+id/add_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recycler_cart"
+                android:layout_alignTop="@id/recycler_cart"
+                android:layout_alignEnd="@id/recycler_cart"
+                android:layout_marginTop="-20dp"
+                android:layout_marginEnd="-20dp"
+                android:contentDescription="@string/title_add_address"
+                android:src="@drawable/ic_add_address"
+                tools:ignore="ImageContrastCheck" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/btn_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/deltaRelative"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/title_btn_summary"
+            android:src="@drawable/ic_summary_btn"
+            tools:ignore="ImageContrastCheck,RedundantDescriptionCheck" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_summary"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_summary"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            android:contentDescription="@string/title_progress"
+            android:src="@drawable/ic_progress_bar_delivery" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

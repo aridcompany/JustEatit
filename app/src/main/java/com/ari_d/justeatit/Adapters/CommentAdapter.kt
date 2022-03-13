@@ -53,7 +53,7 @@ class CommentAdapter @Inject constructor(
         val comment = getItem(position) ?: return
         holder.apply {
             ibDeleteComment.isVisible = comment.uid == FirebaseAuth.getInstance().uid!!
-            ibDeleteComment.setImageResource(R.drawable.ic_baseline_delete_forever_24)
+            ibDeleteComment.setImageResource(R.drawable.ic_options)
 
             tvComment.text = comment.comment
             tvCommentUsername.text = comment.name
@@ -64,14 +64,14 @@ class CommentAdapter @Inject constructor(
                 ivCommentProfilePic.setImageResource(R.drawable.ic_creative_person__1_)
             ibDeleteComment.setOnClickListener {
                 onDeleteCommentClickListener?.let { click ->
-                    click(comment)
+                    click(comment, itemView.ibDeleteComment)
                 }
             }
         }
     }
-    private var onDeleteCommentClickListener: ((Comment) -> Unit)? = null
+    private var onDeleteCommentClickListener: ((Comment, View) -> Unit)? = null
 
-    fun setOnDeleteCommentClickListener(listener: (Comment) -> Unit) {
+    fun setOnDeleteCommentClickListener(listener: (Comment, View) -> Unit) {
         onDeleteCommentClickListener = listener
     }
 }

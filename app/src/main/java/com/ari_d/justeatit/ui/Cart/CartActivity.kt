@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import com.ari_d.justeatit.R
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

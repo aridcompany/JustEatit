@@ -2,7 +2,15 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cart_nav_graph"
-    app:startDestination="@id/delivery_Fragment">
+    app:startDestination="@id/main_Cart_Fragment">
+
+    <action
+        android:id="@+id/globalActionToEditAddressFragment2"
+        app:destination="@id/editAddressFragment22"
+        app:enterAnim="@anim/slide_in"
+        app:exitAnim="@anim/slide_out"
+        app:popEnterAnim="@anim/slide_in"
+        app:popExitAnim="@anim/slide_out" />
 
     <fragment
         android:id="@+id/delivery_Fragment"
@@ -10,13 +18,39 @@
         android:label="Delivery_Fragment" >
         <action
             android:id="@+id/action_delivery_Fragment_to_payment_Fragment"
-            app:destination="@id/payment_Fragment" />
+            app:destination="@id/payment_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
         <action
             android:id="@+id/action_delivery_Fragment_to_addressBook_Fragment2"
-            app:destination="@id/addressBook_Fragment2" />
+            app:destination="@id/addressBook_Fragment2"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
         <action
             android:id="@+id/action_delivery_Fragment_to_editAddressFragment2"
-            app:destination="@id/editAddressFragment2" />
+            app:destination="@id/editAddressFragment2"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_delivery_Fragment_to_main_Cart_Fragment"
+            app:destination="@id/main_Cart_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
+        <action
+            android:id="@+id/action_delivery_Fragment_to_summary_Fragment"
+            app:destination="@id/summary_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
     </fragment>
     <fragment
         android:id="@+id/payment_Fragment"
@@ -24,10 +58,11 @@
         android:label="Payment_Fragment" >
         <action
             android:id="@+id/action_payment_Fragment_to_myWalletFragment2"
-            app:destination="@id/myWalletFragment2" />
-        <action
-            android:id="@+id/action_payment_Fragment_to_summary_Fragment"
-            app:destination="@id/summary_Fragment" />
+            app:destination="@id/myWalletFragment2"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/myWalletFragment2"
@@ -36,7 +71,15 @@
     <fragment
         android:id="@+id/summary_Fragment"
         android:name="com.ari_d.justeatit.ui.Cart.fragments.Summary_Fragment"
-        android:label="Summary_Fragment" />
+        android:label="Summary_Fragment" >
+        <action
+            android:id="@+id/action_summary_Fragment_to_payment_Fragment"
+            app:destination="@id/payment_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
+    </fragment>
     <fragment
         android:id="@+id/addressBook_Fragment2"
         android:name="com.ari_d.justeatit.ui.Profile.fragments.AddressBook_Fragment"
@@ -44,5 +87,29 @@
     <fragment
         android:id="@+id/editAddressFragment2"
         android:name="com.ari_d.justeatit.ui.Profile.fragments.EditAddressFragment"
-        android:label="EditAddressFragment" />
+        android:label="EditAddressFragment" >
+        <action
+            android:id="@+id/action_editAddressFragment2_to_delivery_Fragment"
+            app:destination="@id/delivery_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/main_Cart_Fragment"
+        android:name="com.ari_d.justeatit.ui.Cart.fragments.Main_Cart_Fragment"
+        android:label="Main_Cart_Fragment" >
+        <action
+            android:id="@+id/action_main_Cart_Fragment_to_delivery_Fragment"
+            app:destination="@id/delivery_Fragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/editAddressFragment22"
+        android:name="com.ari_d.justeatit.ui.Profile.fragments.EditAddressFragment2"
+        android:label="EditAddressFragment2" />
 </navigation>

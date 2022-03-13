@@ -11,6 +11,12 @@
         <item name="color">@color/off_white</item>
     </style>
 
+    <style name="curved_images_for_cart" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+        <item name="color">@color/off_white</item>
+    </style>
+
     <style name="_curved_images" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerRadius">50dp</item>

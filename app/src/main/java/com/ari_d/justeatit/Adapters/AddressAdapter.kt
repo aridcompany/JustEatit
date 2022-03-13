@@ -12,10 +12,7 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Address
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.address_item.view.*
-import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.*
-import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.address_city
-import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.apt__name
-import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.phone_number
+import kotlinx.android.synthetic.main.fragment_address_book.*
 import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.street_address
 import javax.inject.Inject
 
@@ -24,9 +21,6 @@ class AddressAdapter @Inject constructor(
 ) : RecyclerView.Adapter<AddressAdapter.SearchViewHolder>() {
     inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val address_street: TextView = itemView.street_address
-        val apt_suite: TextView = itemView.apt__name
-        val address_city: TextView = itemView.address_city
-        val phone_number: TextView = itemView.phone_number
         val delete_address: ImageView = itemView.delete_address
     }
 
@@ -63,13 +57,10 @@ class AddressAdapter @Inject constructor(
         val address = addressses[position]
         holder.apply {
             address_street.text = address.street_address
-            apt_suite.text = address.apt_suite
-            address_city.text = address.city
-            phone_number.text = address.phone_number
 
             delete_address.setOnClickListener {
                 onDeleteAddressClickListener?.let { click ->
-                    click(address, holder.layoutPosition)
+                    click(address, holder.layoutPosition, itemView.delete_address)
                 }
             }
         }
@@ -79,9 +70,9 @@ class AddressAdapter @Inject constructor(
         return addressses.size
     }
 
-    private var onDeleteAddressClickListener: ((Address, Int) -> Unit)? = null
+    private var onDeleteAddressClickListener: ((Address, Int, View) -> Unit)? = null
 
-    fun setOnDeleteAddressClickListener(listener: (Address, Int) -> Unit) {
+    fun setOnDeleteAddressClickListener(listener: (Address, Int, View) -> Unit) {
         onDeleteAddressClickListener = listener
     }
 }

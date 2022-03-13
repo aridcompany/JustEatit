@@ -28,12 +28,12 @@ class Auth_Activity : AppCompatActivity() {
         setCurrentFragment(LoginFragment())
     }
 
-    internal fun setCurrentFragment(fragment: Fragment){
+    internal fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 R.anim.slide_in,
-                R.anim.fade_out,
-                R.anim.fade_in,
+                R.anim.slide_out,
+                R.anim.slide_in,
                 R.anim.slide_out
             )
             replace(R.id.fragment_container, fragment)

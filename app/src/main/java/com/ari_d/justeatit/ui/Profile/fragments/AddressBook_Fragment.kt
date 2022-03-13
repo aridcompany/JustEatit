@@ -3,6 +3,7 @@ package com.ari_d.justeatit.ui.Profile.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,14 +39,25 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
         address_swipe.setOnRefreshListener {
             viewModel.getAddresses()
         }
+        addressAdapter.setOnDeleteAddressClickListener { address, i, view ->
+           val popupMenu = PopupMenu(requireContext(), view)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.delete_address -> {
+                        viewModel.deleteAddress(address)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.inflate(R.menu.address_menu)
+            popupMenu.show()
+        }
 
         add_address.setOnClickListener {
             findNavController().navigate(
                 AddressBook_FragmentDirections.actionAddressBookFragmentToEditAddressFragment()
             )
-        }
-        addressAdapter.setOnDeleteAddressClickListener { address, i ->
-            viewModel.deleteAddress(address)
         }
     }
 

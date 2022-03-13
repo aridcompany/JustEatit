@@ -36,8 +36,7 @@
             android:name=".ui.Cart.CartActivity"
             android:exported="false"
             android:label="@string/title_activity_cart"
-            android:screenOrientation="portrait"
-            android:theme="@style/splashScreenTheme.NoActionBar" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.Details.Details_Activity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -71,6 +70,10 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
     </application>
 
 </manifest>

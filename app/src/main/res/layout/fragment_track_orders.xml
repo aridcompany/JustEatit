@@ -29,14 +29,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:subtitleTextColor="#FFFFFF">
+
                 <TextView
+                    android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="@string/title_track_orders"
                     android:textColor="#FF9800"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
-                    android:id="@+id/toolbar_title" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/btn_back"
@@ -56,11 +57,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_track_orders"
         android:layout_width="0dp"
+        android:background="@color/white"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_layout"
