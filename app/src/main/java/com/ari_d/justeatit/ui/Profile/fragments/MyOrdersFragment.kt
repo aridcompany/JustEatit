@@ -17,6 +17,8 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_my_orders.*
+import kotlinx.android.synthetic.main.fragment_my_orders.empty_layout
+import kotlinx.android.synthetic.main.fragment_my_orders.shimmer_layout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,6 +40,10 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
 
         setupRecyclerView()
         getOrders()
+        shimmer_layout?.apply {
+            startShimmer()
+            isVisible = true
+        }
 
         btn_back.setOnClickListener {
             if (findNavController().previousBackStackEntry != null) {
@@ -66,7 +72,6 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
         lifecycleScope.launch {
             ordersAdapter.loadStateFlow.collectLatest {
                 if (it.refresh is LoadState.Loading || it.append is LoadState.Loading) {
-                    shimmer_layout.isVisible = true
                 } else if (it.refresh is LoadState.Error) {
                     empty_layout.isVisible = true
                     shimmer_layout.isVisible = false

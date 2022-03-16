@@ -46,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         subscribeToObservers()
         auth = FirebaseAuth.getInstance()
         shimmer_layout?.apply {
-            stopShimmer()
+            startShimmer()
             isVisible = true
         }
         products_recycler.isVisible = false

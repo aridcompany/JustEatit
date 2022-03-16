@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.Cart.fragments
+package com.ari_d.justeatit.ui.Profile.Cart.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,7 @@ class Summary_Fragment: Fragment(R.layout.fragment_summary) {
         super.onViewCreated(view, savedInstanceState)
         btn_proceed_to_payment.setOnClickListener {
            findNavController().navigate(
-                Summary_FragmentDirections.actionSummaryFragmentToPaymentFragment()
+               Summary_FragmentDirections.actionSummaryFragmentToPaymentFragment()
             )
         }
     }

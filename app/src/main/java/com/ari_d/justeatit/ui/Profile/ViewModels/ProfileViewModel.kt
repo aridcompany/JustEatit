@@ -14,6 +14,7 @@ import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.data.pagingsource.CommentsPagingSource
 import com.ari_d.justeatit.data.pagingsource.OrdersPagingSource
+import com.ari_d.justeatit.data.pagingsource.ShoppingBagPagingSource
 import com.ari_d.justeatit.data.pagingsource.TrackOrdersPagingSource
 import com.ari_d.justeatit.other.Constants
 import com.ari_d.justeatit.other.Event
@@ -79,6 +80,12 @@ class ProfileViewModel @Inject constructor(
 
     private val _feedbackStatus = MutableLiveData<Event<Resource<String>>>()
     val feedbackStatus: LiveData<Event<Resource<String>>> = _feedbackStatus
+
+    private val _checkShoppingBagForUnavailableProductsStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val checkShoppingBagForUnavailableProductsStatus: LiveData<Event<Resource<Boolean>>> = _checkShoppingBagForUnavailableProductsStatus
+
+    private val _calculateTotalStatus = MutableLiveData<Event<Resource<MutableList<Int>>>>()
+    val calculateTotalStatus: LiveData<Event<Resource<MutableList<Int>>>> = _calculateTotalStatus
 
     private var deletedWallet: Wallet? = null
 
@@ -231,6 +238,22 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun checkShoppingBagForUnavailableProducts() {
+        _checkShoppingBagForUnavailableProductsStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.checkShoppingBagForUnavailableProducts()
+            _checkShoppingBagForUnavailableProductsStatus.postValue(Event(result))
+        }
+    }
+
+    fun calculateTotal() {
+        _calculateTotalStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.calculateTotal()
+            _calculateTotalStatus.postValue(Event(result))
+        }
+    }
+
     private fun sendUiEvent(event: UiEvent) {
         viewModelScope.launch {
             _uiEvent.send(event)
@@ -248,6 +271,14 @@ class ProfileViewModel @Inject constructor(
     fun getPagingFlowForTracking(): Flow<PagingData<Orders>> {
         return Pager(PagingConfig(Constants.PAGE_SIZE)) {
             TrackOrdersPagingSource(
+                FirebaseFirestore.getInstance()
+            )
+        }.flow.cachedIn(viewModelScope)
+    }
+
+    fun getPagingFlowForShoppingBag(): Flow<PagingData<Product>> {
+        return Pager(PagingConfig(Constants.PAGE_SIZE)) {
+            ShoppingBagPagingSource(
                 FirebaseFirestore.getInstance()
             )
         }.flow.cachedIn(viewModelScope)

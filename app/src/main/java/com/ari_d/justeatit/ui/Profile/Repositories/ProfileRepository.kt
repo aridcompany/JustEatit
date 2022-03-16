@@ -45,4 +45,7 @@ interface ProfileRepository {
 
     suspend fun getUser(uid: String) : Resource<User>
 
+    suspend fun checkShoppingBagForUnavailableProducts() : Resource<Boolean>
+
+    suspend fun calculateTotal() : Resource<MutableList<Int>>
 }

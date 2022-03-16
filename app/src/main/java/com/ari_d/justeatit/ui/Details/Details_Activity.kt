@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import com.ari_d.justeatit.R
-import com.ari_d.justeatit.ui.Cart.CartActivity
+import com.ari_d.justeatit.ui.Profile.Cart.CartActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

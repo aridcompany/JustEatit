@@ -31,10 +31,10 @@ class Auth_Activity : AppCompatActivity() {
     internal fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
-                R.anim.slide_in,
-                R.anim.slide_out,
-                R.anim.slide_in,
-                R.anim.slide_out
+                R.anim.slide_in_left,
+                R.anim.slide_out_right,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
             )
             replace(R.id.fragment_container, fragment)
             commit()

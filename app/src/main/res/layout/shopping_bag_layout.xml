@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/curved_recycler">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_cart_item"
@@ -12,6 +12,7 @@
         android:layout_height="102dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
         android:layout_marginBottom="10dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,12 +21,27 @@
         app:shapeAppearanceOverlay="@style/curved_images_for_cart"
         app:srcCompat="@drawable/figma_image_1" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_cart_item_"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/curved_images_for_cart"
+        android:background="#5C6A6565"/>
+
     <TextView
         android:id="@+id/txt_cart_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat_alternates"
         android:text="Hamburger"
         android:textColor="@color/black"
@@ -37,7 +53,7 @@
         android:id="@+id/txt_cart_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="3dp"
         android:fontFamily="@font/montserrat_alternates"
         android:text="₦800"
@@ -50,7 +66,7 @@
         android:id="@+id/txt_cart_item_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/montserrat_alternates"
         android:text="x2"

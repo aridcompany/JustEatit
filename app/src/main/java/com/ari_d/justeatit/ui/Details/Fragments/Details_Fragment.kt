@@ -122,6 +122,12 @@ class Details_Fragment : Fragment(R.layout.fragment_details) {
                 scrollView2.isVisible = false
                 out_of_stock.isVisible = true
                 progressBar2.isVisible = false
+                if (auth.currentUser!!.uid in product.shoppingBagList) {
+                    btn_add_to_bag.isVisible = false
+                    increase_layout.isVisible = true
+                    viewModel.getCartProductDetails(product_id)
+                    btn_increase.isEnabled = false
+                }
             } else {
                 progressBar.isVisible = false
                 btn_add_to_bag.isVisible = true

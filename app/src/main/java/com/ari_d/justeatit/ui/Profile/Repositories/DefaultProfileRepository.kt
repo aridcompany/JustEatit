@@ -221,4 +221,70 @@ class DefaultProfileRepository(
                 Resource.Success(user)
             }
         }
+
+    override suspend fun checkShoppingBagForUnavailableProducts() = withContext(Dispatchers.IO) {
+        safeCall {
+            val _shoppingBagItem = Firebase.firestore.collection("users")
+                .document(currentUser!!.uid)
+                .collection("shopping bag")
+            val shoppingBagItem = _shoppingBagItem.get()
+                .await()
+                .toObjects(Product::class.java)
+
+            var isAvailable = false
+            for (item in shoppingBagItem) {
+                if (!item.isAvailable) {
+                    _shoppingBagItem.document(item.product_id)
+                        .update(
+                            "available",
+                            false
+                        )
+                    isAvailable = false
+                } else {
+                    isAvailable = true
+                    _shoppingBagItem.document(item.product_id)
+                        .update(
+                            "available",
+                            true
+                        )
+                }
+            }
+            Resource.Success(isAvailable)
+        }
+    }
+
+    override suspend fun calculateTotal() = withContext(Dispatchers.IO) {
+        safeCall {
+            val shoppingBagItem = Firebase.firestore.collection("users")
+                .document(currentUser!!.uid)
+                .collection("shopping bag")
+                .get()
+                .await()
+                .toObjects(Product::class.java)
+            val list_of_values = mutableListOf<Int>()
+
+            val percent = Firebase.firestore
+                .collection("Just Eat it")
+                .document("contact info")
+                .get()
+                .await()
+                .toObject(Contact_Info::class.java)
+
+            val subtotalList = mutableListOf<Int>()
+            for (item in shoppingBagItem) {
+                val price = item.price.toInt()
+                subtotalList.add(price)
+            }
+            val subtotal = subtotalList.sum()
+            val shipping_fee = (percent!!.shipping_fee_percent.toInt() / 100) * subtotal
+            list_of_values.add(0, shipping_fee)
+
+            list_of_values.add(1, subtotal)
+
+            val total = shipping_fee + subtotal
+            list_of_values.add(2, total)
+
+            Resource.Success(list_of_values)
+        }
+    }
 }

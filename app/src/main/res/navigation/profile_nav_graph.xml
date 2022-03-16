@@ -7,18 +7,18 @@
     <action
         android:id="@+id/globalActionToMyWallet"
         app:destination="@id/myWalletFragment"
-        app:enterAnim="@anim/slide_in"
-        app:exitAnim="@anim/slide_out"
-        app:popEnterAnim="@anim/slide_in"
-        app:popExitAnim="@anim/slide_out"/>
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left"/>
 
     <action
         android:id="@+id/globalActionToEditAddressFragment2"
         app:destination="@id/editAddressFragment2"
-        app:enterAnim="@anim/slide_in"
-        app:exitAnim="@anim/slide_out"
-        app:popEnterAnim="@anim/slide_in"
-        app:popExitAnim="@anim/slide_out" />
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left" />
 
     <action
         android:id="@+id/globalActionToViewProfilePicture"
@@ -27,10 +27,10 @@
     <action
         android:id="@+id/globalActionToAddressBook"
         app:destination="@id/addressBook_Fragment"
-        app:enterAnim="@anim/slide_in"
-        app:exitAnim="@anim/slide_out"
-        app:popEnterAnim="@anim/slide_in"
-        app:popExitAnim="@anim/slide_out" />
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left"/>
     <fragment
         android:id="@+id/myWalletFragment"
         android:name="com.ari_d.justeatit.ui.Profile.fragments.MyWalletFragment"
@@ -38,10 +38,10 @@
         <action
             android:id="@+id/action_myWalletFragment_to_main_profile_fragment"
             app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/main_profile_fragment"
@@ -53,38 +53,38 @@
         <action
             android:id="@+id/action_main_profile_fragment_to_myWalletFragment"
             app:destination="@id/myWalletFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_main_profile_fragment_to_addressBook_Fragment"
             app:destination="@id/addressBook_Fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_main_profile_fragment_to_myOrdersFragment"
             app:destination="@id/myOrdersFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_main_profile_fragment_to_trackMyOrdersFragment"
             app:destination="@id/trackMyOrdersFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_main_profile_fragment_to_feedBackFragment"
             app:destination="@id/feedBackFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/updateDetailsFragment"
@@ -104,17 +104,17 @@
         <action
             android:id="@+id/action_addressBook_Fragment_to_main_profile_fragment"
             app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_addressBook_Fragment_to_editAddressFragment"
             app:destination="@id/editAddressFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment"
@@ -123,10 +123,10 @@
         <action
             android:id="@+id/action_editAddressFragment_to_addressBook_Fragment"
             app:destination="@id/addressBook_Fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment2"
@@ -144,10 +144,10 @@
         <action
             android:id="@+id/action_editAddressFragment22_to_editAddressFragment"
             app:destination="@id/editAddressFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/myOrdersFragment"
@@ -156,10 +156,10 @@
         <action
             android:id="@+id/action_myOrdersFragment_to_main_profile_fragment"
             app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/trackMyOrdersFragment"
@@ -168,10 +168,10 @@
         <action
             android:id="@+id/action_trackMyOrdersFragment_to_main_profile_fragment"
             app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/feedBackFragment"
@@ -180,10 +180,10 @@
         <action
             android:id="@+id/action_feedBackFragment_to_main_profile_fragment"
             app:destination="@id/main_profile_fragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/slide_out"
-            app:popEnterAnim="@anim/slide_in"
-            app:popExitAnim="@anim/slide_out"/>
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/view_Profile_PicFragment"

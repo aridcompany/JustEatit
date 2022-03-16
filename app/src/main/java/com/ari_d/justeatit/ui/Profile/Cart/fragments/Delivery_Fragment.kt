@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.Profile.fragments
+package com.ari_d.justeatit.ui.Profile.Cart.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,12 +16,12 @@ import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_address_book.*
-import kotlinx.android.synthetic.main.fragment_address_book.shimmer_layout
+import kotlinx.android.synthetic.main.fragment_delivery.*
+import kotlinx.android.synthetic.main.fragment_delivery.add_address
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
+class Delivery_Fragment: Fragment(R.layout.fragment_delivery) {
 
     val viewModel: ProfileViewModel by activityViewModels()
     val auth = FirebaseAuth.getInstance()
@@ -36,11 +36,8 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
         subscribeToObservers()
         setupRecyclerView()
 
-        address_swipe.setOnRefreshListener {
-            viewModel.getAddresses()
-        }
         addressAdapter.setOnDeleteAddressClickListener { address, i, view ->
-           val popupMenu = PopupMenu(requireContext(), view)
+            val popupMenu = PopupMenu(requireContext(), view)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.delete_address -> {
@@ -56,37 +53,31 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
 
         add_address.setOnClickListener {
             findNavController().navigate(
-                AddressBook_FragmentDirections.actionAddressBookFragmentToEditAddressFragment()
+                Delivery_FragmentDirections.actionDeliveryFragmentToEditAddressFragment2()
+            )
+        }
+        btn_summary.setOnClickListener {
+            findNavController().navigate(
+                Delivery_FragmentDirections.actionDeliveryFragmentToSummaryFragment()
             )
         }
     }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun subscribeToObservers() {
         viewModel.getAddressesStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
-                recycler_addresses.isVisible = false
-                shimmer_layout.isVisible = false
-                empty_recycler.isVisible = true
+                empty_layout.isVisible = true
                 progressBar.isVisible = false
-                address_swipe.isRefreshing = false
             },
             onLoading = {
-                recycler_addresses.isVisible = false
-                shimmer_layout.isVisible = true
-                empty_recycler.isVisible = false
-                progressBar.isVisible = false
+                empty_layout.isVisible = false
+                progressBar.isVisible = true
             }
         ) { addresses ->
-            recycler_addresses.isVisible = true
-            shimmer_layout.isVisible = false
-            empty_recycler.isVisible = false
             progressBar.isVisible = false
             addressAdapter.addressses = addresses
-            address_swipe.isRefreshing = false
             if (addresses.isEmpty()) {
-                empty_recycler.isVisible = true
-                recycler_addresses.isVisible = false
+                empty_layout.isVisible = true
             }
         })
         viewModel.deleteAddressStatus.observe(viewLifecycleOwner, EventObserver(
@@ -102,7 +93,7 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
         })
     }
 
-    private fun setupRecyclerView() = recycler_addresses.apply {
+    private fun setupRecyclerView() = recycler_cart.apply {
         adapter = addressAdapter
         layoutManager = LinearLayoutManager(requireContext())
         itemAnimator = null

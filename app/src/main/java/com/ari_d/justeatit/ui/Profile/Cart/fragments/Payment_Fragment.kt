@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.Cart.fragments
+package com.ari_d.justeatit.ui.Profile.Cart.fragments
 
 import androidx.fragment.app.Fragment
 import com.ari_d.justeatit.R

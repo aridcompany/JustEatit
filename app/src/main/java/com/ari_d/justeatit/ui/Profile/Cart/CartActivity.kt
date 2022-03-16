@@ -1,4 +1,4 @@
-package com.ari_d.justeatit.ui.Cart
+package com.ari_d.justeatit.ui.Profile.Cart
 
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment

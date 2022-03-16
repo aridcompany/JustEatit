@@ -33,7 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:name=".ui.Cart.CartActivity"
+            android:name=".ui.Profile.Cart.CartActivity"
             android:exported="false"
             android:label="@string/title_activity_cart"
             android:screenOrientation="portrait"/>

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ari_d.justeatit.Adapters.ViewPagerAdapter
 import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Auth.Auth_Activity
-import com.ari_d.justeatit.ui.Cart.CartActivity
+import com.ari_d.justeatit.ui.Profile.Cart.CartActivity
 import com.ari_d.justeatit.ui.Main.ViewModels.MainViewModel
 import com.ari_d.justeatit.ui.Main.mainFragments.favorites.FavoritesFragment
 import com.ari_d.justeatit.ui.Main.mainFragments.home.HomeFragment
