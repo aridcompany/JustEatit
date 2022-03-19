@@ -13,5 +13,6 @@ data class Address(
     val phone_number: String = "",
     val additional_phoneNumber: String = "",
     val addressUID: String = "",
-    val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
+    val uid: String = FirebaseAuth.getInstance().currentUser!!.uid,
+    var isDefault: Boolean = false
 )

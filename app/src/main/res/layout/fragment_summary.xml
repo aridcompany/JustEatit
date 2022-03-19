@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/divider">
 
     <RelativeLayout
         android:id="@+id/deltaRelative"
@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/alegreya"
-                android:text="₦7600.00"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -72,7 +71,6 @@
             android:shadowDx="0"
             android:shadowDy="4"
             android:shadowRadius="4"
-            android:text="+shipping fee: ₦697.89"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
@@ -105,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/montserrat_alternates"
-                android:text="₦8,297.89"
                 android:textColor="#FFFFFF"
                 android:textSize="28sp" />
         </LinearLayout>
@@ -147,7 +144,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/curved_recycler2"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="true"
+            android:background="@drawable/curved_recycler"
             app:layout_constraintBottom_toBottomOf="@id/guideline3"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -176,6 +176,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_proceed_to_payment"
             app:layout_constraintVertical_bias="0.0" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/guideline3"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

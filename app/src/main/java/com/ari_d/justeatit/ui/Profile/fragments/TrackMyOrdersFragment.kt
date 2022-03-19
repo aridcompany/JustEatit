@@ -17,7 +17,9 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_track_orders.*
+import kotlinx.android.synthetic.main.fragment_track_orders.btn_back
 import kotlinx.android.synthetic.main.fragment_track_orders.empty_layout
+import kotlinx.android.synthetic.main.fragment_track_orders.shimmer_layout
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

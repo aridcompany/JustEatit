@@ -17,11 +17,10 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_delivery.*
-import kotlinx.android.synthetic.main.fragment_delivery.add_address
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class Delivery_Fragment: Fragment(R.layout.fragment_delivery) {
+class Delivery_Fragment : Fragment(R.layout.fragment_delivery) {
 
     val viewModel: ProfileViewModel by activityViewModels()
     val auth = FirebaseAuth.getInstance()
@@ -32,7 +31,7 @@ class Delivery_Fragment: Fragment(R.layout.fragment_delivery) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getAddresses()
+        viewModel.getDefaultAddress()
         subscribeToObservers()
         setupRecyclerView()
 
@@ -44,10 +43,14 @@ class Delivery_Fragment: Fragment(R.layout.fragment_delivery) {
                         viewModel.deleteAddress(address)
                         true
                     }
+                    R.id.makeDefault_address -> {
+                        viewModel.makeAddressDefault(address)
+                        true
+                    }
                     else -> false
                 }
             }
-            popupMenu.inflate(R.menu.address_menu)
+            popupMenu.inflate(R.menu.address_menu2)
             popupMenu.show()
         }
 
@@ -62,34 +65,67 @@ class Delivery_Fragment: Fragment(R.layout.fragment_delivery) {
             )
         }
     }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun subscribeToObservers() {
         viewModel.getAddressesStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 empty_layout.isVisible = true
                 progressBar.isVisible = false
+                btn_summary.isEnabled = false
             },
             onLoading = {
                 empty_layout.isVisible = false
                 progressBar.isVisible = true
+                btn_summary.isEnabled = false
             }
         ) { addresses ->
+            addressAdapter.notifyDataSetChanged()
             progressBar.isVisible = false
-            addressAdapter.addressses = addresses
             if (addresses.isEmpty()) {
                 empty_layout.isVisible = true
+                btn_summary.isEnabled = false
+                recycler_cart.isVisible = false
+                recycler_cart2.isVisible = true
+            } else {
+                recycler_cart.isVisible = true
+                recycler_cart2.isVisible = false
+                addressAdapter.addressses = addresses
+                btn_summary.isEnabled = true
             }
         })
         viewModel.deleteAddressStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = { progressBar.isVisible = false },
+            onLoading = {
+                progressBar.isVisible = true
+                btn_summary.isEnabled = false
+            }
+        ) {
+            viewModel.getDefaultAddress()
+            progressBar.isVisible = false
+            btn_summary.isEnabled = true
+            snackbar(getString(R.string.title_deleted))
+        })
+        viewModel.getDefaultAddressStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = { progressBar.isVisible = false },
+            onLoading = { progressBar.isVisible = true }
+        ) {
+            viewModel.getAddresses()
+        })
+        viewModel.makeDefaultAddressStatus.observe(viewLifecycleOwner, EventObserver(
             onError = {
                 progressBar.isVisible = false
+                btn_summary.isEnabled = true
             },
             onLoading = {
                 progressBar.isVisible = true
+                btn_summary.isEnabled = false
             }
-        ) { address ->
+        ) {
+            addressAdapter.notifyDataSetChanged()
             progressBar.isVisible = false
-            snackbar(getString(R.string.title_deleted))
+            btn_summary.isEnabled = true
+            snackbar(getString(R.string.title_now_default))
         })
     }
 

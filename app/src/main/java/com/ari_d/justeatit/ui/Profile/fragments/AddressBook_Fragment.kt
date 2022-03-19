@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ari_d.justeatit.Adapters.AddressAdapter
+import com.ari_d.justeatit.Adapters.AddressAdapterForProfile
 import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.other.EventObserver
@@ -28,7 +28,7 @@ class AddressBook_Fragment : Fragment(R.layout.fragment_address_book) {
     val currentUser = auth.currentUser
 
     @Inject
-    lateinit var addressAdapter: AddressAdapter
+    lateinit var addressAdapter: AddressAdapterForProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

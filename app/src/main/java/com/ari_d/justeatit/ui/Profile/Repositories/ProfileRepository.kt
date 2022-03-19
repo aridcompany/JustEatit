@@ -1,6 +1,5 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
-import android.widget.TextView
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +23,10 @@ interface ProfileRepository {
     fun getWallets(): Flow<List<Wallet>>
 
     suspend fun getAddresses(): Resource<List<Address>>
+
+    suspend fun makeAddressDefault(address: Address): Resource<Boolean>
+
+    suspend fun getDefaultAddress() : Resource<Boolean>
 
     suspend fun getSupportedLocations(): Resource<List<String>>
 

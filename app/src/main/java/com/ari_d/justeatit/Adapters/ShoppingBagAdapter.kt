@@ -1,10 +1,12 @@
 package com.ari_d.justeatit.Adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -56,6 +58,7 @@ class ShoppingBagAdapter @Inject constructor(
 
             if (!product.isAvailable) {
                 img_product_.isVisible = true
+                txt_productPrice.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.accent))
                 txt_productPrice.text = "Out of stock!"
                 txt_productQuantity.text = ""
             }

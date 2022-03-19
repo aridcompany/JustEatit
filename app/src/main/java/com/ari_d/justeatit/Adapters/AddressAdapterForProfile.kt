@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.fragment_address_book.*
 import kotlinx.android.synthetic.main.shimmer_layout_for_addresses.view.street_address
 import javax.inject.Inject
 
-class AddressAdapter @Inject constructor(
+class AddressAdapterForProfile @Inject constructor(
     private val glide: RequestManager
-) : RecyclerView.Adapter<AddressAdapter.SearchViewHolder>() {
+) : RecyclerView.Adapter<AddressAdapterForProfile.SearchViewHolder>() {
     inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val address_street: TextView = itemView.street_address
         val delete_address: ImageView = itemView.delete_address
@@ -45,7 +45,7 @@ class AddressAdapter @Inject constructor(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AddressAdapter.SearchViewHolder {
+    ): AddressAdapterForProfile.SearchViewHolder {
         return SearchViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.address_item,
@@ -55,7 +55,7 @@ class AddressAdapter @Inject constructor(
         )
     }
 
-    override fun onBindViewHolder(holder: AddressAdapter.SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AddressAdapterForProfile.SearchViewHolder, position: Int) {
         val address = addressses[position]
         holder.apply {
             address_street.text = address.street_address

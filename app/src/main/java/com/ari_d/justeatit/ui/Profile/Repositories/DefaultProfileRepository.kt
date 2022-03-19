@@ -1,6 +1,5 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
-import android.widget.TextView
 import androidx.core.net.toUri
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
@@ -123,6 +122,83 @@ class DefaultProfileRepository(
         }
     }
 
+    override suspend fun makeAddressDefault(address: Address) = withContext(Dispatchers.IO) {
+        safeCall {
+            var isUpdated = false
+            val list = mutableListOf<Address>()
+            val list_of_addresses = users.document(currentUser!!.uid)
+                .collection("addresses")
+                .whereEqualTo("default", true)
+                .limit(1)
+                .get()
+                .await()
+                .toObjects(Address::class.java)
+            list.clear()
+            list.addAll(list_of_addresses)
+            if (list.isNotEmpty()) {
+                for (document in list) {
+                    users.document(currentUser.uid)
+                        .collection("addresses")
+                        .document(document.addressUID)
+                        .update(
+                            "default",
+                            false
+                        ).await()
+                }
+            }
+            val addresses =
+                users.document(currentUser.uid)
+                    .collection("addresses")
+                    .document(address.addressUID)
+                    .get()
+                    .await()
+            if (addresses.exists()) {
+                users.document(currentUser.uid)
+                    .collection("addresses")
+                    .document(address.addressUID).update(
+                        "default",
+                        true
+                    ).await()
+                isUpdated = true
+            }
+            Resource.Success(isUpdated)
+        }
+    }
+
+    override suspend fun getDefaultAddress() = withContext(Dispatchers.IO) {
+        safeCall {
+            var isGotten = false
+            val list = mutableListOf<Address>()
+            val list_of_addresses = users.document(currentUser!!.uid)
+                .collection("addresses")
+                .whereEqualTo("default", true)
+                .limit(1)
+                .get()
+                .await()
+                .toObjects(Address::class.java)
+            if (list_of_addresses.isEmpty()) {
+                val addresses = users.document(currentUser.uid)
+                    .collection("addresses")
+                    .get()
+                    .await()
+                    .toObjects(Address::class.java)
+                list.clear()
+                list.addAll(addresses)
+                if (list.isNotEmpty()) {
+                    users.document(currentUser.uid)
+                        .collection("addresses")
+                        .document(list[0].addressUID)
+                        .update(
+                            "default",
+                            true
+                        ).await()
+                    isGotten = true
+                }
+            }
+            Resource.Success(isGotten)
+        }
+    }
+
     override suspend fun getSupportedLocations() = withContext(Dispatchers.IO) {
         safeCall {
             val supported_locations =
@@ -224,6 +300,7 @@ class DefaultProfileRepository(
 
     override suspend fun checkShoppingBagForUnavailableProducts() = withContext(Dispatchers.IO) {
         safeCall {
+            val availabity = mutableListOf<String>()
             val _shoppingBagItem = Firebase.firestore.collection("users")
                 .document(currentUser!!.uid)
                 .collection("shopping bag")
@@ -239,7 +316,7 @@ class DefaultProfileRepository(
                             "available",
                             false
                         )
-                    isAvailable = false
+                    availabity.add("unavailable")
                 } else {
                     isAvailable = true
                     _shoppingBagItem.document(item.product_id)
@@ -249,6 +326,8 @@ class DefaultProfileRepository(
                         )
                 }
             }
+            if (availabity.contains("unavailable"))
+                isAvailable = false
             Resource.Success(isAvailable)
         }
     }
@@ -272,17 +351,17 @@ class DefaultProfileRepository(
 
             val subtotalList = mutableListOf<Int>()
             for (item in shoppingBagItem) {
-                val price = item.price.toInt()
+                val price = item.price.toInt() * item.quantity.toInt()
                 subtotalList.add(price)
             }
             val subtotal = subtotalList.sum()
-            val shipping_fee = (percent!!.shipping_fee_percent.toInt() / 100) * subtotal
-            list_of_values.add(0, shipping_fee)
+            val shipping_fee = (percent!!.shipping_fee_percent.toDouble() / 100) * subtotal
+            list_of_values.add(0, shipping_fee.toInt())
 
             list_of_values.add(1, subtotal)
 
             val total = shipping_fee + subtotal
-            list_of_values.add(2, total)
+            list_of_values.add(2, total.toInt())
 
             Resource.Success(list_of_values)
         }

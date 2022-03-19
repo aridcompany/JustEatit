@@ -24,9 +24,11 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+@Suppress("EXPERIMENTAL_ANNOTATION_ON_OVERRIDE_WARNING")
 @AndroidEntryPoint
 class CommentDialog : BottomSheetDialogFragment() {
 
+    override fun getTheme() = R.style.AppBottomSheetDialogTheme
     @Inject
     lateinit var glide: RequestManager
     @Inject

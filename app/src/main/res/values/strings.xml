@@ -125,4 +125,8 @@
     <string name="title_total">Total:</string>
     <string name="title_payment">Payment</string>
     <string name="title_transactions">Transactions</string>
+    <string name="title_default">Preferred delivery address</string>
+    <string name="title_some_items_are_out_of_stock">Some items in your shopping bag are out of stock!</string>
+    <string name="title_now_default">Now default address!</string>
+    <string name="title_set">Set as preferred delivery address</string>
 </resources>

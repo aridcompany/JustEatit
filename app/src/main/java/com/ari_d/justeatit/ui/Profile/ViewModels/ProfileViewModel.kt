@@ -87,6 +87,12 @@ class ProfileViewModel @Inject constructor(
     private val _calculateTotalStatus = MutableLiveData<Event<Resource<MutableList<Int>>>>()
     val calculateTotalStatus: LiveData<Event<Resource<MutableList<Int>>>> = _calculateTotalStatus
 
+    private val _makeDefaultAddressStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val makeDefaultAddressStatus: LiveData<Event<Resource<Boolean>>> = _makeDefaultAddressStatus
+
+    private val _getDefaultAddressStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val getDefaultAddressStatus: LiveData<Event<Resource<Boolean>>> = _getDefaultAddressStatus
+
     private var deletedWallet: Wallet? = null
 
     fun onEvent(event: walletEvent) {
@@ -199,6 +205,22 @@ class ProfileViewModel @Inject constructor(
                 additional_phoneNumber,
             )
             _createAddressStatus.postValue(Event(result))
+        }
+    }
+
+    fun makeAddressDefault(address: Address) {
+        _makeDefaultAddressStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.makeAddressDefault(address)
+            _makeDefaultAddressStatus.postValue(Event(result))
+        }
+    }
+
+    fun getDefaultAddress() {
+        _getDefaultAddressStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getDefaultAddress()
+            _getDefaultAddressStatus.postValue(Event(result))
         }
     }
 
