@@ -21,10 +21,10 @@ class DefaultProfileRepository(
     private val dao: WalletDao
 ) : ProfileRepository {
 
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-    val users = Firebase.firestore.collection("users")
-    val storageRef = Firebase.storage.reference
+    private val auth = FirebaseAuth.getInstance()
+    private val currentUser = auth.currentUser
+    private val users = Firebase.firestore.collection("users")
+    private val storageRef = Firebase.storage.reference
 
     override suspend fun setNameandEmail() = withContext(Dispatchers.IO) {
         safeCall {

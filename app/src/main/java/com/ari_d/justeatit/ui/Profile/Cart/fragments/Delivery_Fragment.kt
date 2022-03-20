@@ -85,10 +85,10 @@ class Delivery_Fragment : Fragment(R.layout.fragment_delivery) {
             if (addresses.isEmpty()) {
                 empty_layout.isVisible = true
                 btn_summary.isEnabled = false
-                recycler_cart.isVisible = false
+                recycler_cart.visibility = View.INVISIBLE
                 recycler_cart2.isVisible = true
             } else {
-                recycler_cart.isVisible = true
+                recycler_cart.visibility = View.VISIBLE
                 recycler_cart2.isVisible = false
                 addressAdapter.addressses = addresses
                 btn_summary.isEnabled = true

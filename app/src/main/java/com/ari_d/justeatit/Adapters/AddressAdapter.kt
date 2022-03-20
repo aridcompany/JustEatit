@@ -61,6 +61,8 @@ class AddressAdapter @Inject constructor(
             address_street.text = address.street_address
             if (address.isDefault)
                 txt_default.isVisible = true
+            else if (!address.isDefault)
+                txt_default.isVisible = false
 
             delete_address.setOnClickListener {
                 onDeleteAddressClickListener?.let { click ->
