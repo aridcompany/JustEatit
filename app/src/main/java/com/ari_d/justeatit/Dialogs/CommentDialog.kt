@@ -28,7 +28,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CommentDialog : BottomSheetDialogFragment() {
 
-    override fun getTheme() = R.style.AppBottomSheetDialogTheme
+    override fun getTheme() = R.style.NoBackgroundDialogTheme
     @Inject
     lateinit var glide: RequestManager
     @Inject
@@ -41,7 +41,9 @@ class CommentDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_comments, container, false)
+        val view = inflater.inflate(R.layout.fragment_comments, container, false)
+        view.setBackgroundResource(R.drawable.curved_bottom_layout)
+        return view
     }
 
     @InternalCoroutinesApi
