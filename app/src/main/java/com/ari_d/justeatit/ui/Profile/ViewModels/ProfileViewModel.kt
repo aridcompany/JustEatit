@@ -1,7 +1,6 @@
 package com.ari_d.justeatit.ui.Profile.ViewModels
 
 import android.content.Context
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,27 +11,18 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.*
-import com.ari_d.justeatit.data.pagingsource.CommentsPagingSource
 import com.ari_d.justeatit.data.pagingsource.OrdersPagingSource
 import com.ari_d.justeatit.data.pagingsource.ShoppingBagPagingSource
 import com.ari_d.justeatit.data.pagingsource.TrackOrdersPagingSource
 import com.ari_d.justeatit.other.Constants
 import com.ari_d.justeatit.other.Event
 import com.ari_d.justeatit.other.Resource
-import com.ari_d.justeatit.other.walletEvent
-import com.ari_d.justeatit.ui.Details.Repositories.DefaultDetailsRepository
-import com.ari_d.justeatit.ui.Profile.Repositories.DefaultProfileRepository
 import com.ari_d.justeatit.ui.Profile.Repositories.ProfileRepository
-import com.ari_d.justeatit.util.Routes
-import com.ari_d.justeatit.util.UiEvent
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,12 +32,6 @@ class ProfileViewModel @Inject constructor(
     private val applicationContext: Context,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
-
-    val wallets = repository.getWallets()
-
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
     private val _setNameStatus = MutableLiveData<Event<Resource<User>>>()
     val setNameStatus: LiveData<Event<Resource<User>>> = _setNameStatus
 
@@ -98,45 +82,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _insertWalletStatus = MutableLiveData<Event<Resource<Unit>>>()
     val insertWalletStatus: LiveData<Event<Resource<Unit>>> = _insertWalletStatus
-
-    private var deletedWallet: Wallet? = null
-
-    fun onEvent(event: walletEvent) {
-        when(event) {
-            is walletEvent.onWalletClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET + "?walletId=${event.wallet.id}"))
-            }
-            is walletEvent.onAddWalletClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_WALLET))
-            }
-            is walletEvent.onUndoDeleteClick -> {
-                deletedWallet?.let { wallet ->
-                    viewModelScope.launch {
-                        repository.insertWallet(wallet)
-                    }
-                }
-            }
-            is walletEvent.onDeleteWalletClick -> {
-                viewModelScope.launch {
-                    deletedWallet = event.wallet
-                    repository.deleteWallet(event.wallet)
-                    sendUiEvent(UiEvent.ShowSnackbar(
-                        message = "Wallet deleted",
-                        action = "Undo"
-                    ))
-                }
-            }
-            is walletEvent.onDoneChange -> {
-                viewModelScope.launch {
-                    repository.insertWallet(
-                        event.wallet.copy(
-                            isDone = event.isDone
-                        )
-                    )
-                }
-            }
-        }
-    }
 
     fun setNameandEmail() {
         _setNameStatus.postValue(Event(Resource.Loading()))
@@ -295,12 +240,6 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.insertWallet(wallet)
             _insertWalletStatus.postValue(Event(Resource.Success(result)))
-        }
-    }
-
-    private fun sendUiEvent(event: UiEvent) {
-        viewModelScope.launch {
-            _uiEvent.send(event)
         }
     }
 

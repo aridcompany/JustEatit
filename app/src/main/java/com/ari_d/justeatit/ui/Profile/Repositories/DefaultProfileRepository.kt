@@ -17,7 +17,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -109,10 +108,6 @@ class DefaultProfileRepository(
 
     override suspend fun getWallet(id: Int): Wallet? {
         return dao.getWallet(id)
-    }
-
-    override fun getWallets(): Flow<List<Wallet>> {
-        return dao.getWallets()
     }
 
     override suspend fun getAllWallets() = withContext(Dispatchers.IO) {

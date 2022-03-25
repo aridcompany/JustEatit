@@ -9,6 +9,6 @@ data class Wallet (
     val cvv: String,
     val expiryDate: String,
     val cardName: String,
-    val isDone: Boolean,
+    val cardType: String,
     @PrimaryKey val id: Int? = null
 )

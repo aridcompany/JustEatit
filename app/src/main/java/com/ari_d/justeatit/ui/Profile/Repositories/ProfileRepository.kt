@@ -3,7 +3,6 @@ package com.ari_d.justeatit.ui.Profile.Repositories
 import android.content.Context
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
-import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
 
@@ -20,8 +19,6 @@ interface ProfileRepository {
     suspend fun deleteWallet(wallet: Wallet)
 
     suspend fun getWallet(id: Int): Wallet?
-
-    fun getWallets(): Flow<List<Wallet>>
 
     suspend fun getAllWallets(): Resource<List<Wallet>>
 
