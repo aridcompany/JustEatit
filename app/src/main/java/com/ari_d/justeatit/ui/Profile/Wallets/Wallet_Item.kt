@@ -76,11 +76,18 @@ fun CreditCardItem(
                         color = Color(0xFFFFFFFF)
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = wallet.cardName,
-                        fontSize = 20.sp,
-                        color = Color(0xFFFFFFFF)
-                    )
+                    if (wallet.cardName.length > 18)
+                        Text(
+                            text = wallet.cardName.substring(0, 19) + ".",
+                            fontSize = 20.sp,
+                            color = Color(0xFFFFFFFF)
+                        )
+                    else
+                        Text(
+                            text = wallet.cardName,
+                            fontSize = 20.sp,
+                            color = Color(0xFFFFFFFF)
+                        )
                 }
             }
             Box(

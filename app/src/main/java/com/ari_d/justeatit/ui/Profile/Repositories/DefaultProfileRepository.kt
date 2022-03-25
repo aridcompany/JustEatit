@@ -1,6 +1,11 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
+import android.content.Context
 import androidx.core.net.toUri
+import co.paystack.android.PaystackSdk
+import co.paystack.android.model.Card
+import co.paystack.android.model.Charge
+import com.ari_d.justeatit.BuildConfig
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
@@ -108,6 +113,12 @@ class DefaultProfileRepository(
 
     override fun getWallets(): Flow<List<Wallet>> {
         return dao.getWallets()
+    }
+
+    override suspend fun getAllWallets() = withContext(Dispatchers.IO) {
+        safeCall {
+            Resource.Success(dao.getAllWallets())
+        }
     }
 
     override suspend fun getAddresses() = withContext(Dispatchers.IO) {
@@ -365,5 +376,28 @@ class DefaultProfileRepository(
 
             Resource.Success(list_of_values)
         }
+    }
+
+    override suspend fun chargeCard(
+        amountToPay: Int,
+        cardNumber: Int,
+        cardCVV: Int,
+        cardExpiryMonth: Int,
+        cardExpiryYear: Int,
+        applicationContext: Context
+    ) = withContext(Dispatchers.IO) {
+        var isSuccessful = false
+       safeCall {
+           PaystackSdk.initialize(applicationContext)
+           PaystackSdk.setPublicKey(BuildConfig.PSTK_PUBLIC_KEY)
+
+           val card = Card(cardNumber.toString(), cardExpiryMonth, cardExpiryYear, cardCVV.toString())
+           val charge = Charge()
+           charge.amount = amountToPay
+           charge.email = currentUser!!.email
+           charge.card = card
+           isSuccessful = true
+           Resource.Success(isSuccessful)
+       }
     }
 }

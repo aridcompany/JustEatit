@@ -57,17 +57,13 @@
         android:name="com.ari_d.justeatit.ui.Profile.Cart.fragments.Payment_Fragment"
         android:label="Payment_Fragment" >
         <action
-            android:id="@+id/action_payment_Fragment_to_myWalletFragment2"
-            app:destination="@id/myWalletFragment2"
+            android:id="@+id/action_payment_Fragment_to_new_Card_Fragment"
+            app:destination="@id/new_Card_Fragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"/>
     </fragment>
-    <fragment
-        android:id="@+id/myWalletFragment2"
-        android:name="com.ari_d.justeatit.ui.Profile.fragments.MyWalletFragment"
-        android:label="MyWalletFragment" />
     <fragment
         android:id="@+id/summary_Fragment"
         android:name="com.ari_d.justeatit.ui.Profile.Cart.fragments.Summary_Fragment"
@@ -112,4 +108,8 @@
         android:id="@+id/editAddressFragment22"
         android:name="com.ari_d.justeatit.ui.Profile.fragments.EditAddressFragment2"
         android:label="EditAddressFragment2" />
+    <fragment
+        android:id="@+id/new_Card_Fragment"
+        android:name="com.ari_d.justeatit.ui.Profile.Cart.fragments.New_Card_Fragment"
+        android:label="New_Card_Fragment" />
 </navigation>

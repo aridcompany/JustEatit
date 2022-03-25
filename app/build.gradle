@@ -17,6 +17,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "PSTK_PUBLIC_KEY", PSTK_PUBLIC_KEY)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -152,4 +153,7 @@ dependencies {
     // Image cropper
     def android_image_cropper_version = "2.8.+"
     api "com.theartofdev.edmodo:android-image-cropper:$android_image_cropper_version"
+
+    // Paystack
+    implementation 'co.paystack.android:paystack:3.1.2'
 }

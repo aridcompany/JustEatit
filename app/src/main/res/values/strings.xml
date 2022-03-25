@@ -123,10 +123,17 @@
     <string name="title_add_address">Create a new address</string>
     <string name="title_delete">Delete</string>
     <string name="title_total">Total:</string>
-    <string name="title_payment">Payment</string>
-    <string name="title_transactions">Transactions</string>
+    <string name="title_payment">Payment methods</string>
+    <string name="title_transactions">Other payment options</string>
     <string name="title_default">Preferred delivery address</string>
     <string name="title_some_items_are_out_of_stock">Some items in your shopping bag are out of stock!</string>
     <string name="title_now_default">Now default address!</string>
     <string name="title_set">Set as preferred delivery address</string>
+    <string name="title_tap_to_pay_credit">Tap on any card to complete your transaction</string>
+    <string name="payment_prompt">Card details</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_expiry">Card Expiry</string>
+    <string name="card_cvv">CVV</string>
+    <string name="secured_by_paystack">Secured by Paystack</string>
+    <string name="title_save_card">Save payment method</string>
 </resources>

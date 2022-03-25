@@ -45,6 +45,9 @@ class Main_Cart_Fragment : Fragment(R.layout.fragment_main_cart) {
         setupRecyclerView()
         subscribeToObservers()
         getShoppingBagItems()
+        swipe.setOnRefreshListener {
+            getShoppingBagItems()
+        }
         progressBar?.apply {
             isVisible = true
         }
@@ -132,6 +135,7 @@ class Main_Cart_Fragment : Fragment(R.layout.fragment_main_cart) {
             val decimalFormat = DecimalFormat("#,###,###")
             btn_checkout.isEnabled = true
             txt_subtotal_amount.text = "₦" + decimalFormat.format(it[1].toDouble())
+            swipe.isRefreshing = false
         })
     }
 

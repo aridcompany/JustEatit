@@ -6,6 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/slide_down"
+        app:layout_constraintBottom_toTopOf="@id/constraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
@@ -21,9 +33,9 @@
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
             android:layout_height="450dp"
+            app:layout_constraintBottom_toBottomOf="@+id/constraint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintBottom_toBottomOf="@+id/constraint"
             app:layout_constraintStart_toStartOf="@+id/constraint"
             app:layout_constraintTop_toTopOf="@id/constraint" />
 
@@ -32,8 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/constraint"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/constraint"
             app:layout_constraintTop_toTopOf="@id/constraint" />
 
@@ -54,8 +66,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_comment"
         android:layout_marginBottom="16dp"
+        android:hint="@string/enter_comment"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
@@ -63,8 +75,8 @@
         app:boxStrokeColor="@color/primary"
         app:endIconDrawable="@drawable/ic_baseline_send_24"
         app:endIconMode="custom"
-        app:hintTextColor="#757575"
         app:endIconTint="@color/primary"
+        app:hintTextColor="#757575"
         app:layout_constraintBottom_toBottomOf="@+id/rootLayout"
         app:layout_constraintEnd_toEndOf="@id/rootLayout"
         app:layout_constraintStart_toStartOf="@+id/rootLayout"

@@ -17,4 +17,7 @@ interface WalletDao {
 
     @Query("SELECT * FROM wallet")
     fun getWallets(): Flow<List<Wallet>>
+
+    @Query("SELECT * FROM wallet")
+    suspend fun getAllWallets(): List<Wallet>
 }

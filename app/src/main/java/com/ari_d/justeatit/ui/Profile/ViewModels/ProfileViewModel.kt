@@ -93,6 +93,12 @@ class ProfileViewModel @Inject constructor(
     private val _getDefaultAddressStatus = MutableLiveData<Event<Resource<Boolean>>>()
     val getDefaultAddressStatus: LiveData<Event<Resource<Boolean>>> = _getDefaultAddressStatus
 
+    private val _getAllWalletsStatus = MutableLiveData<Event<Resource<List<Wallet>>>>()
+    val getAllWalletsStatus: LiveData<Event<Resource<List<Wallet>>>> = _getAllWalletsStatus
+
+    private val _insertWalletStatus = MutableLiveData<Event<Resource<Unit>>>()
+    val insertWalletStatus: LiveData<Event<Resource<Unit>>> = _insertWalletStatus
+
     private var deletedWallet: Wallet? = null
 
     fun onEvent(event: walletEvent) {
@@ -273,6 +279,22 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.calculateTotal()
             _calculateTotalStatus.postValue(Event(result))
+        }
+    }
+
+    fun getAllWallets() {
+        _getAllWalletsStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getAllWallets()
+            _getAllWalletsStatus.postValue(Event(result))
+        }
+    }
+
+    fun insertWallet(wallet: Wallet) {
+        _insertWalletStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.insertWallet(wallet)
+            _insertWalletStatus.postValue(Event(Resource.Success(result)))
         }
     }
 

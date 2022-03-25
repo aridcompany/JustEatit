@@ -1,5 +1,6 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
+import android.content.Context
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,8 @@ interface ProfileRepository {
     suspend fun getWallet(id: Int): Wallet?
 
     fun getWallets(): Flow<List<Wallet>>
+
+    suspend fun getAllWallets(): Resource<List<Wallet>>
 
     suspend fun getAddresses(): Resource<List<Address>>
 
@@ -51,4 +54,13 @@ interface ProfileRepository {
     suspend fun checkShoppingBagForUnavailableProducts() : Resource<Boolean>
 
     suspend fun calculateTotal() : Resource<MutableList<Int>>
+
+    suspend fun chargeCard(
+        amountToPay: Int,
+        cardNumber: Int,
+        cardCVV: Int,
+        cardExpiryMonth: Int,
+        cardExpiryYear: Int,
+        applicationContext: Context
+    ) : Resource<Boolean>
 }
