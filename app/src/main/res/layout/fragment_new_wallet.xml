@@ -12,18 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/half_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"/>
-
 
         <TextView
             android:id="@+id/textView70"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="@string/payment_prompt"
             android:textColor="@color/black"
             android:textSize="22sp"
@@ -35,35 +29,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.072" />
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_save_card"
-            android:textColor="@color/black"
-            android:checked="true"
-            android:buttonTint="@color/primary"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@+id/textView70"
-            app:layout_constraintTop_toBottomOf="@+id/textView70"
-            app:layout_constraintVertical_bias="0.066" />
-
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextInputLayout_cardNumber"
+            android:id="@+id/TextInputLayout_cardName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="16dp"
             android:digits="0123456789- "
-            android:hint="@string/card_number"
-            android:inputType="number"
-            android:maxLength="20"
+            android:hint="@string/card_name"
+            android:inputType="textCapWords"
+            android:maxLength="25"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:textColorHint="@color/grey"
@@ -75,22 +52,74 @@
             app:hintTextColor="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkbox">
+            app:layout_constraintTop_toBottomOf="@+id/textView70">
 
-            <EditText
-                android:id="@+id/et_card_number"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:digits="0123456789- "
+                android:inputType="text"
+                android:maxLength="25"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
-                android:maxLength="20"
                 android:textStyle="bold"
-                android:inputType="number"
-                android:digits="0123456789- "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/TextInputLayout_cardNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/card_number"
+            android:inputType="number"
+            android:maxLength="19"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColorHint="@color/grey"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxStrokeColor="@color/primary_dark"
+            app:hintTextColor="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:maxLength="19"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintEnd_toEndOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintTop_toTopOf="@+id/TextInputLayout_cardNumber" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInpuLayout_Expiry"
@@ -109,7 +138,7 @@
             app:boxStrokeColor="@color/primary_dark"
             app:hintTextColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/half_screen"
+            app:layout_constraintEnd_toStartOf="@+id/TextInputLayout_cardCVV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintVertical_bias="0">
@@ -150,7 +179,7 @@
             app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintVertical_bias="0">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_cvv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -173,7 +202,8 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/primary"
-            android:text="Pay ₦7,500"
+            android:drawableLeft="@drawable/ic_add_card"
+            android:text="@string/title_save_card"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -183,33 +213,12 @@
             app:layout_constraintTop_toBottomOf="@+id/TextInpuLayout_Expiry"
             app:layout_constraintVertical_bias="0" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/ic_baseline_lock_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.279"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_pay"
-            app:layout_constraintVertical_bias="0" />
-
-        <TextView
-            android:id="@+id/textView28"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/half_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/secured_by_paystack"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView2"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginLeft="10dp" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

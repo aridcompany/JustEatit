@@ -15,9 +15,9 @@ import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.credit_card_item.view.*
 import javax.inject.Inject
 
-class PaymentViewPagerAdapter @Inject constructor(
+class MyWalletAdapter @Inject constructor(
     private val glide: RequestManager
-) : RecyclerView.Adapter<PaymentViewPagerAdapter.ProductsViewHolder>() {
+) : RecyclerView.Adapter<MyWalletAdapter.ProductsViewHolder>() {
 
     inner class ProductsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardName: TextView = itemView.txt_card_name
@@ -45,7 +45,7 @@ class PaymentViewPagerAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         return ProductsViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.credit_card_item,
+                R.layout.credit_card,
                 parent,
                 false
             )
@@ -57,23 +57,23 @@ class PaymentViewPagerAdapter @Inject constructor(
         val wallet = wallets[position]
         holder.apply {
             if (wallet.cardType == "JCB")
-                creditCardType.setImageResource(R.drawable.jcb_viewpager)
+                creditCardType.setImageResource(R.drawable.jcb_item)
             else if (wallet.cardType == "AMEX")
-                creditCardType.setImageResource(R.drawable.amex_viewpager)
+                creditCardType.setImageResource(R.drawable.amex_item)
             else if (wallet.cardType == "DINERS_CLUB")
-                creditCardType.setImageResource(R.drawable.dinners_viewpager)
+                creditCardType.setImageResource(R.drawable.dinners_item)
             else if (wallet.cardType == "VISA")
-                creditCardType.setImageResource(R.drawable.visa_viewpager)
+                creditCardType.setImageResource(R.drawable.visa_item)
             else if (wallet.cardType == "MASTERCARD")
-                creditCardType.setImageResource(R.drawable.mastercard_viewpager)
+                creditCardType.setImageResource(R.drawable.mastercard_item)
             else if (wallet.cardType == "DISCOVER")
-                creditCardType.setImageResource(R.drawable.discover_viewpager)
+                creditCardType.setImageResource(R.drawable.discover_item)
             else if (wallet.cardType == "MAESTRO")
-                creditCardType.setImageResource(R.drawable.maestro_viewppager)
+                creditCardType.setImageResource(R.drawable.maestro_item)
             else if (wallet.cardType == "VERVE")
-                creditCardType.setImageResource(R.drawable.verve_viewpager)
+                creditCardType.setImageResource(R.drawable.verve_item)
             else
-                creditCardType.setImageResource(R.drawable.unknown_viewpager
+                creditCardType.setImageResource(R.drawable.unknown_item
                 )
             if (wallet.cardName.length > 15)
                 cardName.text = wallet.cardName.substring(0, 16) + "."

@@ -83,6 +83,9 @@ class ProfileViewModel @Inject constructor(
     private val _insertWalletStatus = MutableLiveData<Event<Resource<Unit>>>()
     val insertWalletStatus: LiveData<Event<Resource<Unit>>> = _insertWalletStatus
 
+    private val _deleteWalletStatus = MutableLiveData<Event<Resource<Unit>>>()
+    val deleteWalletStatus: LiveData<Event<Resource<Unit>>> = _deleteWalletStatus
+
     fun setNameandEmail() {
         _setNameStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch(dispatcher) {
@@ -240,6 +243,14 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.insertWallet(wallet)
             _insertWalletStatus.postValue(Event(Resource.Success(result)))
+        }
+    }
+
+    fun deleteWallet(wallet: Wallet) {
+        _deleteWalletStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.deleteWallet(wallet)
+            _deleteWalletStatus.postValue(Event(Resource.Success(result)))
         }
     }
 

@@ -42,6 +42,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_myWalletFragment_to_new_Wallet_Fragment"
+            app:destination="@id/new_Wallet_Fragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/main_profile_fragment"
@@ -199,5 +206,9 @@
             android:id="@+id/action_view_Profile_PicFragment_to_updateDetailsFragment"
             app:destination="@id/updateDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/new_Wallet_Fragment"
+        android:name="com.ari_d.justeatit.ui.Profile.fragments.New_Wallet_Fragment"
+        android:label="New_Wallet_Fragment" />
 
 </navigation>

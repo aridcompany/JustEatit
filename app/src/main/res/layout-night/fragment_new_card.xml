@@ -12,6 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/half_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
 
         <TextView
             android:id="@+id/textView70"
@@ -88,10 +95,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInpuLayout_Expiry"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="36dp"
             android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
             android:hint="@string/card_expiry"
             android:textColorHint="@color/grey"
             app:boxCornerRadiusBottomEnd="16dp"
@@ -101,8 +109,7 @@
             app:boxStrokeColor="@color/primary_dark"
             app:hintTextColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/TextInputLayout_cardCVV"
-            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintEnd_toStartOf="@+id/half_screen"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintVertical_bias="0">
@@ -121,8 +128,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInputLayout_cardCVV"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:digits="0123456789"
@@ -138,6 +146,7 @@
             app:hintTextColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/half_screen"
             app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintVertical_bias="0">
 
