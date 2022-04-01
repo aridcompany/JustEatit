@@ -1,6 +1,7 @@
 package com.ari_d.justeatit.ui.Profile.ViewModels
 
 import android.content.Context
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -85,6 +86,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _deleteWalletStatus = MutableLiveData<Event<Resource<Unit>>>()
     val deleteWalletStatus: LiveData<Event<Resource<Unit>>> = _deleteWalletStatus
+
+    private val _getUserStatus = MutableLiveData<Event<Resource<User>>>()
+    val getUserStatus: LiveData<Event<Resource<User>>> = _getUserStatus
 
     fun setNameandEmail() {
         _setNameStatus.postValue(Event(Resource.Loading()))
@@ -186,6 +190,14 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun getUser(uid: String) {
+        _getUserStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getUser(uid)
+            _getUserStatus.postValue(Event(result))
+        }
+    }
+
     fun getHelpUrl() {
         _getHelpUrlStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch {
@@ -239,6 +251,26 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun insertWallet(wallet: Wallet) {
+        val error = if (wallet.cardNumber.isEmpty()) {
+            applicationContext.getString(R.string.title_empty_cardNumber)
+        } else if (wallet.cardNumber.length < 10){
+            applicationContext.getString(R.string.title_invalid_card_number)
+        } else if (wallet.cardName.isEmpty()) {
+            applicationContext.getString(R.string.title_empty_card_name)
+        } else if (wallet.expiryDate.isEmpty()) {
+            applicationContext.getString(R.string.title_empty_cardExpiry)
+        } else if (wallet.expiryDate.length < 4) {
+            applicationContext.getString(R.string.title_invalid_card_date)
+        } else if (wallet.cvv.isEmpty()) {
+            applicationContext.getString(R.string.title_empty_cardCVV)
+        } else if (wallet.cvv.length < 3) {
+            applicationContext.getString(R.string.title_invalid_cardCVV)
+        } else null
+
+        error?.let {
+            _insertWalletStatus.postValue(Event(Resource.Error(it)))
+            return
+        }
         _insertWalletStatus.postValue(Event(Resource.Loading()))
         viewModelScope.launch {
             val result = repository.insertWallet(wallet)

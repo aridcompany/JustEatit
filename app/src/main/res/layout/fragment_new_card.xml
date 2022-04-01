@@ -77,7 +77,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkbox">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -91,6 +91,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintEnd_toEndOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintTop_toTopOf="@+id/TextInputLayout_cardNumber" />
+
+        <TextView
+            android:id="@+id/cardType"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintEnd_toEndOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintTop_toTopOf="@+id/TextInputLayout_cardNumber" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInpuLayout_Expiry"
@@ -150,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintVertical_bias="0">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_cvv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -173,7 +198,6 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/primary"
-            android:text="Pay ₦7,500"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"

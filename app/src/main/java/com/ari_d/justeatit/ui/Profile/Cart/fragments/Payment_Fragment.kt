@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ari_d.justeatit.Adapters.PaymentViewPagerAdapter
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Wallet
@@ -23,6 +24,7 @@ class Payment_Fragment : Fragment(R.layout.fragment_payment) {
     val viewModel: ProfileViewModel by activityViewModels()
     @Inject
     lateinit var paymentAdapter: PaymentViewPagerAdapter
+    private val args: Payment_FragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +32,7 @@ class Payment_Fragment : Fragment(R.layout.fragment_payment) {
         subscribeToObservers()
         btn_new_card.setOnClickListener {
             findNavController().navigate(
-                Payment_FragmentDirections.actionPaymentFragmentToNewCardFragment()
+                Payment_FragmentDirections.actionPaymentFragmentToNewCardFragment(args.totalAmount)
             )
         }
         paymentAdapter.setOnGetWalletDetailsClickListener { wallet, i, view ->

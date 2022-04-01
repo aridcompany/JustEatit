@@ -34,6 +34,7 @@ class Summary_Fragment: Fragment(R.layout.fragment_summary) {
     @Inject
     lateinit var shoppingBagAdapter: ShoppingBagAdapter
     private lateinit var auth: FirebaseAuth
+    private var total_amount: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +48,7 @@ class Summary_Fragment: Fragment(R.layout.fragment_summary) {
         btn_proceed_to_payment.isEnabled = false
         btn_proceed_to_payment.setOnClickListener {
            findNavController().navigate(
-               Summary_FragmentDirections.actionSummaryFragmentToPaymentFragment()
+               Summary_FragmentDirections.actionSummaryFragmentToPaymentFragment(total_amount)
             )
         }
     }
@@ -95,6 +96,7 @@ class Summary_Fragment: Fragment(R.layout.fragment_summary) {
             txt_shipping_fee.text = "+shipping fee: ₦" + decimalFormat.format(it[0])
             txt_subtotal_amount.text = "₦" + decimalFormat.format(it[1].toDouble())
             txt_total_amount.text = "₦" + decimalFormat.format(it[2].toDouble())
+            total_amount = it[2].toString()
         })
     }
 

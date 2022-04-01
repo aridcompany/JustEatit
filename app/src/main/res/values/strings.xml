@@ -137,4 +137,12 @@
     <string name="secured_by_paystack">Secured by Paystack</string>
     <string name="title_save_card">Save payment method</string>
     <string name="card_name">Card Holder\'s Name</string>
+    <string name="title_empty_cardNumber">Card number cannot be empty!</string>
+    <string name="title_empty_card_name">Card holder\'s name cannot be empty!</string>
+    <string name="title_empty_cardExpiry">Card expiry date cannot be empty!</string>
+    <string name="title_empty_cardCVV">Card CVV cannot be empty!</string>
+    <string name="title_wallet_delete">Payment method deleted</string>
+    <string name="title_invalid_card_number">Invalid card number!</string>
+    <string name="title_invalid_card_date">Invalid card expiry date!</string>
+    <string name="title_invalid_cardCVV">Invalid card CVV!</string>
 </resources>

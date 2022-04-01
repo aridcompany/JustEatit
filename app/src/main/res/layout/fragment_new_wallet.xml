@@ -121,6 +121,18 @@
             app:layout_constraintStart_toStartOf="@+id/TextInputLayout_cardNumber"
             app:layout_constraintTop_toTopOf="@+id/TextInputLayout_cardNumber" />
 
+        <TextView
+            android:id="@+id/cardType"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintEnd_toEndOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/TextInputLayout_cardNumber"
+            app:layout_constraintTop_toTopOf="@+id/TextInputLayout_cardNumber" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/TextInpuLayout_Expiry"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

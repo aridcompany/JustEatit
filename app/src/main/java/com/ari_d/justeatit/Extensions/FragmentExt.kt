@@ -1,5 +1,6 @@
 package com.ari_d.justeatit.Extensions
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -15,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 
 val jcbRegex = Regex("^(?:2131|1800|35)[0-9]{0,}$")
 val amexRegex = Regex("^3[47][0-9]{0,}\$")
@@ -45,6 +47,7 @@ fun Fragment.alertDialog(title: String, message: String, icon: Drawable) {
 
 fun addCreditCardNumberTxtWatcher(
     context: Context,
+    cardType: TextView,
     img: ImageView,
     et: TextInputEditText,
     et_layout: TextInputLayout,
@@ -57,6 +60,7 @@ fun addCreditCardNumberTxtWatcher(
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
+        @SuppressLint("SetTextI18n")
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (mBlock)
                 return
@@ -76,6 +80,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.american_express)
                     img.startAnimation(animFade)
+                    cardType.text = "AMEX"
                 } else if (oldStr.matches(verveRegex)) {
                     if (i == 6) {
                         newFormattedStr += separator
@@ -84,6 +89,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.verve)
                     img.startAnimation(animFade)
+                    cardType.text = "VERVE"
                 } else if (oldStr.matches(dinersRegex)) {
                     if (i == 4 || i == 10 || i == 14) {
                         newFormattedStr += separator
@@ -92,6 +98,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.dinners_card)
                     img.startAnimation(animFade)
+                    cardType.text = "DINERS_CLUB"
                 } else if (oldStr.matches(jcbRegex)) {
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
@@ -99,6 +106,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.jcb_card)
                     img.startAnimation(animFade)
+                    cardType.text = "JCB"
                 } else if (oldStr.matches(visaRegex)) {
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
@@ -107,6 +115,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.visa)
                     img.startAnimation(animFade)
+                    cardType.text = "VISA"
                 } else if (oldStr.matches(masterCardRegex)) {
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
@@ -115,6 +124,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.mastercard)
                     img.startAnimation(animFade)
+                    cardType.text = "MASTERCARD"
                 } else if (oldStr.matches(discoverRegex)) {
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
@@ -123,6 +133,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.discover)
                     img.startAnimation(animFade)
+                    cardType.text = "DISCOVER"
                 } else if (oldStr.matches(maestroRegex)) {
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
@@ -131,6 +142,7 @@ fun addCreditCardNumberTxtWatcher(
                     img.isVisible = true
                     img.setImageResource(R.drawable.maestro)
                     img.startAnimation(animFade)
+                    cardType.text = "MAESTRO"
                 } else if (oldStr.isEmpty()) {
                     img.isVisible = false
                 } else {
@@ -138,6 +150,7 @@ fun addCreditCardNumberTxtWatcher(
                         newFormattedStr += separator
                     }
                     img.isVisible = false
+                    cardType.text = "UNKNOWN"
                 }
                 newFormattedStr += c
             }

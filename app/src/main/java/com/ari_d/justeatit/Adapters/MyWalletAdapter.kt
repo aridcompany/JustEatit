@@ -12,7 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Wallet
 import com.bumptech.glide.RequestManager
+import kotlinx.android.synthetic.main.credit_card.view.*
 import kotlinx.android.synthetic.main.credit_card_item.view.*
+import kotlinx.android.synthetic.main.credit_card_item.view.img_credit_card
+import kotlinx.android.synthetic.main.credit_card_item.view.txt_card_exp_date
+import kotlinx.android.synthetic.main.credit_card_item.view.txt_card_name
+import kotlinx.android.synthetic.main.credit_card_item.view.txt_card_number
 import javax.inject.Inject
 
 class MyWalletAdapter @Inject constructor(
@@ -24,6 +29,7 @@ class MyWalletAdapter @Inject constructor(
         val cardNumber: TextView = itemView.txt_card_number
         val cardExpiryDate: TextView = itemView.txt_card_exp_date
         val creditCardType: ImageView = itemView.img_credit_card
+        val deleteWallet: ImageView = itemView.delete_wallet
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Wallet>() {
@@ -84,9 +90,9 @@ class MyWalletAdapter @Inject constructor(
             cardExpiryDate.text =
                 wallet.expiryDate.substring(0, 2) + "/" + wallet.expiryDate.substring(2, 4)
 
-            itemView.setOnClickListener {
-                onGetWalletDetailsClickListener?.let { click ->
-                    click(wallet, holder.layoutPosition, cardName)
+            deleteWallet.setOnClickListener {
+                onDeleteWalletDetailsClickListener?.let { click ->
+                    click(wallet, holder.layoutPosition, deleteWallet)
                 }
             }
         }
@@ -96,9 +102,9 @@ class MyWalletAdapter @Inject constructor(
         return wallets.size
     }
 
-    private var onGetWalletDetailsClickListener: ((Wallet, Int, View) -> Unit)? = null
+    private var onDeleteWalletDetailsClickListener: ((Wallet, Int, View) -> Unit)? = null
 
-    fun setOnGetWalletDetailsClickListener(listener: (Wallet, Int, View) -> Unit) {
-        onGetWalletDetailsClickListener = listener
+    fun setOnDeleteWalletDetailsClickListener(listener: (Wallet, Int, View) -> Unit) {
+        onDeleteWalletDetailsClickListener = listener
     }
 }
