@@ -4,6 +4,9 @@
     android:id="@+id/cart_nav_graph"
     app:startDestination="@id/main_Cart_Fragment">
 
+    <action android:id="@+id/globalActionToBottomNavDialog"
+        app:destination="@id/bottomNavFragmentDialog" />
+
     <action
         android:id="@+id/globalActionToEditAddressFragment2"
         app:destination="@id/editAddressFragment22"
@@ -119,5 +122,28 @@
         <argument
             android:name="total_amount"
             app:argType="string" />
+        <action
+            android:id="@+id/action_new_Card_Fragment_to_bottomNavFragmentDialog"
+            app:destination="@id/bottomNavFragmentDialog"
+            app:enterAnim="@anim/slide_up"/>
     </fragment>
+
+    <dialog
+        android:id="@+id/bottomNavFragmentDialog"
+        android:name="com.ari_d.justeatit.Dialogs.BottomNavFragmentDialog"
+        android:label="BottomNavFragmentDialog" >
+        <argument
+            android:name="card_number"
+            app:argType="string"/>
+        <argument
+            android:name="card_expiry"
+            app:argType="string"/>
+        <argument
+            android:name="card_cvv"
+            app:argType="string"/>
+        <argument
+            android:name="amounToPay"
+            app:argType="string"/>
+    </dialog>
+
 </navigation>

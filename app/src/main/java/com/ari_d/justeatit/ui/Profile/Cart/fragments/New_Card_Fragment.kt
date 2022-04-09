@@ -19,33 +19,32 @@ import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_new_card.*
-import kotlinx.android.synthetic.main.fragment_new_card.TextInputLayout_cardNumber
-import kotlinx.android.synthetic.main.fragment_new_card.btn_pay
-import kotlinx.android.synthetic.main.fragment_new_card.cardType
-import kotlinx.android.synthetic.main.fragment_new_card.et_card_number
-import kotlinx.android.synthetic.main.fragment_new_card.et_cvv
-import kotlinx.android.synthetic.main.fragment_new_card.et_expiry
-import kotlinx.android.synthetic.main.fragment_new_card.img
-import kotlinx.android.synthetic.main.fragment_new_wallet.*
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class New_Card_Fragment : Fragment(R.layout.fragment_new_card) {
 
-    val viewModel : ProfileViewModel by activityViewModels()
+    val viewModel: ProfileViewModel by activityViewModels()
     private val currentUser = FirebaseAuth.getInstance().currentUser
-    private var UserName : String = ""
+    private var UserName: String = ""
     private val args: New_Card_FragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addCreditCardNumberTxtWatcher(requireContext(), cardType, img, et_card_number, TextInputLayout_cardNumber,'-')
-        addCreditCardDateTxtWatcher(et_expiry,'/')
+        addCreditCardNumberTxtWatcher(
+            requireContext(),
+            cardType,
+            img,
+            et_card_number,
+            TextInputLayout_cardNumber,
+            '-'
+        )
+        addCreditCardDateTxtWatcher(et_expiry, '/')
 
         viewModel.getUser(currentUser!!.uid)
         subsribeToObservers()
         btn_pay.setOnClickListener {
-
+            onCheckboxClicked(checkbox)
         }
     }
 
@@ -58,7 +57,7 @@ class New_Card_Fragment : Fragment(R.layout.fragment_new_card) {
                 btn_pay.isEnabled = false
                 btn_pay.startAnimation(fadeInAnim)
             }
-        ){ user ->
+        ) { user ->
             btn_pay.clearAnimation()
             fadeInAnim.cancel()
             fadeInAnim.reset()
@@ -70,7 +69,20 @@ class New_Card_Fragment : Fragment(R.layout.fragment_new_card) {
         viewModel.insertWalletStatus.observe(viewLifecycleOwner, EventObserver(
             onError = { snackbar(it) },
             onLoading = {}
-        ){})
+        ) {})
+        viewModel.insertWalletStatus.observe(viewLifecycleOwner, EventObserver(
+            onLoading = {},
+            onError = { snackbar(it) }
+        ) {
+            findNavController().navigate(
+                New_Card_FragmentDirections.actionNewCardFragmentToBottomNavFragmentDialog(
+                    et_card_number.text.toString().replace("-", ""),
+                    et_expiry.text.toString().replace("/", ""),
+                    et_cvv.text.toString(),
+                    args.totalAmount
+                )
+            )
+        })
     }
 
     private fun onCheckboxClicked(view: View) {
@@ -83,12 +95,38 @@ class New_Card_Fragment : Fragment(R.layout.fragment_new_card) {
                         viewModel.insertWallet(
                             Wallet(
                                 cardName = UserName,
-                                cardNumber = et_card_number.text.toString().replace("-",""),
-                                expiryDate = et_expiry.text.toString().replace("/",""),
+                                cardNumber = et_card_number.text.toString().replace("-", ""),
+                                expiryDate = et_expiry.text.toString().replace("/", ""),
                                 cvv = et_cvv.text.toString(),
                                 cardType = cardType.text.toString()
                             )
                         )
+                    } else {
+                        if (et_card_number.text.toString().isEmpty()) {
+                            snackbar(getString(R.string.title_empty_cardNumber))
+                        } else if (et_expiry.text.toString().isEmpty()) {
+                            snackbar(getString(R.string.title_empty_cardExpiry))
+                        } else if (et_cvv.text.toString().isEmpty()) {
+                            snackbar(getString(R.string.title_empty_cardCVV))
+                        } else if (et_cvv.text.toString().length < 3) {
+                            snackbar(getString(R.string.title_invalid_cardCVV))
+                        } else if (et_expiry.text.toString().length < 5) {
+                            snackbar(getString(R.string.title_invalid_card_date))
+                        } else if (et_card_number.text.toString()
+                                .isNotEmpty() || et_expiry.text.toString()
+                                .isNotEmpty() || et_cvv.text.toString()
+                                .isNotEmpty() || et_cvv.text.toString()
+                                .length == 3 || et_expiry.text.toString().length == 5
+                        ) {
+                            findNavController().navigate(
+                                New_Card_FragmentDirections.actionNewCardFragmentToBottomNavFragmentDialog(
+                                    et_card_number.text.toString().replace("-", ""),
+                                    et_expiry.text.toString().replace("/", ""),
+                                    et_cvv.text.toString(),
+                                    args.totalAmount
+                                )
+                            )
+                        }
                     }
                 }
             }

@@ -145,4 +145,6 @@
     <string name="title_invalid_card_number">Invalid card number!</string>
     <string name="title_invalid_card_date">Invalid card expiry date!</string>
     <string name="title_invalid_cardCVV">Invalid card CVV!</string>
+    <string name="title_order_successful">Your purchase was successful!</string>
+    <string name="title_payment_unsuccessful">An error occurred with this payment method</string>
 </resources>

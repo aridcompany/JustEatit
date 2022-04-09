@@ -1,7 +1,7 @@
 package com.ari_d.justeatit.ui.Profile.ViewModels
 
+import android.app.Activity
 import android.content.Context
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -89,6 +89,12 @@ class ProfileViewModel @Inject constructor(
 
     private val _getUserStatus = MutableLiveData<Event<Resource<User>>>()
     val getUserStatus: LiveData<Event<Resource<User>>> = _getUserStatus
+
+    private val _chargeCardStatus = MutableLiveData<Event<Resource<String>>>()
+    val chargeCardStatus: LiveData<Event<Resource<String>>> = _chargeCardStatus
+
+    private val _createOrderStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val createOrderStatus: LiveData<Event<Resource<Boolean>>> = _createOrderStatus
 
     fun setNameandEmail() {
         _setNameStatus.postValue(Event(Resource.Loading()))
@@ -283,6 +289,45 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.deleteWallet(wallet)
             _deleteWalletStatus.postValue(Event(Resource.Success(result)))
+        }
+    }
+
+    fun chargeCard(
+        amountToPay: Int,
+        cardNumber: String,
+        cardCVV: Int,
+        cardExpiryMonth: Int,
+        cardExpiryYear: Int,
+        applicationContext: Activity
+    ) {
+        val error = if (amountToPay.toString().isEmpty()) {
+            applicationContext.getString(R.string.title_unknown_error_occurred)
+        } else if (cardNumber.toString().isEmpty()) {
+            applicationContext.getString(R.string.title_unknown_error_occurred)
+        } else if (cardCVV.toString().isEmpty()) {
+            applicationContext.getString(R.string.title_unknown_error_occurred)
+        } else if (cardExpiryMonth.toString().isEmpty()) {
+            applicationContext.getString(R.string.title_unknown_error_occurred)
+        } else if (cardExpiryYear.toString().isEmpty()) {
+            applicationContext.getString(R.string.title_unknown_error_occurred)
+        } else null
+
+        error?.let {
+            _chargeCardStatus.postValue(Event(Resource.Error(it)))
+            return
+        }
+        _chargeCardStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.chargeCard(amountToPay, cardNumber, cardCVV, cardExpiryMonth, cardExpiryYear, applicationContext)
+            _chargeCardStatus.postValue(Event(result))
+        }
+    }
+
+    fun createOrder(transaction_reference: String) {
+        _createOrderStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.createOrders(transaction_reference)
+            _createOrderStatus.postValue(Event(result))
         }
     }
 

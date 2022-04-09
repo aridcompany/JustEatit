@@ -14,7 +14,6 @@ import com.ari_d.justeatit.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 
@@ -22,7 +21,7 @@ val jcbRegex = Regex("^(?:2131|1800|35)[0-9]{0,}$")
 val amexRegex = Regex("^3[47][0-9]{0,}\$")
 val dinersRegex = Regex("^3(?:0[0-59]{1}|[689])[0-9]{0,}\$")
 val visaRegex = Regex("^4[0-9]{0,}\$")
-val verveRegex = Regex("^50610[59]0[0-9]{0,}\$")
+val verveRegex = Regex("^50610[0-9]{0,}\$")
 val masterCardRegex = Regex("^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[01]|2720)[0-9]{0,}\$")
 val maestroRegex = Regex("^(5[06789]|6)[0-9]{0,}\$")
 val discoverRegex =
@@ -149,6 +148,7 @@ fun addCreditCardNumberTxtWatcher(
                     if (i > 0 && i % 4 == 0) {
                         newFormattedStr += separator
                     }
+                    et.setMaxLength(19)
                     img.isVisible = false
                     cardType.text = "UNKNOWN"
                 }
@@ -156,7 +156,9 @@ fun addCreditCardNumberTxtWatcher(
             }
             et.setText(newFormattedStr)
             if (before == 0) {
-                if (et.text.toString()[lastPos - 1] == separator) lastPos++
+                if (lastPos != 0) {
+                    if (et.text.toString()[lastPos - 1] == separator) lastPos++
+                }
             }
             et.setSelection(lastPos)
             mBlock = false
@@ -200,7 +202,9 @@ fun addCreditCardDateTxtWatcher(
             }
             et.setText(newFormattedStr)
             if (before == 0) {
-                if (et.text.toString()[lastPos - 1] == separator) lastPos++
+                if (lastPos != 0) {
+                    if (et.text.toString()[lastPos - 1] == separator) lastPos++
+                }
             }
             et.setSelection(lastPos)
             mBlock = false

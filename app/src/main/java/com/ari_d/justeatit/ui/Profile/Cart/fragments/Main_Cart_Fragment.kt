@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -132,9 +133,11 @@ class Main_Cart_Fragment : Fragment(R.layout.fragment_main_cart) {
                 btn_checkout.isEnabled = false
             }
         ) {
+            val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
             val decimalFormat = DecimalFormat("#,###,###")
             btn_checkout.isEnabled = true
             txt_subtotal_amount.text = "₦" + decimalFormat.format(it[1].toDouble())
+            txt_subtotal_amount.animation = fadeInAnim
             swipe.isRefreshing = false
         })
     }

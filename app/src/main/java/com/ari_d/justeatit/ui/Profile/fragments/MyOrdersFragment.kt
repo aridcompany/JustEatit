@@ -35,6 +35,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
 
     private val viewModel: ProfileViewModel by viewModels()
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,7 +62,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
         }
     }
 
-    @OptIn(InternalCoroutinesApi::class)
+    @InternalCoroutinesApi
     private fun getOrders() {
         lifecycleScope.launch {
             viewModel.getPagingFlow().collect {

@@ -36,6 +36,7 @@ class TrackMyOrdersFragment: Fragment(R.layout.fragment_track_orders) {
 
     private val viewModel: ProfileViewModel by viewModels()
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,7 +63,7 @@ class TrackMyOrdersFragment: Fragment(R.layout.fragment_track_orders) {
         }
     }
 
-    @OptIn(InternalCoroutinesApi::class)
+    @InternalCoroutinesApi
     private fun getOrders() {
         lifecycleScope.launch {
             viewModel.getPagingFlowForTracking().collect {

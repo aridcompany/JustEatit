@@ -1,11 +1,15 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
+import android.app.Activity
 import android.content.Context
 import androidx.core.net.toUri
+import co.paystack.android.Paystack
 import co.paystack.android.PaystackSdk
+import co.paystack.android.Transaction
 import co.paystack.android.model.Card
 import co.paystack.android.model.Charge
 import com.ari_d.justeatit.BuildConfig
+import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
@@ -19,7 +23,10 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.text.DateFormat
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class DefaultProfileRepository(
     private val dao: WalletDao
@@ -28,6 +35,7 @@ class DefaultProfileRepository(
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val users = Firebase.firestore.collection("users")
+    private val sellers = Firebase.firestore.collection("sellers")
     private val storageRef = Firebase.storage.reference
 
     override suspend fun setNameandEmail() = withContext(Dispatchers.IO) {
@@ -307,7 +315,7 @@ class DefaultProfileRepository(
     override suspend fun checkShoppingBagForUnavailableProducts() = withContext(Dispatchers.IO) {
         safeCall {
             val availabity = mutableListOf<String>()
-            val _shoppingBagItem = Firebase.firestore.collection("users")
+            val _shoppingBagItem = users
                 .document(currentUser!!.uid)
                 .collection("shopping bag")
             val shoppingBagItem = _shoppingBagItem.get()
@@ -340,7 +348,7 @@ class DefaultProfileRepository(
 
     override suspend fun calculateTotal() = withContext(Dispatchers.IO) {
         safeCall {
-            val shoppingBagItem = Firebase.firestore.collection("users")
+            val shoppingBagItem = users
                 .document(currentUser!!.uid)
                 .collection("shopping bag")
                 .get()
@@ -375,24 +383,88 @@ class DefaultProfileRepository(
 
     override suspend fun chargeCard(
         amountToPay: Int,
-        cardNumber: Int,
+        cardNumber: String,
         cardCVV: Int,
         cardExpiryMonth: Int,
         cardExpiryYear: Int,
-        applicationContext: Context
-    ) = withContext(Dispatchers.IO) {
-        var isSuccessful = false
-       safeCall {
-           PaystackSdk.initialize(applicationContext)
-           PaystackSdk.setPublicKey(BuildConfig.PSTK_PUBLIC_KEY)
+        applicationContext: Activity
+    ) : Resource<String> {
+        var transaction_reference = ""
+        return suspendCoroutine { continuation ->
+            PaystackSdk.initialize(applicationContext)
+            PaystackSdk.setPublicKey(BuildConfig.PSTK_PUBLIC_KEY)
 
-           val card = Card(cardNumber.toString(), cardExpiryMonth, cardExpiryYear, cardCVV.toString())
-           val charge = Charge()
-           charge.amount = amountToPay
-           charge.email = currentUser!!.email
-           charge.card = card
-           isSuccessful = true
-           Resource.Success(isSuccessful)
-       }
+            val card =
+                Card(cardNumber, cardExpiryMonth, cardExpiryYear, cardCVV.toString())
+            val charge = Charge()
+            charge.amount = amountToPay * 100
+            charge.email = currentUser!!.email
+            charge.card = card
+            PaystackSdk.chargeCard( applicationContext, charge, object : Paystack.TransactionCallback{
+                override fun onSuccess(transaction: Transaction?) {
+                    transaction_reference = transaction!!.reference
+                    continuation.resume(Resource.Success(transaction_reference))
+                }
+
+                override fun beforeValidate(transaction: Transaction?) {}
+
+                override fun onError(error: Throwable?, transaction: Transaction?) {
+                    continuation.resume(Resource.Error(applicationContext.getString(R.string.title_payment_unsuccessful)))
+                }
+            })
+        }
+    }
+
+    override suspend fun createOrders(transaction_reference: String) = withContext(Dispatchers.IO) {
+        var isSuccessful: Boolean
+        safeCall {
+            val date = DateFormat.getDateInstance().format(Calendar.getInstance().time)
+            val user = getUser(currentUser!!.uid).data
+            users
+                .document(currentUser.uid)
+                .collection("shopping bag")
+                .get()
+                .await()
+                .toObjects(Product::class.java)
+                .onEach { product ->
+                    val orderID = UUID.randomUUID().toString()
+                    users.document(currentUser.uid)
+                        .collection("my orders")
+                        .document(orderID)
+                        .set(
+                            Orders(
+                                Image = product.images[0],
+                                price = product.price,
+                                Name = product.name,
+                                status = "Pending",
+                                orderID = orderID,
+                                productID = product.product_id,
+                                transaction_reference = transaction_reference
+                            )
+                        )
+                        .await()
+                    sellers.document(product.seller_id)
+                        .collection("user's orders")
+                        .document("orders")
+                        .collection(date)
+                        .document(user!!.name)
+                        .collection("orders")
+                        .document(orderID)
+                        .set(
+                            Orders(
+                                Image = product.images[0],
+                                price = product.price,
+                                Name = product.name,
+                                status = "Pending",
+                                orderID = orderID,
+                                productID = product.product_id,
+                                transaction_reference = transaction_reference
+                            )
+                        )
+                        .await()
+                }
+            isSuccessful = true
+            Resource.Success(isSuccessful)
+        }
     }
 }

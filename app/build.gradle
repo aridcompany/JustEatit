@@ -154,6 +154,9 @@ dependencies {
     def android_image_cropper_version = "2.8.+"
     api "com.theartofdev.edmodo:android-image-cropper:$android_image_cropper_version"
 
+    // Blur ImageView
+    implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
+
     // Paystack
-    implementation 'co.paystack.android:paystack:3.1.2'
+    implementation 'co.paystack.android:paystack:3.1.3'
 }

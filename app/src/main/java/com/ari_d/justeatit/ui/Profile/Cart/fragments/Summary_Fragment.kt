@@ -3,6 +3,7 @@ package com.ari_d.justeatit.ui.Profile.Cart.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -91,11 +92,15 @@ class Summary_Fragment: Fragment(R.layout.fragment_summary) {
                 btn_proceed_to_payment.isEnabled = false
             }
         ) {
+            val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
             val decimalFormat = DecimalFormat("#,###,###")
             btn_proceed_to_payment.isEnabled = true
             txt_shipping_fee.text = "+shipping fee: ₦" + decimalFormat.format(it[0])
+            txt_shipping_fee.animation = fadeInAnim
             txt_subtotal_amount.text = "₦" + decimalFormat.format(it[1].toDouble())
+            txt_subtotal_amount.animation = fadeInAnim
             txt_total_amount.text = "₦" + decimalFormat.format(it[2].toDouble())
+            txt_total_amount.animation = fadeInAnim
             total_amount = it[2].toString()
         })
     }

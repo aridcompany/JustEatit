@@ -1,6 +1,6 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
-import android.content.Context
+import android.app.Activity
 import com.ari_d.justeatit.data.entities.*
 import com.ari_d.justeatit.other.Resource
 
@@ -54,10 +54,12 @@ interface ProfileRepository {
 
     suspend fun chargeCard(
         amountToPay: Int,
-        cardNumber: Int,
+        cardNumber: String,
         cardCVV: Int,
         cardExpiryMonth: Int,
         cardExpiryYear: Int,
-        applicationContext: Context
-    ) : Resource<Boolean>
+        applicationContext: Activity
+    ) : Resource<String>
+
+    suspend fun createOrders(transaction_reference: String) : Resource<Boolean>
 }
