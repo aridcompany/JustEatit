@@ -40,6 +40,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24.xml" value="0.240625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_calendar_today_24.xml" value="0.215625" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.231" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_credit_card_24.xml" value="0.215625" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_delete_forever.xml" value="0.2045" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.240625" />
@@ -133,6 +134,7 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w320dp/fragment_main_cart.xml" value="0.25" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w393dp/fragment_delivery.xml" value="0.1841880341880342" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w393dp/fragment_main_cart.xml" value="0.1841880341880342" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w393dp/fragment_pay_with_transfer.xml" value="0.18426678067550234" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w411dp/fragment_delivery.xml" value="0.18426678067550234" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w411dp/fragment_main_cart.xml" value="0.2" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout-w412dp/fragment_delivery.xml" value="0.396484375" />
@@ -169,7 +171,9 @@
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_my_wallet.xml" value="0.22" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_new_card.xml" value="0.2" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_new_wallet.xml" value="0.33" />
-        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_payment.xml" value="0.33" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_pay_on_delivery.xml" value="0.18426678067550234" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_pay_with_transfer.xml" value="0.33" />
+        <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_payment.xml" value="0.14" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_register.xml" value="0.18469431380932022" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_resetpassword.xml" value="0.18469431380932022" />
         <entry key="..\:/Users/abugewa graham/AndroidStudioProjects/JustEatit2/app/src/main/res/layout/fragment_search.xml" value="0.25" />

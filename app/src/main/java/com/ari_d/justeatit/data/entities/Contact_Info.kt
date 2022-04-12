@@ -4,5 +4,7 @@ data class Contact_Info(
    val webpage_help_url: String = "",
    val webpage_url: String = "",
    val contact_email_address: String = "",
-   val shipping_fee_percent: String = ""
+   val shipping_fee_percent: String = "",
+   val transfer_acc_no: String = "",
+   val transfer_bank_name: String = ""
 )

@@ -70,6 +70,19 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"/>
+
+        <action
+            android:id="@+id/action_payment_Fragment_to_bottomNavFragmentDialog"
+            app:destination="@id/bottomNavFragmentDialog"
+            app:enterAnim="@anim/slide_up"/>
+        <action
+            android:id="@+id/action_payment_Fragment_to_payWithTransferDialog"
+            app:destination="@id/payWithTransferDialog"
+            app:enterAnim="@anim/slide_up"/>
+        <action
+            android:id="@+id/action_payment_Fragment_to_payOnDeliveryDialog"
+            app:destination="@id/payOnDeliveryDialog"
+            app:enterAnim="@anim/slide_up"/>
     </fragment>
     <fragment
         android:id="@+id/summary_Fragment"
@@ -145,5 +158,13 @@
             android:name="amounToPay"
             app:argType="string"/>
     </dialog>
+    <dialog
+        android:id="@+id/payWithTransferDialog"
+        android:name="com.ari_d.justeatit.Dialogs.PayWithTransferDialog"
+        android:label="PayWithTransferDialog" />
+    <dialog
+        android:id="@+id/payOnDeliveryDialog"
+        android:name="com.ari_d.justeatit.Dialogs.PayOnDeliveryDialog"
+        android:label="PayOnDeliveryDialog" />
 
 </navigation>

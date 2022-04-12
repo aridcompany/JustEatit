@@ -147,4 +147,9 @@
     <string name="title_invalid_cardCVV">Invalid card CVV!</string>
     <string name="title_order_successful">Your purchase was successful!</string>
     <string name="title_payment_unsuccessful">An error occurred with this payment method</string>
+    <string name="title_transfer_done">I\'ve sent the money</string>
+    <string name="title_copy">Copy</string>
+    <string name="title_payment_with_transfer">Paid with bank transfer.</string>
+    <string name="title_pay_on_delivery">Pay on delivery.</string>
+    <string name="title_copy_to_clipboard">Copied to clipboard!</string>
 </resources>

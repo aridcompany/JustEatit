@@ -36,7 +36,19 @@ class Payment_Fragment : Fragment(R.layout.fragment_payment) {
             )
         }
         paymentAdapter.setOnGetWalletDetailsClickListener { wallet, i, view ->
-            Toast.makeText(requireContext(), wallet.cardNumber, Toast.LENGTH_LONG).show()
+            findNavController().navigate(
+                Payment_FragmentDirections.actionPaymentFragmentToBottomNavFragmentDialog(wallet.cardNumber, wallet.expiryDate, wallet.cvv, args.totalAmount)
+            )
+        }
+        btn_transfer.setOnClickListener {
+            findNavController().navigate(
+                Payment_FragmentDirections.actionPaymentFragmentToPayWithTransferDialog()
+            )
+        }
+        btn_pay_on_delivery.setOnClickListener {
+            findNavController().navigate(
+                Payment_FragmentDirections.actionPaymentFragmentToPayOnDeliveryDialog()
+            )
         }
     }
 

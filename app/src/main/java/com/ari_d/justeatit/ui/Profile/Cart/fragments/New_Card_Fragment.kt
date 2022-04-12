@@ -67,10 +67,6 @@ class New_Card_Fragment : Fragment(R.layout.fragment_new_card) {
             btn_pay.text = "Pay " + "₦" + decimalFormat.format(args.totalAmount.toDouble())
         })
         viewModel.insertWalletStatus.observe(viewLifecycleOwner, EventObserver(
-            onError = { snackbar(it) },
-            onLoading = {}
-        ) {})
-        viewModel.insertWalletStatus.observe(viewLifecycleOwner, EventObserver(
             onLoading = {},
             onError = { snackbar(it) }
         ) {
