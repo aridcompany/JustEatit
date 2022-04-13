@@ -24,6 +24,8 @@ interface ProfileRepository {
 
     suspend fun getAddresses() : Resource<List<Address>>
 
+    suspend fun getOrders() : Resource<List<Orders>>
+
     suspend fun makeAddressDefault(address: Address) : Resource<Boolean>
 
     suspend fun getDefaultAddress() : Resource<Boolean>

@@ -1,7 +1,6 @@
 package com.ari_d.justeatit.ui.Profile.Repositories
 
 import android.app.Activity
-import android.content.Context
 import androidx.core.net.toUri
 import co.paystack.android.Paystack
 import co.paystack.android.PaystackSdk
@@ -15,6 +14,7 @@ import com.ari_d.justeatit.other.Resource
 import com.ari_d.justeatit.other.safeCall
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -133,6 +133,20 @@ class DefaultProfileRepository(
                     .await()
                     .toObjects(Address::class.java)
             Resource.Success(addresses)
+        }
+    }
+
+    override suspend fun getOrders() = withContext(Dispatchers.IO) {
+        safeCall {
+            val orders = users
+                .document(currentUser!!.uid)
+                .collection("my orders")
+                .whereEqualTo("status", "Pending")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .await()
+                .toObjects(Orders::class.java)
+            Resource.Success(orders)
         }
     }
 

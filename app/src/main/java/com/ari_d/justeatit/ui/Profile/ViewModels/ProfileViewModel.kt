@@ -48,6 +48,9 @@ class ProfileViewModel @Inject constructor(
     private val _getAddressesStatus = MutableLiveData<Event<Resource<List<Address>>>>()
     val getAddressesStatus: LiveData<Event<Resource<List<Address>>>> = _getAddressesStatus
 
+    private val _getOrdersStatus = MutableLiveData<Event<Resource<List<Orders>>>>()
+    val getOrdersStatus: LiveData<Event<Resource<List<Orders>>>> = _getOrdersStatus
+
     private val _getSupportedLocationStaus = MutableLiveData<Event<Resource<List<String>>>>()
     val getSupportedLocationStatus: LiveData<Event<Resource<List<String>>>> = _getSupportedLocationStaus
 
@@ -149,6 +152,14 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val result = repository.getAddresses()
             _getAddressesStatus.postValue(Event(result))
+        }
+    }
+
+    fun getOrders() {
+        _getOrdersStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.getOrders()
+            _getOrdersStatus.postValue(Event(result))
         }
     }
 

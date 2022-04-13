@@ -11,7 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ari_d.justeatit.Adapters.OrdersAdapter
+import com.ari_d.justeatit.Adapters.OrdersAdapter_Test
+import com.ari_d.justeatit.Extensions.snackbar
 import com.ari_d.justeatit.R
+import com.ari_d.justeatit.other.EventObserver
 import com.ari_d.justeatit.ui.Details.Details_Activity
 import com.ari_d.justeatit.ui.Profile.ViewModels.ProfileViewModel
 import com.bumptech.glide.RequestManager
@@ -31,7 +34,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
     lateinit var glide: RequestManager
 
     @Inject
-    lateinit var ordersAdapter: OrdersAdapter
+    lateinit var ordersAdapter: OrdersAdapter_Test
 
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -40,7 +43,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        getOrders()
+        subscribeToObservers()
+        viewModel.getOrders()
+        // getOrders()
         shimmer_layout?.apply {
             startShimmer()
             isVisible = true
@@ -62,6 +67,21 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
         }
     }
 
+    private fun subscribeToObservers() {
+        viewModel.getOrdersStatus.observe(viewLifecycleOwner, EventObserver(
+            onError = {
+                empty_layout.isVisible = true
+                shimmer_layout.isVisible = false
+                snackbar(it)
+            },
+            onLoading = {}
+        ){ orders ->
+            shimmer_layout.isVisible = false
+            ordersAdapter.products = orders
+        })
+    }
+
+    /**
     @InternalCoroutinesApi
     private fun getOrders() {
         lifecycleScope.launch {
@@ -72,8 +92,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
 
         lifecycleScope.launch {
             ordersAdapter.loadStateFlow.collectLatest {
-                if (it.refresh is LoadState.Loading || it.append is LoadState.Loading) {
-                } else if (it.refresh is LoadState.Error) {
+                if (it.refresh is LoadState.Error) {
                     empty_layout.isVisible = true
                     shimmer_layout.isVisible = false
                 } else if (it.refresh is LoadState.NotLoading || it.append is LoadState.NotLoading) {
@@ -82,6 +101,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
             }
         }
     }
+    **/
 
     private fun setupRecyclerView() = recycler_my_orders.apply {
         adapter = ordersAdapter

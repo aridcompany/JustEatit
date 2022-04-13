@@ -34,7 +34,7 @@ object AppModule {
         @ApplicationContext context: Context
     ) = Glide.with(context).setDefaultRequestOptions(
         RequestOptions()
-            .error(R.drawable.ic_error)
+            .error(R.drawable.ic_baseline_error_24)
             .diskCacheStrategy(DiskCacheStrategy.DATA)
     )
 }
