@@ -34,7 +34,7 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
     lateinit var glide: RequestManager
 
     @Inject
-    lateinit var ordersAdapter: OrdersAdapter_Test
+    lateinit var ordersAdapter: OrdersAdapter
 
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -43,9 +43,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        subscribeToObservers()
-        viewModel.getOrders()
-        // getOrders()
+        // subscribeToObservers()
+        // viewModel.getOrders()
+        getOrders()
         shimmer_layout?.apply {
             startShimmer()
             isVisible = true
@@ -77,11 +77,9 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
             onLoading = {}
         ){ orders ->
             shimmer_layout.isVisible = false
-            ordersAdapter.products = orders
         })
     }
 
-    /**
     @InternalCoroutinesApi
     private fun getOrders() {
         lifecycleScope.launch {
@@ -101,7 +99,6 @@ class MyOrdersFragment : Fragment(R.layout.fragment_my_orders) {
             }
         }
     }
-    **/
 
     private fun setupRecyclerView() = recycler_my_orders.apply {
         adapter = ordersAdapter

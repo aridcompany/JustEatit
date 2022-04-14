@@ -141,7 +141,7 @@ class DefaultProfileRepository(
             val orders = users
                 .document(currentUser!!.uid)
                 .collection("my orders")
-                .whereEqualTo("status", "Pending")
+                .whereNotEqualTo("status", "Delivered")
                 .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .await()
@@ -447,9 +447,9 @@ class DefaultProfileRepository(
                         .document(orderID)
                         .set(
                             Orders(
-                                Image = product.images[0],
+                                image = product.images[0],
                                 price = product.price,
-                                Name = product.name,
+                                name = product.name,
                                 status = "Pending",
                                 orderID = orderID,
                                 productID = product.product_id,
@@ -466,9 +466,9 @@ class DefaultProfileRepository(
                         .document(orderID)
                         .set(
                             Orders(
-                                Image = product.images[0],
+                                image = product.images[0],
                                 price = product.price,
-                                Name = product.name,
+                                name = product.name,
                                 status = "Pending",
                                 orderID = orderID,
                                 productID = product.product_id,

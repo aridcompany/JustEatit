@@ -1,17 +1,16 @@
 package com.ari_d.justeatit.Adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ari_d.justeatit.R
 import com.ari_d.justeatit.data.entities.Orders
-import com.ari_d.justeatit.data.entities.Product
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_order_history.view.*
 import javax.inject.Inject
@@ -53,13 +52,14 @@ class OrdersAdapter_Test @Inject constructor(
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
         val Orders = products[position]
         holder.apply {
-            glide.load(Orders.Image).into(img_Orders)
-            txt_OrdersName.text = Orders.Name
+            glide.load(Orders.image).into(img_Orders)
+            txt_OrdersName.text = Orders.name
             txt_OrdersPrice.text = "₦" + Orders.price
-            txt_OrdersId.text = Orders.orderID.substring(0, 8)
+            txt_OrdersId.text = itemView.context.getString(R.string.title_order_id) +  Orders.orderID.substring(0, 12)
             txt_OrdersDate.text = Orders.timeStamp
 
             itemView.setOnClickListener {

@@ -8,8 +8,8 @@ import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 data class Orders(
-    val Image: String = "",
-    val Name: String = "",
+    val image: String = "",
+    val name: String = "",
     val price: String = "",
     val status: String = "",
     val date: Long = System.currentTimeMillis(),
@@ -17,5 +17,6 @@ data class Orders(
     val orderID: String = "",
     val productID: String = "",
     val userId: String = FirebaseAuth.getInstance().currentUser!!.uid,
-    val transaction_reference: String = ""
+    val transaction_reference: String = "",
+    val transportation_status: String = ""
 )
