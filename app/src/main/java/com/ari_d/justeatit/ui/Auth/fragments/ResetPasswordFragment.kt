@@ -33,7 +33,7 @@ class ResetPasswordFragment : Fragment(R.layout.fragment_resetpassword) {
             requireActivity().finish()
         }
         btn_resetPassword.setOnClickListener {
-            viewModel.resetPassword(TextInputEditText_email.text.toString())
+            viewModel.resetPassword(TextInputEditText_email.text.toString().replace(" ", ""))
         }
 
         slideUpViews(

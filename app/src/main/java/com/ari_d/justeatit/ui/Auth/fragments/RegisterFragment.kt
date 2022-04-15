@@ -25,7 +25,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register){
 
         btn_register.setOnClickListener {
             viewModel.register(
-                TextInputEditText_email.text.toString(),
+                TextInputEditText_email.text.toString().replace(" ", ""),
                 TextInputEditText_name.text.toString(),
                 TextInputEditText_password.text.toString()
             )

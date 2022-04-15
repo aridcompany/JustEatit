@@ -33,7 +33,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
 
         btn_login.setOnClickListener{
             viewModel.login(
-                TextInputEditText_email.text.toString(),
+                TextInputEditText_email.text.toString().replace(" ", ""),
                 TextInputEditText_password.text.toString()
             )
         }
