@@ -75,8 +75,8 @@ class PaymentViewPagerAdapter @Inject constructor(
             else
                 creditCardType.setImageResource(R.drawable.unknown_viewpager
                 )
-            if (wallet.cardName.length > 15)
-                cardName.text = wallet.cardName.substring(0, 16) + "."
+            if (wallet.cardName.length > 14)
+                cardName.text = wallet.cardName.substring(0, 15) + "."
             else
                 cardName.text = wallet.cardName
             cardNumber.text =
