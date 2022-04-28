@@ -15,8 +15,8 @@ android {
         applicationId "com.ari_d.justeatit"
         minSdk 25
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.0.4"
         buildConfigField("String", "PSTK_PUBLIC_KEY", PSTK_PUBLIC_KEY)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
