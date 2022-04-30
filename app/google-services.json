@@ -8,41 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:153349173790:android:5327beede4bdd85955b40f",
-        "android_client_info": {
-          "package_name": "com.Ari_D.justeatit"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "153349173790-uf4086hujv572h51oemlpoq8sj405k9d.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAD6yFKBS0_Kb4_2kStPqhfIv-8uwziRrY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "153349173790-uf4086hujv572h51oemlpoq8sj405k9d.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:153349173790:android:d29f13892d0a2d0b55b40f",
         "android_client_info": {
           "package_name": "com.ari_d.justeatit"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "153349173790-7vnblb0nejck5tbfcu1cd8ivhpua3b28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ari_d.justeatit",
+            "certificate_hash": "45a28e822527069848e978483c60ab2ecf41fe56"
+          }
+        },
         {
           "client_id": "153349173790-uf4086hujv572h51oemlpoq8sj405k9d.apps.googleusercontent.com",
           "client_type": 3
