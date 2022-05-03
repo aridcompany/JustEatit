@@ -20,3 +20,20 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class androidx.appcompat.widget.**{ *; }
+-keep class com.ari_d.justeatit.data.entities.Account_Items { *; }
+-keep class com.ari_d.justeatit.data.entities.Address { *; }
+-keep class com.ari_d.justeatit.data.entities.Comment { *; }
+-keep class com.ari_d.justeatit.data.entities.Contact_Info { *; }
+-keep class com.ari_d.justeatit.data.entities.Favorite { *; }
+-keep class com.ari_d.justeatit.data.entities.Feedback { *; }
+-keep class com.ari_d.justeatit.data.entities.Orders { *; }
+-keep class com.ari_d.justeatit.data.entities.Product { *; }
+-keep class com.ari_d.justeatit.data.entities.SupportedLocations { *; }
+-keep class com.ari_d.justeatit.data.entities.User { *; }
+-keep class com.ari_d.justeatit.data.entities.Wallet { *; }
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes RuntimeVisibleAnnotations
+-keepattributes RuntimeInvisibleAnnotations
+-keepattributes RuntimeVisibleParameterAnnotations
+-keepattributes RuntimeInvisibleParameterAnnotations
