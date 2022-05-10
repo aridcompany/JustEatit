@@ -37,6 +37,8 @@ class DefaultProfileRepository(
     private val users = Firebase.firestore.collection("users")
     private val sellers = Firebase.firestore.collection("sellers")
     private val storageRef = Firebase.storage.reference
+    private val products = Firebase.firestore.collection("products")
+    private val firestore = Firebase.firestore
 
     override suspend fun setNameandEmail() = withContext(Dispatchers.IO) {
         safeCall {
@@ -326,39 +328,75 @@ class DefaultProfileRepository(
             }
         }
 
-    override suspend fun checkShoppingBagForUnavailableProducts() = withContext(Dispatchers.IO) {
+    override suspend fun clearCart() = withContext(Dispatchers.IO) {
         safeCall {
-            val availabity = mutableListOf<String>()
-            val _shoppingBagItem = users
-                .document(currentUser!!.uid)
+            var isCleared = false
+            val cartItems = users.document(currentUser!!.uid)
                 .collection("shopping bag")
-            val shoppingBagItem = _shoppingBagItem.get()
+
+            cartItems
+                .get()
                 .await()
                 .toObjects(Product::class.java)
-
-            var isAvailable = false
-            for (item in shoppingBagItem) {
-                if (!item.isAvailable) {
-                    _shoppingBagItem.document(item.product_id)
-                        .update(
-                            "available",
-                            false
+                .onEach { product ->
+                    firestore.runTransaction { transaction ->
+                        val _productResult = transaction.get(products.document(product.product_id))
+                        val _currentShoppingBag =
+                            _productResult.toObject<Product>()
+                        val currentShoppingBag = _currentShoppingBag?.shoppingBagList ?: listOf()
+                        val cartResult = transaction.get(
+                            cartItems
+                                .document(product.product_id)
                         )
-                    availabity.add("unavailable")
-                } else {
-                    isAvailable = true
-                    _shoppingBagItem.document(item.product_id)
-                        .update(
-                            "available",
-                            true
-                        )
+                        if (cartResult.exists()) {
+                            transaction.delete(cartItems.document(product.product_id))
+                            transaction.update(
+                                products.document(product.product_id),
+                                "shoppingBagList",
+                                currentShoppingBag - currentUser.uid
+                            )
+                            isCleared = true
+                        }
+                    }
                 }
-            }
-            if (availabity.contains("unavailable"))
-                isAvailable = false
-            Resource.Success(isAvailable)
+            Resource.Success(isCleared)
         }
     }
+
+    override suspend fun checkShoppingBagForUnavailableProducts() =
+        withContext(Dispatchers.IO) {
+            safeCall {
+                val availabity = mutableListOf<String>()
+                val _shoppingBagItem = users
+                    .document(currentUser!!.uid)
+                    .collection("shopping bag")
+                val shoppingBagItem = _shoppingBagItem.get()
+                    .await()
+                    .toObjects(Product::class.java)
+
+                var isAvailable = false
+                for (item in shoppingBagItem) {
+                    if (!item.isAvailable) {
+                        _shoppingBagItem.document(item.product_id)
+                            .update(
+                                "available",
+                                false
+                            )
+                        availabity.add("unavailable")
+                    } else {
+                        isAvailable = true
+                        _shoppingBagItem.document(item.product_id)
+                            .update(
+                                "available",
+                                true
+                            )
+                    }
+                }
+                if (availabity.contains("unavailable"))
+                    isAvailable = false
+                Resource.Success(isAvailable)
+            }
+        }
 
     override suspend fun calculateTotal() = withContext(Dispatchers.IO) {
         safeCall {
@@ -402,7 +440,7 @@ class DefaultProfileRepository(
         cardExpiryMonth: Int,
         cardExpiryYear: Int,
         applicationContext: Activity
-    ) : Resource<String> {
+    ): Resource<String> {
         var transaction_reference = ""
         return suspendCoroutine { continuation ->
             PaystackSdk.initialize(applicationContext)
@@ -414,71 +452,75 @@ class DefaultProfileRepository(
             charge.amount = amountToPay * 100
             charge.email = currentUser!!.email
             charge.card = card
-            PaystackSdk.chargeCard( applicationContext, charge, object : Paystack.TransactionCallback{
-                override fun onSuccess(transaction: Transaction?) {
-                    transaction_reference = transaction!!.reference
-                    continuation.resume(Resource.Success(transaction_reference))
-                }
+            PaystackSdk.chargeCard(
+                applicationContext,
+                charge,
+                object : Paystack.TransactionCallback {
+                    override fun onSuccess(transaction: Transaction?) {
+                        transaction_reference = transaction!!.reference
+                        continuation.resume(Resource.Success(transaction_reference))
+                    }
 
-                override fun beforeValidate(transaction: Transaction?) {}
+                    override fun beforeValidate(transaction: Transaction?) {}
 
-                override fun onError(error: Throwable?, transaction: Transaction?) {
-                    continuation.resume(Resource.Error(applicationContext.getString(R.string.title_payment_unsuccessful)))
-                }
-            })
+                    override fun onError(error: Throwable?, transaction: Transaction?) {
+                        continuation.resume(Resource.Error(applicationContext.getString(R.string.title_payment_unsuccessful)))
+                    }
+                })
         }
     }
 
-    override suspend fun createOrders(transaction_reference: String) = withContext(Dispatchers.IO) {
-        var isSuccessful: Boolean
-        safeCall {
-            val date = DateFormat.getDateInstance().format(Calendar.getInstance().time)
-            val user = getUser(currentUser!!.uid).data
-            users
-                .document(currentUser.uid)
-                .collection("shopping bag")
-                .get()
-                .await()
-                .toObjects(Product::class.java)
-                .onEach { product ->
-                    val orderID = UUID.randomUUID().toString()
-                    users.document(currentUser.uid)
-                        .collection("my orders")
-                        .document(orderID)
-                        .set(
-                            Orders(
-                                image = product.images[0],
-                                price = product.price,
-                                name = product.name,
-                                status = "Pending",
-                                orderID = orderID,
-                                productID = product.product_id,
-                                transaction_reference = transaction_reference
+    override suspend fun createOrders(transaction_reference: String) =
+        withContext(Dispatchers.IO) {
+            var isSuccessful: Boolean
+            safeCall {
+                val date = DateFormat.getDateInstance().format(Calendar.getInstance().time)
+                val user = getUser(currentUser!!.uid).data
+                users
+                    .document(currentUser.uid)
+                    .collection("shopping bag")
+                    .get()
+                    .await()
+                    .toObjects(Product::class.java)
+                    .onEach { product ->
+                        val orderID = UUID.randomUUID().toString()
+                        users.document(currentUser.uid)
+                            .collection("my orders")
+                            .document(orderID)
+                            .set(
+                                Orders(
+                                    image = product.images[0],
+                                    price = product.price,
+                                    name = product.name,
+                                    status = "Pending",
+                                    orderID = orderID,
+                                    productID = product.product_id,
+                                    transaction_reference = transaction_reference
+                                )
                             )
-                        )
-                        .await()
-                    sellers.document(product.seller_id)
-                        .collection("user's orders")
-                        .document("orders")
-                        .collection(date)
-                        .document(user!!.name)
-                        .collection("orders")
-                        .document(orderID)
-                        .set(
-                            Orders(
-                                image = product.images[0],
-                                price = product.price,
-                                name = product.name,
-                                status = "Pending",
-                                orderID = orderID,
-                                productID = product.product_id,
-                                transaction_reference = transaction_reference
+                            .await()
+                        sellers.document(product.seller_id)
+                            .collection("user's orders")
+                            .document("orders")
+                            .collection(date)
+                            .document(user!!.name)
+                            .collection("orders")
+                            .document(orderID)
+                            .set(
+                                Orders(
+                                    image = product.images[0],
+                                    price = product.price,
+                                    name = product.name,
+                                    status = "Pending",
+                                    orderID = orderID,
+                                    productID = product.product_id,
+                                    transaction_reference = transaction_reference
+                                )
                             )
-                        )
-                        .await()
-                }
-            isSuccessful = true
-            Resource.Success(isSuccessful)
+                            .await()
+                    }
+                isSuccessful = true
+                Resource.Success(isSuccessful)
+            }
         }
-    }
 }

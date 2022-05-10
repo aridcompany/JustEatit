@@ -69,6 +69,9 @@ class ProfileViewModel @Inject constructor(
     private val _feedbackStatus = MutableLiveData<Event<Resource<String>>>()
     val feedbackStatus: LiveData<Event<Resource<String>>> = _feedbackStatus
 
+    private val _clearCartStatus = MutableLiveData<Event<Resource<Boolean>>>()
+    val clearCartStatus: LiveData<Event<Resource<Boolean>>> = _clearCartStatus
+
     private val _checkShoppingBagForUnavailableProductsStatus = MutableLiveData<Event<Resource<Boolean>>>()
     val checkShoppingBagForUnavailableProductsStatus: LiveData<Event<Resource<Boolean>>> = _checkShoppingBagForUnavailableProductsStatus
 
@@ -240,6 +243,14 @@ class ProfileViewModel @Inject constructor(
                 val result = repository.createFeedback(rating, info)
                 _feedbackStatus.postValue(Event(result))
             }
+        }
+    }
+
+    fun clearCart() {
+        _clearCartStatus.postValue(Event(Resource.Loading()))
+        viewModelScope.launch {
+            val result = repository.clearCart()
+            _clearCartStatus.postValue(Event(result))
         }
     }
 

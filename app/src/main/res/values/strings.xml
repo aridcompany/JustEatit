@@ -154,4 +154,5 @@
     <string name="title_copy_to_clipboard">Copied to clipboard!</string>
     <string name="title_pending">Pending</string>
     <string name="title_order_id">Order  ID -  #</string>
+    <string name="title_clear_cart">Clear shopping bag</string>
 </resources>
