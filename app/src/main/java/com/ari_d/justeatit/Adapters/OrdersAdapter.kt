@@ -54,7 +54,7 @@ class OrdersAdapter @Inject constructor(
         holder.apply {
             glide.load(Orders.image).into(img_Orders)
             txt_OrdersName.text = Orders.name
-            txt_OrdersPrice.text = "₦" + Orders.price
+            txt_OrdersPrice.text = "₦" + Orders.price + "   X" + Orders.quantity
             txt_OrdersId.text = itemView.context.getString(R.string.title_order_id) +  Orders.orderID.substring(0, 12)
             txt_OrdersDate.text = Orders.timeStamp
             if (Orders.transportation_status != "") {

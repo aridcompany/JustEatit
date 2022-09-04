@@ -493,6 +493,7 @@ class DefaultProfileRepository(
                                     price = product.price,
                                     name = product.name,
                                     status = "Pending",
+                                    quantity = product.quantity,
                                     orderID = orderID,
                                     productID = product.product_id,
                                     transaction_reference = transaction_reference
@@ -512,6 +513,7 @@ class DefaultProfileRepository(
                                     price = product.price,
                                     name = product.name,
                                     status = "Pending",
+                                    quantity = product.quantity,
                                     orderID = orderID,
                                     productID = product.product_id,
                                     transaction_reference = transaction_reference

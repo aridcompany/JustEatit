@@ -13,6 +13,7 @@ data class Orders(
     val price: String = "",
     val status: String = "",
     val date: Long = System.currentTimeMillis(),
+    val quantity : String = "1",
     val timeStamp: String = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),
     val orderID: String = "",
     val productID: String = "",
